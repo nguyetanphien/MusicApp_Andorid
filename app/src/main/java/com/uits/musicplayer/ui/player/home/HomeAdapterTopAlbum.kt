@@ -41,6 +41,7 @@ class HomeAdapterTopAlbum(
         holder.txtYearAlbum.text=mListTA[position].yearAlbum
     }
     class HomeTAViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         val img: ImageView = itemView.findViewById(R.id.imgAlbum)
         val txtNameAlbum: TextView =itemView.findViewById(R.id.txtNameAlbum)
         val txtYearAlbum: TextView=itemView.findViewById(R.id.txtYearAlbum)

@@ -80,7 +80,6 @@
                     android:layout_height="40dp"
                     android:layout_margin="18dp"
                     android:background="#00000000"
-                    android:focusableInTouchMode="true"
                     android:scaleType="centerCrop"
                     app:srcCompat="@mipmap/back" />
             </androidx.appcompat.widget.Toolbar>

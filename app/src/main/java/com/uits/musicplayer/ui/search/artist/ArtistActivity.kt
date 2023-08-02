@@ -23,7 +23,9 @@ class ArtistActivity : AppCompatActivity() {
     var mListDataPT: MutableList<ArtistModel> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+     //   supportActionBar?.hide()
         binding = ActivityArtistBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(ArtistViewModel::class.java)
         backGroug()

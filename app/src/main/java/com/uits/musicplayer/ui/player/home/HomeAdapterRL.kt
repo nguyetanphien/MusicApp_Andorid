@@ -38,9 +38,12 @@ class HomeAdapterRL(
         }
         holder.txtName.text = mListRL[position].nameAlbum
         holder.txtTime.text = mListRL[position].time
+        val p=position+1
+        holder.txtstt.text=p.toString()
     }
 
     class HomeRLAdapter(itemview: View) : RecyclerView.ViewHolder(itemview) {
+        val txtstt: TextView= itemView.findViewById(R.id.txtStt)
         val imgRL: ImageView = itemview.findViewById(R.id.imgPopularTrack)
         val txtName: TextView = itemview.findViewById(R.id.txtNamePT)
         val txtTime: TextView = itemview.findViewById(R.id.txtTime)

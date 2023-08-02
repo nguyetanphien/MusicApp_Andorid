@@ -35,8 +35,11 @@ class ArtistAdapterPT(
             .into(holder.img)
         holder.nameAlbumPT.text=list[position].nameAlbum
         holder.time.text=list[position].time
+        val p=position+1
+        holder.txtstt.text=p.toString()
     }
     class ArtistPTViewHodel(itemView:View) :RecyclerView.ViewHolder(itemView) {
+        val txtstt:TextView=itemView.findViewById(R.id.txtStt)
         var img:ImageView=itemView.findViewById(R.id.imgPopularTrack)
         var nameAlbumPT:TextView=itemView.findViewById(R.id.txtNamePT)
         var time:TextView=itemView.findViewById(R.id.txtTime)

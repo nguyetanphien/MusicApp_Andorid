@@ -16,8 +16,7 @@
         <activity
             android:name=".ui.player.lyrics.LyricActivity"
             android:exported="false"
-            android:label="@string/title_activity_lyric"
-            android:theme="@style/Theme.MusicPlayer_Android" />
+            android:label="@string/title_activity_lyric" />
         <activity
             android:name=".ui.player.PlayerActivity"
             android:exported="false" />
