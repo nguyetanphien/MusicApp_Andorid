@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    fun mRVRecommendations() {
+    private fun mRVRecommendations() {
         val mRecyclerView: RecyclerView = binding.mRecommendations
         mRecyclerView.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun mRVRecentListenings() {
+    private fun mRVRecentListenings() {
         val mRecyclerViewRL: RecyclerView = binding.mRecentListening
         mRecyclerViewRL.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -76,7 +76,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun mRVTopAlbum() {
+    private fun mRVTopAlbum() {
         val mRecyclerViewRL: RecyclerView = binding.mTopAlbums
         mRecyclerViewRL.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)

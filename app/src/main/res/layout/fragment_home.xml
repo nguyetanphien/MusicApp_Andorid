@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:background="#26292D">
 
-<!--        <include layout="@layout/fragment_home"/>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

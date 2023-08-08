@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#26292D"
+    android:background="@drawable/custom_backroudpl"
     android:layout_marginRight="20dp"
     android:orientation="vertical">
 
@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="My love"
+        android:layout_marginLeft="10dp"
         android:textColor="@color/white"
         android:textSize="13dp"
         android:textStyle="bold" />
@@ -36,6 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="2016"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:textColor="#8C8A8A"
         android:textSize="11dp"
         android:textStyle="bold" />

@@ -20,7 +20,8 @@ class HomeAdapterTopAlbum(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeTAViewHolder {
-        val view=LayoutInflater.from(parent.context).inflate(R.layout.custom_rv_album,parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.custom_rv_album, parent, false)
         return HomeTAViewHolder(view)
     }
 
@@ -37,13 +38,14 @@ class HomeAdapterTopAlbum(
                 .into(holder.img)
         }
 
-        holder.txtNameAlbum.text=mListTA[position].nameAlbum
-        holder.txtYearAlbum.text=mListTA[position].yearAlbum
+        holder.txtNameAlbum.text = mListTA[position].nameAlbum
+        holder.txtYearAlbum.text = mListTA[position].yearAlbum
     }
+
     class HomeTAViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val img: ImageView = itemView.findViewById(R.id.imgAlbum)
-        val txtNameAlbum: TextView =itemView.findViewById(R.id.txtNameAlbum)
-        val txtYearAlbum: TextView=itemView.findViewById(R.id.txtYearAlbum)
+        val txtNameAlbum: TextView = itemView.findViewById(R.id.txtNameAlbum)
+        val txtYearAlbum: TextView = itemView.findViewById(R.id.txtYearAlbum)
     }
 }

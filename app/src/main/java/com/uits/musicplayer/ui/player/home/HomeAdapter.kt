@@ -40,15 +40,15 @@ class HomeAdapter(
                 .into(holder.img)
         }
 
-        holder.txtNameAlbumH.text=mList[position].nameAlbum
-        holder.txtYearH.text=mList[position].yearAlbum
+        holder.txtNameAlbumH.text = mList[position].nameAlbum
+        holder.txtYearH.text = mList[position].yearAlbum
 
     }
 
     class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val img:ImageView=itemView.findViewById(R.id.imgAlbumH)
-        val txtNameAlbumH:TextView=itemView.findViewById(R.id.txtNameAlbumH)
-        val txtYearH:TextView=itemView.findViewById(R.id.txtYearAlbumH)
+        val img: ImageView = itemView.findViewById(R.id.imgAlbumH)
+        val txtNameAlbumH: TextView = itemView.findViewById(R.id.txtNameAlbumH)
+        val txtYearH: TextView = itemView.findViewById(R.id.txtYearAlbumH)
 
     }
 }
