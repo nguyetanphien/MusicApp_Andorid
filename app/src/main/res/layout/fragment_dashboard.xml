@@ -12,11 +12,12 @@
     <AutoCompleteTextView
         android:id="@+id/edtsearchsong"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@drawable/custom_search"
         android:drawableLeft="@android:drawable/ic_menu_search"
         android:hint=" Search song, artist, album or playlist"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textSize="12dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mRecycleView"

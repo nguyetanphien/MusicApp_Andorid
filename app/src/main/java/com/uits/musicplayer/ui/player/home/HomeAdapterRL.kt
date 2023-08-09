@@ -1,16 +1,19 @@
 package com.uits.musicplayer.ui.player.home
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.HomeModel
+import com.uits.musicplayer.ui.player.PlayerActivity
 
 class HomeAdapterRL(
     val context: FragmentActivity?,
@@ -40,6 +43,10 @@ class HomeAdapterRL(
         holder.txtTime.text = mListRL[position].time
         val p=position+1
         holder.txtstt.text=p.toString()
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context, PlayerActivity::class.java)
+            context?.startActivity(intent)
+        })
     }
 
     class HomeRLAdapter(itemview: View) : RecyclerView.ViewHolder(itemview) {

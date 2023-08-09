@@ -1,9 +1,11 @@
 package com.uits.musicplayer.ui.favorite
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uits.musicplayer.databinding.FragmentNotificationsBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.HomeModel
+import com.uits.musicplayer.ui.favorite.Track.TracksActivity
 import com.uits.musicplayer.ui.player.home.HomeAdapter
 import com.uits.musicplayer.ui.player.home.HomeAdapterTopAlbum
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
@@ -43,6 +46,7 @@ class FavoriteFragment : Fragment() {
 
         mRvPlaylits()
         mRVAlbumsL()
+        nextFavoriteTrack()
         return root
     }
 
@@ -86,6 +90,13 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         notificationsViewModel.fetchDataplayList()
         notificationsViewModel.fetchDataAlbumAl()
+    }
+    fun nextFavoriteTrack(){
+        val itbnnext: ImageButton=binding.ibtnNextL
+        itbnnext.setOnClickListener(View.OnClickListener {
+            val intent= Intent(requireContext(),TracksActivity::class.java)
+            startActivity(intent)
+        })
     }
 
     override fun onDestroyView() {

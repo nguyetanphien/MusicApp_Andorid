@@ -13,17 +13,17 @@ import com.uits.musicplayer.R
 
 class PlayerFragment : Fragment() {
 
-    companion object {
+   companion object {
         fun newInstance() = PlayerFragment()
     }
 
-    private lateinit var viewModel: PlayerViewModel
+//    private lateinit var viewModel: PlayerViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PlayerViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        viewModel = ViewModelProvider(this).get(PlayerViewModel::class.java)
+//        // TODO: Use the ViewModel
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

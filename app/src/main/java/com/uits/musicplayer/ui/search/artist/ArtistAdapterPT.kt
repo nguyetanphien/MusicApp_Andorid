@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.search.artist
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.ArtistModel
+import com.uits.musicplayer.ui.player.PlayerActivity
 
 class ArtistAdapterPT(
     var context: ArtistActivity,
@@ -37,6 +39,10 @@ class ArtistAdapterPT(
         holder.time.text=list[position].time
         val p=position+1
         holder.txtstt.text=p.toString()
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent =Intent(context,PlayerActivity::class.java)
+            context.startActivity(intent)
+        })
     }
     class ArtistPTViewHodel(itemView:View) :RecyclerView.ViewHolder(itemView) {
         val txtstt:TextView=itemView.findViewById(R.id.txtStt)

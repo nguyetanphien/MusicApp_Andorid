@@ -3,19 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="37dp"
     android:layout_marginBottom="20dp"
     android:background="#26292D"
-    >
-
-    <TextView
-        android:id="@+id/txtStt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="1"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+    android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv"
@@ -23,42 +14,55 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_toRightOf="@+id/txtStt"
         app:cardCornerRadius="10dp">
 
         <ImageView
-            android:id="@+id/imgPopularTrack"
+            android:id="@+id/imgFavoriteTrack"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@mipmap/ic_launcher" />
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/txtNamePT"
-        android:layout_width="116dp"
-        android:layout_height="15dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
         android:layout_toRightOf="@+id/cv"
-        android:text="Redbone"
-        android:textColor="@color/white"
-        android:textSize="13dp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtNameFTrack"
+            android:layout_width="116dp"
+            android:layout_height="15dp"
+            android:text="Redbone"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtNameSingerFTrack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name song"
+            android:textColor="#9F9898"
+            android:textSize="11dp" />
+    </LinearLayout>
+
 
     <TextView
-        android:id="@+id/txtTime"
+        android:id="@+id/txtTimeFTrack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@+id/imgbtnChosse"
+        android:layout_toLeftOf="@+id/ibtnChosseFTrack"
         android:text="6:15"
         android:textColor="@color/white"
         android:textSize="13dp"
         tools:ignore="NotSibling" />
 
     <ImageButton
-        android:id="@+id/imgbtnChosse"
+        android:id="@+id/ibtnChosseFTrack"
         android:layout_width="16dp"
         android:layout_height="4dp"
         android:layout_alignParentRight="true"
