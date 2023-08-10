@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.player.home
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.HomeModel
+import com.uits.musicplayer.ui.album.AlbumActivity
 
 class HomeAdapterTopAlbum(
     val context: FragmentActivity?,
@@ -40,6 +42,10 @@ class HomeAdapterTopAlbum(
 
         holder.txtNameAlbum.text = mListTA[position].nameAlbum
         holder.txtYearAlbum.text = mListTA[position].yearAlbum
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent =Intent(context,AlbumActivity::class.java)
+            context?.startActivity(intent)
+        })
     }
 
     class HomeTAViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.favorite
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.HomeModel
+import com.uits.musicplayer.ui.album.AlbumActivity
 
 class FavoriteAdapterAL(
     val context: FragmentActivity?,
@@ -41,6 +43,10 @@ class FavoriteAdapterAL(
 
         holder.txtNameAlbum.text = mList[position].nameAlbum
         holder.txtYearAlbum.text = mList[position].yearAlbum
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context, AlbumActivity::class.java)
+            context?.startActivity(intent)
+        })
     }
 
     class FavoriteViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {

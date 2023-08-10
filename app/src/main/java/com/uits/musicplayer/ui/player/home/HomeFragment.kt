@@ -52,6 +52,7 @@ class HomeFragment : Fragment() {
         })
         mRecyclerView.adapter = ScaleInAnimationAdapter(apdapterHomeAdapter)
         homeViewModel._liveData.observe(viewLifecycleOwner) {
+            listR.clear()
             listR.addAll(it)
             apdapterHomeAdapter.notifyDataSetChanged()
 
@@ -71,6 +72,7 @@ class HomeFragment : Fragment() {
             })
         mRecyclerViewRL.adapter = ScaleInAnimationAdapter(apdapterHomeAdapterRL)
         homeViewModel._listDataRL.observe(viewLifecycleOwner) {
+            listRL.clear()
             listRL.addAll(it)
             apdapterHomeAdapterRL.notifyDataSetChanged()
         }
@@ -89,6 +91,7 @@ class HomeFragment : Fragment() {
             })
         mRecyclerViewRL.adapter = ScaleInAnimationAdapter(apdapterHomeAdapterTA)
         homeViewModel._listDataTA.observe(viewLifecycleOwner) {
+            listTA.clear()
             listTA.addAll(it)
             apdapterHomeAdapterTA.notifyDataSetChanged()
         }

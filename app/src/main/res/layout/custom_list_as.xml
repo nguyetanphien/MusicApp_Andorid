@@ -1,46 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="37dp"
-    android:layout_marginBottom="20dp"
+    android:layout_height="wrap_content"
     android:background="#26292D"
-    android:orientation="horizontal">
+    android:layout_marginBottom="20dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv"
+    <TextView
+        android:id="@+id/txtPositionAS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        app:cardCornerRadius="10dp">
-
-        <ImageView
-            android:id="@+id/imgFavoriteTrack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@mipmap/ic_launcher" />
-    </androidx.cardview.widget.CardView>
+        android:layout_centerVertical="true"
+        android:text="1"
+        android:textColor="@color/white"
+        android:textSize="11dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/cv"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/txtPositionAS"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtNameFTrack"
-            android:layout_width="wrap_content"
+            android:id="@+id/txtNameSongAS"
+            android:layout_width="116dp"
             android:layout_height="wrap_content"
             android:text="Redbone"
             android:textColor="@color/white"
             android:textSize="13dp"
+
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtNameSingerFTrack"
+            android:id="@+id/txtNameSingerAS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name song"
@@ -48,27 +40,24 @@
             android:textSize="11dp" />
     </LinearLayout>
 
-
     <TextView
-        android:id="@+id/txtTimeFTrack"
+        android:id="@+id/txtTimeAS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@+id/ibtnChosseFTrack"
+        android:layout_toLeftOf="@+id/ibtnChosseAS"
         android:text="6:15"
         android:textColor="@color/white"
-        android:textSize="13dp"
-        tools:ignore="NotSibling" />
+        android:textSize="13dp" />
 
     <ImageButton
-        android:id="@+id/ibtnChosseFTrack"
+        android:id="@+id/ibtnChosseAS"
         android:layout_width="16dp"
         android:layout_height="4dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginEnd="20dp"
         android:src="@mipmap/options" />
 
 </RelativeLayout>

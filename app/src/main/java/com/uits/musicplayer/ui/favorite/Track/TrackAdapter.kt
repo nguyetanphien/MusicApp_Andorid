@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.favorite.Track
 
+import android.content.Intent
 import android.provider.MediaStore.Audio.Artists
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.ArtistModel
+import com.uits.musicplayer.ui.player.PlayerActivity
 
 class TrackAdapter(
     var context: FragmentActivity,
@@ -41,6 +43,10 @@ class TrackAdapter(
         holder.nameSong.text=mList[position].nameAlbum
         holder.nameSinger.text=mList[position].nameSinger
         holder.time.text=mList[position].time
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context, PlayerActivity::class.java)
+            context.startActivity(intent)
+        })
     }
 
     class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

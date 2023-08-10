@@ -14,7 +14,7 @@ import com.uits.musicplayer.model.HomeModel
 
 class HomeAdapter(
     val context: FragmentActivity?,
-    val mList: MutableList<HomeModel>,
+    private val mList: MutableList<HomeModel>,
     var onClick: OnItemClickListener
 ) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 

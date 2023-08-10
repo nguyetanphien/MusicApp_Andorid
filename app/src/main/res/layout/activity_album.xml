@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#26292D"
+    tools:context=".ui.album.AlbumActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="false"
+        >
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="false"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <ImageView
+                android:id="@+id/imgBackgroudAlbum"
+                android:layout_width="match_parent"
+                android:layout_height="375dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/rv"
+                app:layout_collapseMode="parallax"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="35dp">
+                <TextView
+                    android:id="@+id/txtNameAlbumAS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Awaken, My Love"
+                    android:textSize="21dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtNameAlbumAS"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="50dp">
+                    <ImageView
+                        android:id="@+id/imgAvataSingerAS"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@mipmap/ic_launcher"/>
+                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/txtNameSingerAS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtNameAlbumAS"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/cv"
+                    android:text="Artist Name"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="#6C6868"
+                    android:textSize="11dp"
+                    />
+
+                <ImageButton
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#00000000"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/play" />
+
+
+            </RelativeLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="pin">
+                <ImageButton
+                    android:id="@+id/ibtnBackAlbumAS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/back"
+                    android:background="#00000000"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="24dp"/>
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <TextView
+            android:id="@+id/txtAlbumNameYearAS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#8E8A8A"
+            android:text="Album • 2016"
+            android:textSize="11dp"
+            />
+        <TextView
+            android:id="@+id/txtAlbumTimeAS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#8E8A8A"
+            android:text="11 songs • 49 min. 1 sec"
+            android:textSize="11dp"
+            android:layout_alignParentEnd="true"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAlbumAS"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtAlbumNameYearAS"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlAlbumAS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/custom_backgoud_play">
+
+        <ImageView
+            android:id="@+id/imgSongAlbumAS"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imgSongAlbumAS"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNameSongAlbumAS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Baby boy"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtNameSingerAlbumAS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chilibi nnnnn"
+                android:textColor="#8C8C8C"
+                android:textSize="9dp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/ibtnNextSongAlbumAS"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="#00000000"
+            android:src="@android:drawable/ic_media_ff" />
+
+        <ImageButton
+            android:id="@+id/ibtnPauseSongAlbumAS"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/ibtnNextSongAlbumAS"
+            android:background="#00000000"
+            android:src="@android:drawable/ic_media_pause" />
+
+        <ImageButton
+            android:id="@+id/ibtnBackSongAlbumAS"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/ibtnPauseSongAlbumAS"
+            android:background="#00000000"
+            android:src="@android:drawable/ic_media_rew" />
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

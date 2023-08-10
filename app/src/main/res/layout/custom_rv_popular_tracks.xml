@@ -35,8 +35,8 @@
 
     <TextView
         android:id="@+id/txtNamePT"
-        android:layout_width="116dp"
-        android:layout_height="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:layout_toRightOf="@+id/cv"

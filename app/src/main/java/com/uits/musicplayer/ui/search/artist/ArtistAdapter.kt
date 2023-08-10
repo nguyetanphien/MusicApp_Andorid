@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.search.artist
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
 import com.uits.musicplayer.model.ArtistModel
+import com.uits.musicplayer.ui.album.AlbumActivity
 
 class ArtistAdapter(
     val context: ArtistActivity,
@@ -39,7 +41,10 @@ class ArtistAdapter(
 
         holder.txtNameAlbum.text = list[position].nameAlbum
         holder.txtYearAlbum.text = list[position].yearAlbum
-
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context, AlbumActivity::class.java)
+            context?.startActivity(intent)
+        })
 
     }
 
