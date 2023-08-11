@@ -21,7 +21,8 @@ class AlbumAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
-        val view =LayoutInflater.from(parent.context).inflate(R.layout.custom_list_as,parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.custom_list_as, parent, false)
         return AlbumViewHolder(view)
     }
 
@@ -30,11 +31,11 @@ class AlbumAdapter(
     }
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        val p=position+1
-        holder.txtPosition.text= p.toString()
-        holder.nameSong.text=mutableList[position].nameSong
-        holder.txtNameSinger.text=mutableList[position].nameSinger
-        holder.txtTimeAS.text=mutableList[position].time
+        val p = position + 1
+        holder.txtPosition.text = p.toString()
+        holder.nameSong.text = mutableList[position].nameSong
+        holder.txtNameSinger.text = mutableList[position].nameSinger
+        holder.txtTimeAS.text = mutableList[position].time
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, PlayerActivity::class.java)
             context?.startActivity(intent)
@@ -42,10 +43,10 @@ class AlbumAdapter(
     }
 
     class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtPosition :TextView=itemView.findViewById(R.id.txtPositionAS)
-        val nameSong :TextView=itemView.findViewById(R.id.txtNameSongAS)
-        val txtNameSinger :TextView=itemView.findViewById(R.id.txtNameSingerAS)
-        val txtTimeAS :TextView=itemView.findViewById(R.id.txtTimeAS)
+        val txtPosition: TextView = itemView.findViewById(R.id.txtPositionAS)
+        val nameSong: TextView = itemView.findViewById(R.id.txtNameSongAS)
+        val txtNameSinger: TextView = itemView.findViewById(R.id.txtNameSingerAS)
+        val txtTimeAS: TextView = itemView.findViewById(R.id.txtTimeAS)
 
     }
 }

@@ -43,7 +43,7 @@ class HomeAdapterTopAlbum(
         holder.txtNameAlbum.text = mListTA[position].nameAlbum
         holder.txtYearAlbum.text = mListTA[position].yearAlbum
         holder.itemView.setOnClickListener(View.OnClickListener {
-            val intent =Intent(context,AlbumActivity::class.java)
+            val intent = Intent(context, AlbumActivity::class.java)
             context?.startActivity(intent)
         })
     }

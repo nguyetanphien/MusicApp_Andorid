@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="#26292D"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        app:cardCornerRadius="20dp">
+        <ImageButton
+            android:id="@+id/imgAvataRecent"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="centerCrop"
+            android:background="#00000000"/>
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/txtNameSongRecent"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:text="Redbone"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        android:layout_toRightOf="@+id/cv"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtNameSingerRecent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name singer"
+        android:layout_below="@+id/txtNameSongRecent"
+        android:layout_toRightOf="@+id/cv"
+        android:textColor="#9F9898"
+        android:textSize="11dp" />
+    <ImageButton
+        android:id="@+id/ibtnRemoveRecent"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:scaleType="centerCrop"
+        android:background="#00000000"
+        android:src="@mipmap/remove" />
+
+
+</RelativeLayout>

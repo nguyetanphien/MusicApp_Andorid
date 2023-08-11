@@ -34,7 +34,7 @@ class SearchViewModel : ViewModel() {
         listData.add(
             SearchModel(
                 "Rap",
-                System.currentTimeMillis().toString(),
+
                 "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png"
 
             )
@@ -42,7 +42,7 @@ class SearchViewModel : ViewModel() {
         listData.add(
             SearchModel(
                 "Rock",
-                current,
+
                 "https://th.bing.com/th/id/R.d7cb8cfcb49781c5cbdc7d9500ddf8b0?rik=7JWIpP0EGSK5ng&riu=http%3a%2f%2fwww.foidesigns.com%2fwp-content%2fuploads%2f2012%2f07%2fVolume-Stat-Music-atlanta-company-atlanta-designer-branding-christian-logos-Church-city-custom-business-cards-custom-flyer-custom-graphic-designer-custom-graphic-logo-custom-logo-design-faith-design-foi-des.jpg&ehk=MAi1TI8YE126uyaZ%2bKXVHerlroVO%2fKhfp3A6jfBlbOc%3d&risl=&pid=ImgRaw&r=0"
             )
 
@@ -50,7 +50,7 @@ class SearchViewModel : ViewModel() {
         listData.add(
             SearchModel(
                 "Dance",
-                System.currentTimeMillis().toString(),
+
                 "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png"
 
             )
@@ -58,18 +58,95 @@ class SearchViewModel : ViewModel() {
         listData.add(
             SearchModel(
                 "Blues",
-                current,
+
                 "https://th.bing.com/th/id/R.d7cb8cfcb49781c5cbdc7d9500ddf8b0?rik=7JWIpP0EGSK5ng&riu=http%3a%2f%2fwww.foidesigns.com%2fwp-content%2fuploads%2f2012%2f07%2fVolume-Stat-Music-atlanta-company-atlanta-designer-branding-christian-logos-Church-city-custom-business-cards-custom-flyer-custom-graphic-designer-custom-graphic-logo-custom-logo-design-faith-design-foi-des.jpg&ehk=MAi1TI8YE126uyaZ%2bKXVHerlroVO%2fKhfp3A6jfBlbOc%3d&risl=&pid=ImgRaw&r=0"
             )
         )
         listData.add(
             SearchModel(
                 "Jazz",
-                current,
+
+                "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png"
+            )
+        )
+        listData.add(
+            SearchModel(
+                "Dance",
+
+                "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png"
+
+            )
+        )
+        listData.add(
+            SearchModel(
+                "Blues",
+
+                "https://th.bing.com/th/id/R.d7cb8cfcb49781c5cbdc7d9500ddf8b0?rik=7JWIpP0EGSK5ng&riu=http%3a%2f%2fwww.foidesigns.com%2fwp-content%2fuploads%2f2012%2f07%2fVolume-Stat-Music-atlanta-company-atlanta-designer-branding-christian-logos-Church-city-custom-business-cards-custom-flyer-custom-graphic-designer-custom-graphic-logo-custom-logo-design-faith-design-foi-des.jpg&ehk=MAi1TI8YE126uyaZ%2bKXVHerlroVO%2fKhfp3A6jfBlbOc%3d&risl=&pid=ImgRaw&r=0"
+            )
+        )
+        listData.add(
+            SearchModel(
+                "Jazz",
+
                 "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png"
             )
         )
         _listDataAlbum.postValue(
+            listData
+        )
+    }
+
+    private val _liveDataRecent = MutableLiveData<List<SearchModel>>().apply {
+
+    }
+    val liVeData: LiveData<List<SearchModel>> = _liveDataRecent
+
+    fun fetchDataRecent() {
+
+        var listData: MutableList<SearchModel> = mutableListOf()
+        listData.add(
+            SearchModel(
+
+
+                "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png",
+                "Rap",
+                "NTP"
+
+            )
+        )
+        listData.add(
+            SearchModel(
+
+
+                "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png",
+                "Rap",
+                "NTP"
+
+            )
+        )
+        listData.add(
+            SearchModel(
+
+
+                "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png",
+                "Rap",
+                "NTP"
+
+            )
+        )
+        listData.add(
+            SearchModel(
+
+
+                "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png",
+                "Rap",
+                "NTP"
+
+            )
+        )
+
+
+        _liveDataRecent.postValue(
             listData
         )
     }
