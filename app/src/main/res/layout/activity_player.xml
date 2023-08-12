@@ -7,20 +7,20 @@
     android:layout_height="match_parent"
     android:background="#284467"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="@dimen/_15sdp"
     tools:context=".ui.player.PlayerActivity">
 
     <RelativeLayout
         android:id="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="@dimen/_17sdp">
 
         <ImageButton
             android:id="@+id/ibtnbackPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#00000000"
+            android:background="@color/wnull"
             android:src="@mipmap/back" />
 
         <TextView
@@ -28,27 +28,27 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="PLAYING NOW"
+            android:text="@string/playingnow"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/ibtnPlayerAlbumList"
-            android:layout_width="19dp"
-            android:layout_height="19dp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="#00000000"
+            android:background="@color/wnull"
             android:src="@mipmap/player_list" />
 
         <ImageButton
             android:id="@+id/ibtnPlayerList"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="@dimen/_5sdp"
             android:layout_toLeftOf="@+id/ibtnPlayerAlbumList"
-            android:background="#00000000"
+            android:background="@color/wnull"
             android:scaleType="centerCrop"
             android:src="@mipmap/list" />
 
@@ -62,8 +62,8 @@
         android:layout_below="@+id/rl1"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp" />
+        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginBottom="@dimen/_50sdp" />
 
     <RelativeLayout
         android:id="@+id/rl2"
@@ -88,19 +88,19 @@
                     android:layout_height="wrap_content"
                     android:text="Baby boy"
                     android:textColor="@color/white"
-                    android:textSize="22dp"
+                    android:textSize="@dimen/_17sdp"
                     android:textStyle="bold" />
 
                 <ImageButton
-                    android:layout_width="27dp"
-                    android:layout_height="25dp"
+                    android:layout_width="@dimen/_23sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:background="#00000000"
+                    android:layout_marginStart="@dimen/_3sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:background="@color/wnull"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/favorite" />
 
@@ -120,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatSeekBar
@@ -140,7 +140,7 @@
                     android:text="02:17"
 
                     android:textColor="@color/white"
-                    android:textSize="10dp" />
+                    android:textSize="@dimen/_7sdp" />
 
                 <TextView
                     android:id="@+id/txtTimeMax"
@@ -150,7 +150,7 @@
                     android:layout_gravity=""
                     android:text="02:17"
                     android:textColor="@color/white"
-                    android:textSize="10dp" />
+                    android:textSize="@dimen/_7sdp" />
 
             </RelativeLayout>
 
@@ -160,27 +160,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rvsb"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/ibtnShuffle"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="@dimen/_19sdp"
+                android:layout_height="@dimen/_19sdp"
                 android:layout_centerVertical="true"
-                android:background="#00000000"
+                android:background="@color/wnull"
                 android:src="@mipmap/shuffle" />
 
             <ImageButton
                 android:id="@+id/ibtnBackSongPlayer"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/_19sdp"
+                android:layout_height="@dimen/_19sdp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_toLeftOf="@+id/rl"
                 android:layout_toRightOf="@+id/ibtnShuffle"
-                android:background="#00000000"
+                android:background="@color/wnull"
                 android:src="@android:drawable/ic_media_rew" />
 
             <RelativeLayout
@@ -192,42 +192,40 @@
 
                 <ImageButton
                     android:id="@+id/ibtnPlayPlayer"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:background="#00000000"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:background="@color/wnull"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/play"
                     android:visibility="invisible" />
 
                 <ImageButton
                     android:id="@+id/ibtnPausePlayer"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:background="#00000000"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:background="@color/wnull"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/pause"
-
                     android:visibility="visible" />
             </RelativeLayout>
 
             <ImageButton
                 android:id="@+id/ibtnNextSongPlayer"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/ibtnRepeatSongPlayer"
                 android:layout_toRightOf="@+id/rl"
-                android:background="#00000000"
+                android:background="@color/wnull"
                 android:src="@android:drawable/ic_media_ff" />
 
             <ImageButton
                 android:id="@+id/ibtnRepeatSongPlayer"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="#00000000"
-
+                android:background="@color/wnull"
                 android:src="@mipmap/repeat" />
 
         </RelativeLayout>

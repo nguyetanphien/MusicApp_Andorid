@@ -57,5 +57,7 @@ dependencies {
     //load image url
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     implementation 'com.google.android.material:material:1.6.1'
+    //sdp
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
 
 }

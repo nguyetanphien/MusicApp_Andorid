@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/_20sdp"
     android:background="@drawable/custom_backroudpl"
-    android:layout_marginRight="20dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="25dp">
+        app:cardCornerRadius="@dimen/_5sdp">
 
         <ImageView
             android:id="@+id/imgAlbumH"
-            android:layout_width="251dp"
-            android:layout_height="156dp"
+            android:layout_width="@dimen/_220sdp"
+            android:layout_height="@dimen/_120sdp"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher" />
     </androidx.cardview.widget.CardView>
@@ -24,23 +24,23 @@
         android:id="@+id/txtNameAlbumH"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_7sdp"
         android:text="My love"
-        android:layout_marginLeft="10dp"
         android:textColor="@color/white"
-        android:textSize="13dp"
+        android:textSize="@dimen/_13sdp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtYearAlbumH"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_marginBottom="@dimen/_7sdp"
         android:text="2016"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
         android:textColor="#8C8A8A"
-        android:textSize="11dp"
+        android:textSize="@dimen/_8sdp"
         android:textStyle="bold" />
 
 </LinearLayout>

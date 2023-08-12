@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginRight="20dp"
+    android:layout_marginRight="@dimen/_17sdp"
     android:background="#26292D"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="25dp">
+        app:cardCornerRadius="@dimen/_5sdp">
 
         <ImageView
             android:id="@+id/imgAlbum"
-            android:layout_width="132dp"
-            android:layout_height="132dp"
+            android:layout_width="@dimen/_123sdp"
+            android:layout_height="@dimen/_123sdp"
             android:src="@mipmap/ic_launcher" />
     </androidx.cardview.widget.CardView>
 
@@ -23,20 +23,20 @@
         android:id="@+id/txtNameAlbum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/_7sdp"
         android:text="My love"
         android:textColor="@color/white"
-        android:textSize="13dp"
+        android:textSize="@dimen/_10sdp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtYearAlbum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:text="2016"
         android:textColor="#8C8A8A"
-        android:textSize="11dp"
+        android:textSize="@dimen/_8sdp"
         android:textStyle="bold" />
 
 </LinearLayout>

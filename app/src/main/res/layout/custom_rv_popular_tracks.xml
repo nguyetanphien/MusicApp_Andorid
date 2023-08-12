@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
-    android:background="#26292D"
-    >
+    android:layout_marginBottom="@dimen/_20sdp"
+    android:background="#26292D">
 
     <TextView
         android:id="@+id/txtStt"
@@ -21,15 +20,15 @@
         android:id="@+id/cv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
         android:layout_toRightOf="@+id/txtStt"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="@dimen/_7sdp">
 
         <ImageView
             android:id="@+id/imgPopularTrack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
             android:src="@mipmap/ic_launcher" />
     </androidx.cardview.widget.CardView>
 
@@ -42,7 +41,7 @@
         android:layout_toRightOf="@+id/cv"
         android:text="Redbone"
         android:textColor="@color/white"
-        android:textSize="13dp"
+        android:textSize="@dimen/_10sdp"
         android:textStyle="bold" />
 
     <TextView
@@ -50,21 +49,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="@dimen/_20sdp"
         android:layout_toLeftOf="@+id/imgbtnChosse"
         android:text="6:15"
+        android:background="@color/wnull"
         android:textColor="@color/white"
-        android:textSize="13dp"
-        tools:ignore="NotSibling" />
+        android:textSize="@dimen/_10sdp"
+         />
 
     <ImageButton
         android:id="@+id/imgbtnChosse"
-        android:layout_width="16dp"
-        android:layout_height="4dp"
+        android:layout_width="@dimen/_12sdp"
+        android:layout_height="@dimen/_3sdp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginEnd="20dp"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:background="@color/wnull"
         android:src="@mipmap/options" />
 
 </RelativeLayout>

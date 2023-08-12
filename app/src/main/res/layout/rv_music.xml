@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:elevation="10dp"
-    android:layout_marginTop="10dp"
-    app:cardCornerRadius="10dp"
-    android:layout_height="112dp">
+    android:layout_height="@dimen/_85sdp"
+    android:layout_marginTop="@dimen/_7sdp"
+    android:elevation="@dimen/_7sdp"
+    app:cardCornerRadius="@dimen/_5sdp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="BLues"
             android:textColor="@color/white"
-            android:textSize="20dp"
+            android:textSize="@dimen/_17sdp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +38,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.505"
             tools:ignore="MissingConstraints" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
