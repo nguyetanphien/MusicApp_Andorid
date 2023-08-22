@@ -5,16 +5,21 @@ plugins {
 
 android {
     namespace 'com.uits.musicplayer'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.uits.musicplayer"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -24,20 +29,30 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17//1.8
+        targetCompatibility JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'//1.8
     }
 
     buildFeatures {
         dataBinding true
         viewBinding true
     }
+
+
+}
+
+apply plugin: 'kotlin-kapt'
+
+ext {
+    roomVersion = "2.3.0"
 }
 
 dependencies {
+
 
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.activity:activity-ktx:1.7.2'
@@ -59,5 +74,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
     //sdp
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
+    // Room for simple persistence with an ORM
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 
 }

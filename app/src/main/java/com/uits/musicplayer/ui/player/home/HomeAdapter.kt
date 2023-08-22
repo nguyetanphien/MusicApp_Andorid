@@ -30,8 +30,6 @@ class HomeAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-
-
         if (context != null) {
             Glide.with(context)
                 .load(mList[position].image)
