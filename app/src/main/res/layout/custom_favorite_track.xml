@@ -12,7 +12,7 @@
         android:id="@+id/cv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_10sdp"
+
         android:layout_marginRight="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_7sdp">
 
@@ -63,14 +63,13 @@
 
     <ImageButton
         android:id="@+id/ibtnChosseFTrack"
-        android:layout_width="@dimen/_17sdp"
+        android:layout_width="@dimen/_18sdp"
         android:layout_height="@dimen/_4sdp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:scaleType="centerCrop"
         android:background="@color/wnull"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
+
         android:src="@mipmap/options" />
 
 </RelativeLayout>

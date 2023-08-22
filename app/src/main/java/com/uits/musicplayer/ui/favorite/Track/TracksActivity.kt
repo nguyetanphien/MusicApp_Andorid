@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.favorite.Track
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,7 @@ import com.uits.musicplayer.databinding.ActivityArtistBinding
 import com.uits.musicplayer.databinding.ActivityTracksBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.ArtistModel
+import com.uits.musicplayer.ui.player.PlayerActivity
 import com.uits.musicplayer.ui.search.artist.ArtistAdapter
 import com.uits.musicplayer.ui.search.artist.ArtistAdapterPT
 import com.uits.musicplayer.ui.search.artist.ArtistViewModel
@@ -30,6 +32,7 @@ class TracksActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(TrackViewModel::class.java)
         rVTRack()
         back()
+        playFTrack()
     }
     private fun rVTRack() {
         val mRecyclerView: RecyclerView = binding.rvFTrack
@@ -54,5 +57,13 @@ class TracksActivity : AppCompatActivity() {
         back.setOnClickListener(View.OnClickListener {
             finish()
         })
+    }
+    fun playFTrack(){
+        val ibtnPlayFTrack :ImageButton=findViewById(R.id.ibtnPlayFTrack)
+        ibtnPlayFTrack.setOnClickListener(View.OnClickListener {
+            val intent= Intent(this,PlayerActivity::class.java)
+            startActivity(intent)
+        })
+
     }
 }

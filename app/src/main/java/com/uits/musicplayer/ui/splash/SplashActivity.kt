@@ -19,6 +19,6 @@ class SplashActivity : AppCompatActivity() {
             mainActivity.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(mainActivity)
             finish()
-        }, 5000)
+        }, 3000)
     }
 }

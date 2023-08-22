@@ -16,7 +16,6 @@ class PlayerActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fm, PlayerImageFragment.newInstance())
             .commitNow()
-
         liric()
         back()
 
@@ -24,25 +23,23 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun liric() {
         val ibtnPlayerList = findViewById<ImageButton>(R.id.ibtnPlayerList)
+        val ibtnPlayerAlbumList = findViewById<ImageButton>(R.id.ibtnPlayerAlbumList)
 
-        var check = 1
         ibtnPlayerList.setOnClickListener(View.OnClickListener {
-            if (check == 1) {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fm, PlayerFragment.newInstance())
-                    .commitNow()
-                check = 0
-            } else {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fm, PlayerImageFragment.newInstance())
-                    .commitNow()
-                check = 1
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fm, PlayerFragment.newInstance())
+                .commitNow()
 
-            }
+        })
+        ibtnPlayerAlbumList.setOnClickListener(View.OnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fm, PlayerImageFragment.newInstance())
+                .commitNow()
         })
     }
-    private fun back(){
-        val back=findViewById<ImageButton>(R.id.ibtnbackPlayer)
+
+    private fun back() {
+        val back = findViewById<ImageButton>(R.id.ibtnbackPlayer)
         back.setOnClickListener(View.OnClickListener {
             finish()
         })

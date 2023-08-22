@@ -92,8 +92,8 @@
                     android:textStyle="bold" />
 
                 <ImageButton
-                    android:layout_width="@dimen/_23sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_16sdp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/_3sdp"
@@ -160,22 +160,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rvsb"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_18sdp"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/ibtnShuffle"
-                android:layout_width="@dimen/_19sdp"
-                android:layout_height="@dimen/_19sdp"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
                 android:layout_centerVertical="true"
                 android:background="@color/wnull"
                 android:src="@mipmap/shuffle" />
 
             <ImageButton
                 android:id="@+id/ibtnBackSongPlayer"
-                android:layout_width="@dimen/_19sdp"
-                android:layout_height="@dimen/_19sdp"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_toLeftOf="@+id/rl"
@@ -192,8 +192,8 @@
 
                 <ImageButton
                     android:id="@+id/ibtnPlayPlayer"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@color/wnull"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/play"
@@ -201,8 +201,8 @@
 
                 <ImageButton
                     android:id="@+id/ibtnPausePlayer"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@color/wnull"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/pause"
@@ -211,8 +211,8 @@
 
             <ImageButton
                 android:id="@+id/ibtnNextSongPlayer"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/ibtnRepeatSongPlayer"
                 android:layout_toRightOf="@+id/rl"
@@ -221,8 +221,8 @@
 
             <ImageButton
                 android:id="@+id/ibtnRepeatSongPlayer"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+                android:layout_width="@dimen/_18sdp"
+                android:layout_height="@dimen/_18sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:background="@color/wnull"

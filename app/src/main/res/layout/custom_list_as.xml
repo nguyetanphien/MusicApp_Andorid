@@ -48,12 +48,12 @@
         android:layout_toLeftOf="@+id/ibtnChosseAS"
         android:text="6:15"
         android:textColor="@color/white"
-        android:textSize="@dimen/_13sdp" />
+        android:textSize="@dimen/_12sdp" />
 
     <ImageButton
         android:id="@+id/ibtnChosseAS"
-        android:layout_width="@dimen/_16sdp"
-        android:layout_height="@dimen/_4sdp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_6sdp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/_10sdp"

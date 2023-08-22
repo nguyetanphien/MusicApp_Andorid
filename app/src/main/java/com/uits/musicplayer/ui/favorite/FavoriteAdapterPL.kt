@@ -1,4 +1,4 @@
-package com.uits.musicplayer.ui.player.home
+package com.uits.musicplayer.ui.favorite
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -14,16 +14,16 @@ import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.HomeModel
 import com.uits.musicplayer.ui.album.AlbumActivity
 
-class HomeAdapter(
+class FavoriteAdapterPL(
     val context: FragmentActivity?,
     private val mList: MutableList<HomeModel>,
     var onClick: OnItemClickListener
-) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+) : RecyclerView.Adapter<FavoriteAdapterPL.HomeViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.m_recommendations, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_playlists, parent, false)
         return HomeViewHolder(view)
     }
 

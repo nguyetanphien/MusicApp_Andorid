@@ -23,7 +23,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 class FavoriteFragment : Fragment() {
 
     private var _binding: FragmentNotificationsBinding? = null
-    lateinit var adrapterHomeAdapter: HomeAdapter
+    lateinit var adrapterFavoriteAdapterPL: FavoriteAdapterPL
     lateinit var adrapterFavoriteFragment: FavoriteAdapterAL
     val mListPlayerList: MutableList<HomeModel> = mutableListOf()
     val mListPlayerListAL: MutableList<HomeModel> = mutableListOf()
@@ -54,17 +54,17 @@ class FavoriteFragment : Fragment() {
         var mRecyclerViewPL: RecyclerView = binding.mRVPlaylistsL
         mRecyclerViewPL.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        adrapterHomeAdapter =
-            HomeAdapter(requireActivity(), mListPlayerList, object : OnItemClickListener {
+        adrapterFavoriteAdapterPL =
+            FavoriteAdapterPL(requireActivity(), mListPlayerList, object : OnItemClickListener {
                 override fun onItemClick(position: Int) {
                     TODO("Not yet implemented")
                 }
 
             })
-        mRecyclerViewPL.adapter = ScaleInAnimationAdapter(adrapterHomeAdapter)
+        mRecyclerViewPL.adapter = ScaleInAnimationAdapter(adrapterFavoriteAdapterPL)
         notificationsViewModel.listLive.observe(viewLifecycleOwner) {
             mListPlayerList.addAll(it)
-            adrapterHomeAdapter.notifyDataSetChanged()
+            adrapterFavoriteAdapterPL.notifyDataSetChanged()
         }
 
     }

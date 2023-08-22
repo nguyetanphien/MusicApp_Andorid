@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.album
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -14,6 +15,7 @@ import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.ui.favorite.Track.TrackAdapter
 import com.uits.musicplayer.ui.favorite.Track.TrackViewModel
+import com.uits.musicplayer.ui.player.PlayerActivity
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 
 class AlbumActivity : AppCompatActivity() {
@@ -31,6 +33,7 @@ class AlbumActivity : AppCompatActivity() {
         viewModel=ViewModelProvider(this).get(AlbumViewModel::class.java)
         rVAlbumList()
         back()
+        playMusic()
     }
     private fun rVAlbumList() {
         val mRecyclerView: RecyclerView = binding.rvAlbumAS
@@ -54,6 +57,13 @@ class AlbumActivity : AppCompatActivity() {
         val back: ImageButton =findViewById(R.id.ibtnBackAlbumAS)
         back.setOnClickListener(View.OnClickListener {
             finish()
+        })
+    }
+    fun playMusic(){
+        val imagePlay :ImageButton =findViewById(R.id.ibtnPlayAS)
+        imagePlay.setOnClickListener(View.OnClickListener {
+            val intent= Intent(this,PlayerActivity::class.java)
+            startActivity(intent)
         })
     }
 }

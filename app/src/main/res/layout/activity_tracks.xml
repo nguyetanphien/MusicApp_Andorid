@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
             android:layout_toRightOf="@+id/ibtnBackFTrack"
             android:text="Favorite Track"
             android:textColor="@color/white"
@@ -48,8 +48,8 @@
 
         <ImageButton
             android:id="@+id/ibtnPlayFTrack"
-            android:layout_width="@dimen/_45sdp"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:background="@color/wnull"
@@ -72,6 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:visibility="invisible"
         android:background="@drawable/custom_backgoud_play">
 
         <ImageView
