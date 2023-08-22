@@ -25,16 +25,14 @@ class MainViewModel(context: Application) : AndroidViewModel(context) {
         val recentHistoryDAO = AppDatabase.getDatabase(context).mRecentHistoryDao
         recentHistoryRespository = RecentHistoryRepository(recentHistoryDAO)
         allRecentHistorys = recentHistoryRespository.allRecentHistory
-
-
     }
-
 
     fun insert(recentHistory: RecentHistory) =
         viewModelScope.launch(Dispatchers.IO) {
             recentHistoryRespository.insert(recentHistory)
         }
-    class RecentViewModelFactory(private val application: Application): ViewModelProvider.Factory{
+
+    class RecentViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MainViewModel::class.java))
                 return MainViewModel(application) as T

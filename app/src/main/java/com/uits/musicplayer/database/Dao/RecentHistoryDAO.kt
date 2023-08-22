@@ -13,10 +13,13 @@ import com.uits.musicplayer.database.entities.RecentHistory
 public interface RecentHistoryDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(vararg recentHistory: RecentHistory?)
+
     @Update
-    fun update(vararg  recentHistory: RecentHistory?)
+    fun update(vararg recentHistory: RecentHistory?)
+
     @Delete
-    fun delete(vararg  recentHistory: RecentHistory)
+    fun delete(vararg recentHistory: RecentHistory)
+
     @Query("SELECT * FROM RecentMusic")
     fun getRecentHistory(): LiveData<List<RecentHistory>>
 

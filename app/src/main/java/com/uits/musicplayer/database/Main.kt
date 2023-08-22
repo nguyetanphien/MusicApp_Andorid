@@ -20,8 +20,9 @@ class Main : AppCompatActivity() {
         )[MainViewModel::class.java]
 
         val recentHistory = RecentHistory()
-        recentHistory.id ="1"
-        recentHistory.images="https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0"
+        recentHistory.id = "1"
+        recentHistory.images =
+            "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0"
         recentHistory.name = "1234"
         recentHistory.title = "nhac"
         mainViewModel.insert(recentHistory)

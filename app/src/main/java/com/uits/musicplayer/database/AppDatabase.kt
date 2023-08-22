@@ -18,6 +18,7 @@ abstract class AppDatabase() : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
+
         @Synchronized
         fun getDatabase(context: Context): AppDatabase {
 
@@ -37,8 +38,6 @@ abstract class AppDatabase() : RoomDatabase() {
                 return instance
             }
         }
-
-
     }
 
     private class WordDatabaseRecentHistory(private val scope: CoroutineScope) :
