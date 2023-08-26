@@ -16,14 +16,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_17sdp">
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ibtnbackPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/wnull"
             android:src="@mipmap/back" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -32,7 +32,7 @@
             android:textColor="@color/white"
             android:textStyle="bold" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ibtnPlayerAlbumList"
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
@@ -41,7 +41,7 @@
             android:background="@color/wnull"
             android:src="@mipmap/player_list" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ibtnPlayerList"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtNameSongPlaylist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                     android:textSize="@dimen/_17sdp"
                     android:textStyle="bold" />
 
-                <ImageButton
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_16sdp"
                     android:layout_alignParentEnd="true"
@@ -106,16 +106,16 @@
 
             </RelativeLayout>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="@+id/txtNameSongPlaylist"
                 android:text="Gambino"
                 android:textColor="#C1C1C1" />
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/rvsb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtTimeNow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_7sdp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtTimeMax"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
 
             </RelativeLayout>
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -164,7 +164,7 @@
             android:layout_marginBottom="@dimen/_18sdp"
             android:orientation="horizontal">
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/ibtnShuffle"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"
@@ -172,7 +172,7 @@
                 android:background="@color/wnull"
                 android:src="@mipmap/shuffle" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/ibtnBackSongPlayer"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"
@@ -190,7 +190,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true">
 
-                <ImageButton
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/ibtnPlayPlayer"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
@@ -199,7 +199,7 @@
                     android:src="@mipmap/play"
                     android:visibility="invisible" />
 
-                <ImageButton
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/ibtnPausePlayer"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
@@ -209,7 +209,7 @@
                     android:visibility="visible" />
             </RelativeLayout>
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/ibtnNextSongPlayer"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"
@@ -219,7 +219,7 @@
                 android:background="@color/wnull"
                 android:src="@android:drawable/ic_media_ff" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/ibtnRepeatSongPlayer"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"

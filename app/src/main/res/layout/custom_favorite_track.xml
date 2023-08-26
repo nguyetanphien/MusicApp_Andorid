@@ -16,21 +16,21 @@
         android:layout_marginRight="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_7sdp">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgFavoriteTrack"
             android:layout_width="@dimen/_27sdp"
             android:layout_height="@dimen/_27sdp"
             android:src="@mipmap/ic_launcher" />
     </androidx.cardview.widget.CardView>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/cv"
         android:orientation="vertical">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtNameFTrack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,17 +39,17 @@
             android:textSize="@dimen/_10sdp"
             android:textStyle="bold" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtNameSingerFTrack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name song"
             android:textColor="#9F9898"
             android:textSize="@dimen/_8sdp" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtTimeFTrack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
         android:textSize="@dimen/_10sdp"
         tools:ignore="NotSibling" />
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/ibtnChosseFTrack"
         android:layout_width="@dimen/_18sdp"
         android:layout_height="@dimen/_4sdp"

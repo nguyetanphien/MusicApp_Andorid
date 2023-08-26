@@ -7,7 +7,7 @@
     android:layout_marginBottom="@dimen/_20sdp"
     android:background="#26292D">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtStt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,14 +25,14 @@
         android:layout_toRightOf="@+id/txtStt"
         app:cardCornerRadius="@dimen/_7sdp">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgPopularTrack"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"
             android:src="@mipmap/ic_launcher" />
     </androidx.cardview.widget.CardView>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtNamePT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         android:textSize="@dimen/_10sdp"
         android:textStyle="bold" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         android:textSize="@dimen/_10sdp"
          />
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/imgbtnChosse"
         android:layout_width="@dimen/_12sdp"
         android:layout_height="@dimen/_3sdp"
