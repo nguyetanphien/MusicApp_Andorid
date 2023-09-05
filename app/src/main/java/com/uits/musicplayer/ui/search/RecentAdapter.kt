@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.search
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +11,17 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
+import com.uits.musicplayer.database.entities.RecentHistory
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.ArtistModel
 import com.uits.musicplayer.model.SearchModel
 
 class RecentAdapter(
     var context: FragmentActivity?,
-    var mList: MutableList<SearchModel>,
+    var mList: MutableList<RecentHistory>,
     onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<RecentAdapter.RecentViewHolder>() {
-
+    lateinit var id: String
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentViewHolder {
         val view =
@@ -39,7 +41,12 @@ class RecentAdapter(
             .placeholder(R.mipmap.ic_launcher)
             .into(holder.imgAvataRecent)
         holder.txtNameSongRecent.text=mList[position].title
-        holder.txtNameSingerRecent.text=mList[position].singer
+        holder.txtNameSingerRecent.text=mList[position].name
+        holder.ibtnDelete.setOnClickListener(View.OnClickListener {
+//            id=mList[position].id
+
+        })
+
 
     }
 
@@ -47,6 +54,8 @@ class RecentAdapter(
         val imgAvataRecent: ImageView = itemView.findViewById(R.id.imgAvataRecent)
         val txtNameSongRecent: TextView = itemView.findViewById(R.id.txtNameSongRecent)
         val txtNameSingerRecent: TextView = itemView.findViewById(R.id.txtNameSingerRecent)
+        val ibtnDelete: ImageButton = itemView.findViewById(R.id.ibtnRemoveRecent)
+
 
     }
 }

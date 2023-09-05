@@ -17,8 +17,10 @@ public interface RecentHistoryDAO {
     @Update
     fun update(vararg recentHistory: RecentHistory?)
 
-    @Delete
-    fun delete(vararg recentHistory: RecentHistory)
+    @Query("DELETE FROM RecentMusic")
+    fun delete()
+    @Query("DELETE FROM RecentMusic WHERE id=:idS ")
+    fun deleteid( idS:String)
 
     @Query("SELECT * FROM RecentMusic")
     fun getRecentHistory(): LiveData<List<RecentHistory>>
