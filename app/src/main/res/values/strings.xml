@@ -9,6 +9,17 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="Recommendations">Recommendations</string>
+    <string name="Your_Recent_Listenings">Your Recent Listenings</string>
+    <string name="Top_Albums">Top Albums</string>
+    <string name="Search_song_artist_album_or_playlist"> Search song, artist, album or playlist</string>
+    <string name="My_Library">My Library</string>
+    <string name="Favorite_Track">Favorite Track</string>
+    <string name="Playlists">Playlists</string>
+    <string name="Albums">Albums</string>
+    <string name="Popular_Tracks">Popular Tracks</string>
+    <string name="Recent_History">Recent History</string>
+    <string name="CLEAR">CLEAR</string>
     <string name="playingnow">PLAYING NOW</string>
 
     <string name="lorem_ipsum">

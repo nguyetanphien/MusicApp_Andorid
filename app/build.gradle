@@ -42,7 +42,6 @@ android {
         viewBinding true
     }
 
-
 }
 
 apply plugin: 'kotlin-kapt'

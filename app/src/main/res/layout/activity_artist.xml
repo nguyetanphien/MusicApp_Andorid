@@ -99,7 +99,9 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -107,7 +109,9 @@
             android:id="@+id/mRecycleViewAlbum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+
             android:overScrollMode="never"
             tools:ignore="InvalidId" />
 
@@ -116,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginRight="@dimen/_15sdp"
-            android:text="Popular Tracks"
+            android:text="@string/Popular_Tracks"
             android:textColor="#FFFFFF"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />
@@ -125,7 +129,10 @@
             android:id="@+id/mRecyclePopularTracks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_25sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+
             android:overScrollMode="never"
             tools:ignore="InvalidId" />
     </androidx.appcompat.widget.LinearLayoutCompat>

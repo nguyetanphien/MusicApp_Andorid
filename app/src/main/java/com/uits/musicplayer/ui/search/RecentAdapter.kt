@@ -1,6 +1,5 @@
 package com.uits.musicplayer.ui.search
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,6 @@ import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
 import com.uits.musicplayer.database.entities.RecentHistory
 import com.uits.musicplayer.interfaces.OnItemClickListener
-import com.uits.musicplayer.model.ArtistModel
-import com.uits.musicplayer.model.SearchModel
 
 class RecentAdapter(
     var context: FragmentActivity?,
@@ -44,9 +41,7 @@ class RecentAdapter(
         holder.txtNameSingerRecent.text=mList[position].name
         holder.ibtnDelete.setOnClickListener(View.OnClickListener {
 //            id=mList[position].id
-
         })
-
 
     }
 

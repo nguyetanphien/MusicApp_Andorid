@@ -17,7 +17,6 @@ class RecentHistoryRepository (application: FragmentActivity) {
         recentHistoryDAO= rencentDatabase.mRecentHistoryDao
     }
 
-
     suspend fun insert(recentHistory:RecentHistory) {
         recentHistoryDAO.insert(recentHistory)
     }

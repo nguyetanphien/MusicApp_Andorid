@@ -15,7 +15,7 @@
         android:layout_height="@dimen/_45sdp"
         android:background="@drawable/custom_search"
         android:drawableLeft="@android:drawable/ic_menu_search"
-        android:hint=" Search song, artist, album or playlist"
+        android:hint="@string/Search_song_artist_album_or_playlist"
         android:padding="@dimen/_7sdp"
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +46,7 @@
             android:id="@+id/txttv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recent History"
+            android:text="@string/Recent_History"
             android:textColor="@color/white"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="CLEAR"
+            android:text="@string/CLEAR"
             android:textColor="#8F8C8C"
             android:textSize="@dimen/_10sdp" />
 

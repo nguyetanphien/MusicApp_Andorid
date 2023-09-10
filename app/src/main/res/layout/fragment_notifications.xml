@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/_17sdp"
         android:layout_marginEnd="@dimen/_17sdp"
         android:layout_marginBottom="@dimen/_14sdp"
-        android:text="My Library"
+        android:text="@string/My_Library"
         android:textColor="@color/white"
         android:textSize="@dimen/_17sdp"
         android:textStyle="bold" />
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_toRightOf="@+id/imgFavorite"
-            android:text="Favorite Track"
+            android:text="@string/Favorite_Track"
             android:textColor="@color/white"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />
@@ -70,7 +70,7 @@
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:text="Playlists"
+            android:text="@string/Playlists"
             android:textColor="@color/white"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />
@@ -90,7 +90,7 @@
         android:layout_below="@+id/ln"
         android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="Albums"
+        android:text="@string/Albums"
         android:textColor="@color/white"
         android:textSize="@dimen/_13sdp"
         android:textStyle="bold" />

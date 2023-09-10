@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Nhạc</string>
+    <string name="title_home">Trang chủ</string>
+    <string name="title_dashboard">Tìm kiếm</string>
+    <string name="title_notifications">Bài hát</string>
+    <string name="title_activity_lyric">Lời bài hát</string>
+    <string name="first_fragment_label">Fragement 1</string>
+    <string name="second_fragment_label">Fragement 2</string>
+    <string name="next">Tiếp tục</string>
+    <string name="previous">Trở lại</string>
+    <string name="playingnow">ĐANG CHẠY NHẠC</string>
+    <string name="lorem_ipsum">[...]</string>
+    <string name="hello_blank_fragment">alo</string>
+    <string name="title_activity_album">Album</string>
+    <string name="title_activity_main2">main</string>
+    <string name="Recommendations">Gợi ý</string>
+    <string name="Your_Recent_Listenings">Nghe gần đây</string>
+    <string name="Top_Albums">Top Album</string>
+    <string name="Search_song_artist_album_or_playlist">Tìm kiếm theo bài hát, album hoặc danh sách</string>
+    <string name="My_Library">Nhạc của tôi</string>
+    <string name="Favorite_Track">Danh sách yêu thích</string>
+    <string name="Playlists">Playlist</string>
+    <string name="Albums">Album</string>
+    <string name="Popular_Tracks">Danh sách phổ biến</string>
+    <string name="Recent_History">Lịch sử tìm kiếm</string>
+    <string name="CLEAR">Xóa tất cả</string>
+</resources>

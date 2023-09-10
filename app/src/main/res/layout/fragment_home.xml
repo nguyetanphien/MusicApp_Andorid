@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_17sdp"
-            android:text="Recommendations"
+            android:text="@string/Recommendations"
             android:textColor="@color/white"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />
@@ -86,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_17sdp"
-            android:text="Your Recent Listenings"
+            android:text="@string/Your_Recent_Listenings"
             android:textColor="@color/white"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />
@@ -102,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_20sdp"
-            android:text="Top Albums"
+            android:text="@string/Top_Albums"
             android:textColor="@color/white"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold" />

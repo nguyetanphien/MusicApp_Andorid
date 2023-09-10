@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_15sdp"
             android:layout_toRightOf="@+id/ibtnBackFTrack"
-            android:text="Favorite Track"
+            android:text="@string/Favorite_Track"
             android:textColor="@color/white"
             android:textSize="@dimen/_18sdp"
             android:textStyle="bold" />

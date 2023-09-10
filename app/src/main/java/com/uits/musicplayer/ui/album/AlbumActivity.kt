@@ -52,6 +52,7 @@ class AlbumActivity : AppCompatActivity() {
             mutableList.addAll(data)
             abbumAdapter.notifyDataSetChanged()
         })
+       // viewModel.loadSounds()
     }
     fun back(){
         val back: ImageButton =findViewById(R.id.ibtnBackAlbumAS)
