@@ -17,13 +17,14 @@ import java.io.IOException
 
 class PlayerActivity : AppCompatActivity() {
 
-
+    var mediaPlayer = MediaPlayer()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fm, PlayerImageFragment.newInstance())
             .commitNow()
+        Log.e("ppp","p")
         liric()
         play()
         back()
@@ -47,55 +48,55 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun back() {
-        val backPlayer:AppCompatImageButton = findViewById(R.id.btnbackPlayer)
+        val backPlayer: AppCompatImageButton = findViewById(R.id.btnbackPlayer)
         backPlayer.setOnClickListener(View.OnClickListener {
             finish()
         })
     }
 
     private fun play() {
-        var check = 1
         var intent: Intent = intent
         var ibtnPausePlayer: ImageButton = findViewById(R.id.ibtnPausePlayer)
         var ibtnPlayPlayer: ImageButton = findViewById(R.id.ibtnPlayPlayer)
         var txtNameSongPlaylist: AppCompatTextView = findViewById(R.id.txtNameSongPlaylist)
         var txtNameSingerPlaylist: AppCompatTextView = findViewById(R.id.txtNameSingerPlaylist)
+
         var link: String = intent.getStringExtra("music").toString()
         var title2: String = intent.getStringExtra("name").toString()
         var singer: String = intent.getStringExtra("singer").toString()
         txtNameSongPlaylist.text = title2
         txtNameSingerPlaylist.text = singer
-        Log.e("ppp", link)
-        val assetManager = assets
-        val winSoundFile = assetManager.openFd(link)
-        var mediaPlayer = MediaPlayer()
+
         try {
-            mediaPlayer.setDataSource(winSoundFile)
+            val assetManager = assets
+            val winSoundFile = assetManager.openFd(link)
+            if (winSoundFile != null) {
+                mediaPlayer.setDataSource(winSoundFile)
+            }
             mediaPlayer.prepare()
         } catch (e: IOException) {
             e.printStackTrace()
         }
+        Log.e("ppp",mediaPlayer.isPlaying.toString())
         if (mediaPlayer.isPlaying) {
             mediaPlayer.stop()
+            Log.e("ppp",mediaPlayer.isPlaying.toString())
         }
-        if (check == 1) {
-            mediaPlayer.start()
+        mediaPlayer.start()
 
-        }
         ibtnPlayPlayer.setOnClickListener(View.OnClickListener {
             mediaPlayer.start()
             ibtnPlayPlayer.visibility = INVISIBLE
             ibtnPausePlayer.visibility = VISIBLE
         })
-        Log.d("ppp", check.toString())
-
         ibtnPausePlayer.setOnClickListener(View.OnClickListener {
             mediaPlayer.pause()
             ibtnPlayPlayer.visibility = VISIBLE
             ibtnPausePlayer.visibility = INVISIBLE
         })
-        Log.d("ppp", check.toString())
 
 
     }
+
+
 }

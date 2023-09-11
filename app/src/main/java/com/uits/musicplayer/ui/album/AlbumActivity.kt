@@ -40,8 +40,8 @@ class AlbumActivity : AppCompatActivity() {
             override fun onItemClick(position: Int, id: String) {
             }
             override fun onItemClick2(position: Int, link: String, name: String, singer: String) {
-                Log.d("ppp",link)
-                val intent= Intent(application,PlayerActivity::class.java)
+         //       Log.d("ppp",link)
+                val intent= Intent(applicationContext,PlayerActivity::class.java)
                 intent.putExtra("music",link)
                 intent.putExtra("name",name)
                 intent.putExtra("singer",singer)

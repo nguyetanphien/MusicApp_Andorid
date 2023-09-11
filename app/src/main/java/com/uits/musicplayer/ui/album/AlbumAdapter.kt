@@ -17,8 +17,6 @@ class AlbumAdapter(
     var mutableList: MutableList<AlbumModel>,
     var onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.custom_list_as, parent, false)
@@ -36,9 +34,12 @@ class AlbumAdapter(
         holder.txtNameSinger.text = mutableList[position].nameSinger
         holder.txtTimeAS.text = mutableList[position].time
         holder.itemView.setOnClickListener(View.OnClickListener {
-            val intent = Intent(context, PlayerActivity::class.java)
-            context?.startActivity(intent)
-            onItemClickListener.onItemClick2(position,mutableList[position].link,mutableList[position].nameSong,mutableList[position].nameSinger)
+            onItemClickListener.onItemClick2(
+                position,
+                mutableList[position].link,
+                mutableList[position].nameSong,
+                mutableList[position].nameSinger
+            )
         })
     }
 

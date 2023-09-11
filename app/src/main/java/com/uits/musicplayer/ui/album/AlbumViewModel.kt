@@ -28,7 +28,7 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
     var mAssets: AssetManager = context.assets
 
     init {
-        loadSounds()
+     //   loadSounds()
     }
 
     fun fetchAlbumList() {
@@ -172,7 +172,7 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
                 input = it.split("-").toTypedArray()
                 name = (input[0])
                 singer = (input[1])
-                Log.e("ppp", getMp3Duration("assets/album/edm/$it"))
+               // Log.e("ppp", getMp3Duration("assets/album/edm/$it"))
                 link = ("album/edm/$it")
                 time = ("3:12")
                 mListDataAsset.add(AlbumModel(name, singer, link, time))
