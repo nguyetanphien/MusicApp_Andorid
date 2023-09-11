@@ -19,7 +19,7 @@ public interface RecentHistoryDAO {
 
     @Query("DELETE FROM RecentMusic")
     fun delete()
-    @Query("DELETE FROM RecentMusic WHERE id=:idS ")
+    @Query("DELETE FROM RecentMusic WHERE ID=:idS ")
     fun deleteid( idS:String)
 
     @Query("SELECT * FROM RecentMusic")

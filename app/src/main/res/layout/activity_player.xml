@@ -17,7 +17,7 @@
         android:layout_marginTop="@dimen/_17sdp">
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/ibtnbackPlayer"
+            android:id="@+id/btnbackPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/wnull"
@@ -107,6 +107,7 @@
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtNameSingerPlaylist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="@+id/txtNameSongPlaylist"

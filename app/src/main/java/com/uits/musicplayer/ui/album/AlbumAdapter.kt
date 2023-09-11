@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uits.musicplayer.R
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
-import com.uits.musicplayer.model.ArtistModel
 import com.uits.musicplayer.ui.player.PlayerActivity
 
 class AlbumAdapter(
@@ -39,6 +38,7 @@ class AlbumAdapter(
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, PlayerActivity::class.java)
             context?.startActivity(intent)
+            onItemClickListener.onItemClick2(position,mutableList[position].link,mutableList[position].nameSong,mutableList[position].nameSinger)
         })
     }
 

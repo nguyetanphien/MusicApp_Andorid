@@ -1,27 +1,36 @@
 package com.uits.musicplayer.ui.album
 
-import android.content.ContentValues.TAG
-import android.content.Context
+import android.app.Application
+import android.content.res.AssetFileDescriptor
 import android.content.res.AssetManager
-import android.nfc.Tag
+import android.media.AudioManager
+import android.media.MediaMetadataRetriever
+import android.media.SoundPool
 import android.os.Build
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.uits.musicplayer.model.AlbumModel
 import java.io.IOException
-
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
-class AlbumViewModel():ViewModel() {
-   // val context:Context
 
-    private val mLiveData=MutableLiveData<List<AlbumModel>>().apply {  }
-    val liveData:LiveData<List<AlbumModel>> = mLiveData
+class AlbumViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val mLiveData = MutableLiveData<List<AlbumModel>>().apply { }
+    val liveData: LiveData<List<AlbumModel>> = mLiveData
+    var mListDataAsset: MutableList<AlbumModel> = mutableListOf()
+    val context = getApplication<Application>().applicationContext
+    var mAssets: AssetManager = context.assets
+
+    init {
+        loadSounds()
+    }
+
     fun fetchAlbumList() {
         var current = ""
         current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -138,23 +147,77 @@ class AlbumViewModel():ViewModel() {
 
         mLiveData.postValue(list)
     }
-  //  var mListDataAsset = mutableListOf<AlbumModel>()
-  //  var mAssets: AssetManager =context.assets
-//     fun loadSounds(){
-//        val soundName: Array<String>?
-//        try {
-//            soundName= mAssets.list("edm")
-//            Log.i("ppp","Found"+soundName!!.size+" sounds")
-//           // mListDataAsset.add(soundName)
-//
-//        }catch (ioe:IOException){
-//            Log.e("ppp","Could not list assets",ioe)
-//            return
-//        }
-//    }
 
+
+    fun loadSounds() {
+        mListDataAsset.clear()
+        val soundName: Array<String>?
+
+        var edm: Array<String>? = null
+        var name: String
+        var singer: String
+        var link: String
+        var time: String
+        var input: Array<String>
+        try {
+            soundName = mAssets.list("album")
+            Log.i("ppp", "Found" + soundName!!.size + " sounds")
+            // mListDataAsset.add(soundName)
+            soundName.forEach { _ ->
+                edm = mAssets.list("album/edm")
+
+            }
+            Log.e("ppp", edm?.size.toString())
+            edm?.forEach {
+                input = it.split("-").toTypedArray()
+                name = (input[0])
+                singer = (input[1])
+                Log.e("ppp", getMp3Duration("assets/album/edm/$it"))
+                link = ("album/edm/$it")
+                time = ("3:12")
+                mListDataAsset.add(AlbumModel(name, singer, link, time))
+            }
+            mLiveData.postValue(mListDataAsset)
+
+        } catch (ioe: IOException) {
+            Log.e("ppp", "Could not list assets", ioe)
+            return
+        }
+    }
+
+    fun getMp3Duration(filePath: String): String {
+
+        var metaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
+        try {
+            metaRetriever.setDataSource(filePath)
+        } catch (a: Exception) {
+            Log.e("ppp", "a.toString()")
+        }
+
+
+        var out: String = ""
+        var txtTime: String = ""
+
+        var duration: String? =
+            metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+
+        if (duration != null) {
+            Log.d("DURATION VALUE", duration)
+        }
+
+        var dur: Long = duration?.toLong() ?: 3
+        var seconds: String = ((dur % 60000) / 1000).toString()
+
+        Log.d("SECONDS VALUE", seconds)
+
+        var minutes: String = (dur / 60000).toString()
+        out = "$minutes:$seconds"
+
+        txtTime = if (seconds.length == 1) {
+            "0$minutes:0$seconds"
+        } else {
+            "0$minutes:$seconds"
+        }
+        return txtTime
+    }
 }
-
-
-
-

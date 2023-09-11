@@ -38,14 +38,12 @@ class ArtistAdapter(
                 .placeholder(R.mipmap.ic_launcher)
                 .into(holder.img)
         }
-
         holder.txtNameAlbum.text = list[position].nameAlbum
         holder.txtYearAlbum.text = list[position].yearAlbum
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, AlbumActivity::class.java)
             context?.startActivity(intent)
         })
-
     }
 
     class ArtistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

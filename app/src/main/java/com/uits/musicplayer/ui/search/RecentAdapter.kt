@@ -16,7 +16,7 @@ import com.uits.musicplayer.interfaces.OnItemClickListener
 class RecentAdapter(
     var context: FragmentActivity?,
     var mList: MutableList<RecentHistory>,
-    onItemClickListener: OnItemClickListener
+    val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<RecentAdapter.RecentViewHolder>() {
     lateinit var id: String
 
@@ -40,7 +40,8 @@ class RecentAdapter(
         holder.txtNameSongRecent.text=mList[position].title
         holder.txtNameSingerRecent.text=mList[position].name
         holder.ibtnDelete.setOnClickListener(View.OnClickListener {
-//            id=mList[position].id
+            id=mList[position].id
+            onItemClickListener.onItemClick(position,id)
         })
 
     }

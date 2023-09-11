@@ -9,7 +9,7 @@
     android:padding="@dimen/_20sdp"
     tools:context=".ui.search.SearchFragment">
 
-    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtsearchsong"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_45sdp"
@@ -17,7 +17,7 @@
         android:drawableLeft="@android:drawable/ic_menu_search"
         android:hint="@string/Search_song_artist_album_or_playlist"
         android:padding="@dimen/_7sdp"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
