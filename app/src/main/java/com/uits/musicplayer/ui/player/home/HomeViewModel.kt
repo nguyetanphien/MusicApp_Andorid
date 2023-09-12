@@ -1,21 +1,32 @@
 package com.uits.musicplayer.ui.player.home
 
+import android.app.Application
+import android.content.res.AssetManager
 import android.os.Build
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.HomeModel
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _list = MutableLiveData<List<HomeModel>>().apply {
 
     }
+    var mListDataAsset: MutableList<HomeModel> = mutableListOf()
+    val context = getApplication<Application>().applicationContext
+    var mAssets: AssetManager = context.assets
     val _liveData: LiveData<List<HomeModel>> = _list
+    private val _listLiveRL = MutableLiveData<List<HomeModel>>().apply { }
+    val _listDataRL: LiveData<List<HomeModel>> = _listLiveRL
     fun fetchDataAlbum() {
         var current = ""
         current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -100,8 +111,7 @@ class HomeViewModel : ViewModel() {
         _list.postValue(list)
     }
 
-    private val _listLiveRL = MutableLiveData<List<HomeModel>>().apply { }
-    val _listDataRL: LiveData<List<HomeModel>> = _listLiveRL
+
     fun fetchDataAlbumRL() {
         var current = ""
         current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -296,5 +306,31 @@ class HomeViewModel : ViewModel() {
             )
         )
         _listLiveTA.postValue(list)
+    }
+
+    fun loadTopAlbumAsset() {
+        mListDataAsset.clear()
+        val soundName: Array<String>?
+        var name: String
+        var img: String
+        var year: String
+
+        try {
+            soundName = mAssets.list("album")
+            Log.i("ppp", "Found" + soundName!!.size + " sounds")
+            // mListDataAsset.add(soundName)
+            soundName.forEach {
+                name = it
+                img =
+                    "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0"
+                year = "2023"
+                mListDataAsset.add(HomeModel(img, name, year))
+            }
+            _listLiveTA.postValue(mListDataAsset)
+
+        } catch (ioe: IOException) {
+            Log.e("ppp", "Could not list assets", ioe)
+            return
+        }
     }
 }

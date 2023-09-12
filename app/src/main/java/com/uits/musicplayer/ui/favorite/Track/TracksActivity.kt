@@ -37,8 +37,14 @@ class TracksActivity : AppCompatActivity() {
     private fun rVTRack() {
         val mRecyclerView: RecyclerView = binding.rvFTrack
         trackAdapter = TrackAdapter(this, mListData, object : OnItemClickListener {
-            override fun onItemClick(position: Int) {
 
+
+            override fun onItemClick(position: Int, id: String) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemClick2(position: Int, link: String, title: String, singer: String) {
+                TODO("Not yet implemented")
             }
 
         })

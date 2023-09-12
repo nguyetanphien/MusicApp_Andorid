@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 
 class AlbumActivity : AppCompatActivity() {
     lateinit var binding: ActivityAlbumBinding
-    private lateinit var viewModel:AlbumViewModel
+    private lateinit var viewModel: AlbumViewModel
     lateinit var abbumAdapter: AlbumAdapter
     var mutableList: MutableList<AlbumModel> = mutableListOf()
 
@@ -29,59 +30,56 @@ class AlbumActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAlbumBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel=ViewModelProvider(this).get(AlbumViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AlbumViewModel::class.java)
         rVAlbumList()
         back()
         playMusic()
     }
+
     private fun rVAlbumList() {
+        val intent: Intent = intent
+        val name = intent.getStringExtra("album")
+
         val mRecyclerView: RecyclerView = binding.rvAlbumAS
+        val txtAlbumNameYearAS: AppCompatTextView = findViewById(R.id.txtAlbumNameYearAS)
+        txtAlbumNameYearAS.text = "Album • $name"
         abbumAdapter = AlbumAdapter(this, mutableList, object : OnItemClickListener {
             override fun onItemClick(position: Int, id: String) {
             }
+
             override fun onItemClick2(position: Int, link: String, name: String, singer: String) {
-         //       Log.d("ppp",link)
-                val intent= Intent(applicationContext,PlayerActivity::class.java)
-                intent.putExtra("music",link)
-                intent.putExtra("name",name)
-                intent.putExtra("singer",singer)
+                val intent = Intent(applicationContext, PlayerActivity::class.java)
+                intent.putExtra("music", link)
+                intent.putExtra("name", name)
+                intent.putExtra("singer", singer)
                 startActivity(intent)
             }
         })
-        viewModel.loadSounds()
+        if (name != null) {
+            viewModel.loadSounds(name)
+        }
         mRecyclerView.adapter = ScaleInAnimationAdapter(abbumAdapter)
-        mRecyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        mRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         viewModel.liveData.observe(this, Observer { data ->
             mutableList.clear()
             mutableList.addAll(data)
             abbumAdapter.notifyDataSetChanged()
         })
     }
-    private fun back(){
-        val back: ImageButton =findViewById(R.id.ibtnBackAlbumAS)
+
+    private fun back() {
+        val back: ImageButton = findViewById(R.id.ibtnBackAlbumAS)
         back.setOnClickListener(View.OnClickListener {
             finish()
         })
     }
-    private fun playMusic(){
-        val imagePlay :ImageButton =findViewById(R.id.ibtnPlayAS)
+
+    private fun playMusic() {
+        val imagePlay: ImageButton = findViewById(R.id.ibtnPlayAS)
         imagePlay.setOnClickListener(View.OnClickListener {
-            val intent= Intent(this,PlayerActivity::class.java)
-            intent.putExtra("music","a.mp3")
+            val intent = Intent(this, PlayerActivity::class.java)
+            intent.putExtra("music", "a.mp3")
             startActivity(intent)
         })
-
-//        val soundPool:SoundPool
-//        val NUMBER_OF_SIMULTANEOUS_SOUNDS = 1
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            soundPool = SoundPool.Builder()
-//                .setMaxStreams(NUMBER_OF_SIMULTANEOUS_SOUNDS)
-//                .build()
-//        } else {
-//            // Deprecated way of creating a SoundPool before Android API 21.
-//            soundPool = SoundPool(NUMBER_OF_SIMULTANEOUS_SOUNDS, AudioManager.STREAM_MUSIC, 0)
-//        }
-
     }
 }

@@ -45,6 +45,8 @@ class FavoriteAdapterAL(
         holder.txtYearAlbum.text = mList[position].yearAlbum
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, AlbumActivity::class.java)
+            var nameAlbum=mList[position].nameAlbum
+            intent.putExtra("album",nameAlbum)
             context?.startActivity(intent)
         })
     }

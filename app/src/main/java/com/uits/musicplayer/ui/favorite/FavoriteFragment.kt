@@ -56,7 +56,16 @@ class FavoriteFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         adrapterFavoriteAdapterPL =
             FavoriteAdapterPL(requireActivity(), mListPlayerList, object : OnItemClickListener {
-                override fun onItemClick(position: Int) {
+                override fun onItemClick(position: Int, id: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onItemClick2(
+                    position: Int,
+                    link: String,
+                    title: String,
+                    singer: String
+                ) {
                     TODO("Not yet implemented")
                 }
 
@@ -75,12 +84,22 @@ class FavoriteFragment : Fragment() {
 
         adrapterFavoriteFragment =
             FavoriteAdapterAL(requireActivity(), mListPlayerListAL, object : OnItemClickListener {
-                override fun onItemClick(position: Int) {
+                override fun onItemClick(position: Int, id: String) {
+                }
+
+                override fun onItemClick2(
+                    position: Int,
+                    link: String,
+                    title: String,
+                    singer: String
+                ) {
+                    TODO("Not yet implemented")
                 }
 
             })
         mRecyclerViewAl.adapter = adrapterFavoriteFragment
         notificationsViewModel.listLiveAl.observe(viewLifecycleOwner) {
+            mListPlayerListAL.clear()
             mListPlayerListAL.addAll(it)
             adrapterFavoriteFragment.notifyDataSetChanged()
         }
@@ -89,9 +108,9 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         notificationsViewModel.fetchDataplayList()
-        notificationsViewModel.fetchDataAlbumAl()
+        notificationsViewModel.loadTopAlbumAsset()
     }
-    fun nextFavoriteTrack(){
+    private fun nextFavoriteTrack(){
         val itbnnext: ImageButton=binding.ibtnNextL
         itbnnext.setOnClickListener(View.OnClickListener {
             val intent= Intent(requireContext(),TracksActivity::class.java)

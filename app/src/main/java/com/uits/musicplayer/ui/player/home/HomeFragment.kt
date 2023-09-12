@@ -45,7 +45,12 @@ class HomeFragment : Fragment() {
         mRecyclerView.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         apdapterHomeAdapter = HomeAdapter(requireActivity(), listR, object : OnItemClickListener {
-            override fun onItemClick(position: Int) {
+
+            override fun onItemClick(position: Int, id: String) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemClick2(position: Int, link: String, title: String, singer: String) {
                 TODO("Not yet implemented")
             }
 
@@ -65,7 +70,16 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         apdapterHomeAdapterRL =
             HomeAdapterRL(requireActivity(), listRL, object : OnItemClickListener {
-                override fun onItemClick(position: Int) {
+                override fun onItemClick(position: Int, id: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onItemClick2(
+                    position: Int,
+                    link: String,
+                    title: String,
+                    singer: String
+                ) {
                     TODO("Not yet implemented")
                 }
 
@@ -84,7 +98,16 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         apdapterHomeAdapterTA =
             HomeAdapterTopAlbum(requireActivity(), listTA, object : OnItemClickListener {
-                override fun onItemClick(position: Int) {
+                override fun onItemClick(position: Int, id: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onItemClick2(
+                    position: Int,
+                    link: String,
+                    title: String,
+                    singer: String
+                ) {
                     TODO("Not yet implemented")
                 }
 
@@ -101,7 +124,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel.fetchDataAlbum()
         homeViewModel.fetchDataAlbumRL()
-        homeViewModel.fetchDataAlbumTA()
+        homeViewModel.loadTopAlbumAsset()
     }
 
     override fun onDestroyView() {
