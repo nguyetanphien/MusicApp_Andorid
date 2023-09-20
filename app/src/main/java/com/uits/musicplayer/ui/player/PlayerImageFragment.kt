@@ -1,11 +1,19 @@
 package com.uits.musicplayer.ui.player
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBindings
+import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
+import com.uits.musicplayer.databinding.FragmentDashboardBinding
+import com.uits.musicplayer.databinding.FragmentPlayerImageBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,24 +25,37 @@ private const val ARG_PARAM2 = "param2"
  * Use the [PlayerImageFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PlayerImageFragment : Fragment() {
+class PlayerImageFragment() : Fragment() {
     // TODO: Rename and change types of parameters
+
     companion object {
-        fun newInstance() = PlayerImageFragment()
+        fun newInstance(image: String) = PlayerImageFragment().apply {
+            arguments = Bundle().apply {
+                putString("image", image)
+            }
+        }
     }
 
-//    private lateinit var viewModel: PlayerViewModel
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        viewModel = ViewModelProvider(this).get(PlayerViewModel::class.java)
-//        // TODO: Use the ViewModel
-//    }
-
+    private var _binding: FragmentPlayerImageBinding? = null
+    private val binding get() = _binding!!
+    lateinit var root: View
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_player_image, container, false)
+        _binding = FragmentPlayerImageBinding.inflate(inflater, container, false)
+        root = binding.root
+        val imvAlbumPlayer: ImageView? = binding.imvAlbumPlayer
+        val img = arguments?.getString("image")
+        if (img != null) {
+            Log.d("ppp", img)
+        }
+        if (!img.isNullOrEmpty()) {
+            if (imvAlbumPlayer != null) {
+                Glide.with(requireContext()).load(img).centerCrop()
+                    .placeholder(R.mipmap.ic_launcher).into(imvAlbumPlayer)
+            }
+        }
+
+        return root
     }
 }

@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.album
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import com.uits.musicplayer.databinding.ActivityAlbumBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.ui.player.PlayerActivity
+
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 
 
@@ -47,16 +49,23 @@ class AlbumActivity : AppCompatActivity() {
             override fun onItemClick(position: Int, id: String) {
             }
 
-            override fun onItemClick2(position: Int, link: String, name: String, singer: String) {
+            override fun onItemClick2(
+                position: Int,
+                link: String,
+                name: String,
+                singer: String,
+                images: String
+            ) {
                 val intent = Intent(applicationContext, PlayerActivity::class.java)
                 intent.putExtra("music", link)
                 intent.putExtra("name", name)
                 intent.putExtra("singer", singer)
+                intent.putExtra("image",images)
                 startActivity(intent)
             }
         })
         if (name != null) {
-            viewModel.loadSounds(name)
+            viewModel.featchData(name)
         }
         mRecyclerView.adapter = ScaleInAnimationAdapter(abbumAdapter)
         mRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

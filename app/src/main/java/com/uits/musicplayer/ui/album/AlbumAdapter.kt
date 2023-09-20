@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.uits.musicplayer.R
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
-import com.uits.musicplayer.ui.player.PlayerActivity
+
 
 class AlbumAdapter(
     var context: FragmentActivity?,
@@ -38,7 +38,8 @@ class AlbumAdapter(
                 position,
                 mutableList[position].link,
                 mutableList[position].nameSong,
-                mutableList[position].nameSinger
+                mutableList[position].nameSinger,
+                mutableList[position].images
             )
         })
     }

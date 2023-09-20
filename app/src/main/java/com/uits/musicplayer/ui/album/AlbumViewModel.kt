@@ -1,22 +1,19 @@
 package com.uits.musicplayer.ui.album
 
+import android.annotation.SuppressLint
 import android.app.Application
-import android.content.res.AssetFileDescriptor
 import android.content.res.AssetManager
-import android.media.AudioManager
-import android.media.MediaMetadataRetriever
-import android.media.SoundPool
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.uits.musicplayer.model.AlbumModel
+import com.uits.musicplayer.service.APIClient
+import com.uits.musicplayer.service.response.MusicResponse
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
 
 
 class AlbumViewModel(application: Application) : AndroidViewModel(application) {
@@ -27,125 +24,44 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
     val context = getApplication<Application>().applicationContext
     var mAssets: AssetManager = context.assets
 
-    init {
-        //   loadSounds()
+
+    @SuppressLint("CheckResult")
+    fun featchData(nameAlbum: String) {
+        val response: Observable<MusicResponse> = APIClient.APIClient.mApiService.getMusic()
+        response.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+                run {
+                    onSuccess(response,nameAlbum)
+                }
+            }, { t ->
+                run {
+                    onFail(t)
+                }
+            })
+    }
+    private fun onSuccess(response: MusicResponse, nameAlbum: String) {
+        mListDataAsset.clear()
+        var title: String
+        var nameSinger: String
+        var link: String
+        var time:String
+        var images: String
+        response.music.forEach {
+            if(it.album==nameAlbum){
+                title=it.title
+                nameSinger =it.artist
+                link=it.source
+                time="3.20"
+                images=it.image
+                mListDataAsset.add(AlbumModel(title,nameSinger,link, time,images))
+            }
+        }
+
+        mLiveData.postValue(mListDataAsset)
     }
 
-    fun fetchAlbumList() {
-        var current = ""
-        current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var formatter = DateTimeFormatter.ofPattern("yyyy")
-            LocalDateTime.now().format(formatter)
-        } else {
-            val time = Calendar.getInstance().time
-            var formatter = SimpleDateFormat("yyyy")
-            formatter.format(time)
-        }
-        val list: MutableList<AlbumModel> = mutableListOf()
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-        list.add(
-            AlbumModel(
-
-                "My song",
-                "ST",
-                current,
-                "3.14"
-            )
-        )
-
-
-
-        mLiveData.postValue(list)
+    private fun onFail(t: Throwable) {
+        print(t.message)
     }
 
 
@@ -175,7 +91,7 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
                 // Log.e("ppp", getMp3Duration("assets/album/edm/$it"))
                 link = ("album/$nameAlbum/$it")
                 time = ("3:12")
-                mListDataAsset.add(AlbumModel(name, singer, link, time))
+                mListDataAsset.add(AlbumModel(name, singer, link, time,""))
             }
             mLiveData.postValue(mListDataAsset)
 
@@ -185,39 +101,5 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getMp3Duration(filePath: String): String {
 
-        var metaRetriever: MediaMetadataRetriever = MediaMetadataRetriever()
-        try {
-            metaRetriever.setDataSource(filePath)
-        } catch (a: Exception) {
-            Log.e("ppp", "a.toString()")
-        }
-
-
-        var out: String = ""
-        var txtTime: String = ""
-
-        var duration: String? =
-            metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-
-        if (duration != null) {
-            Log.d("DURATION VALUE", duration)
-        }
-
-        var dur: Long = duration?.toLong() ?: 3
-        var seconds: String = ((dur % 60000) / 1000).toString()
-
-        Log.d("SECONDS VALUE", seconds)
-
-        var minutes: String = (dur / 60000).toString()
-        out = "$minutes:$seconds"
-
-        txtTime = if (seconds.length == 1) {
-            "0$minutes:0$seconds"
-        } else {
-            "0$minutes:$seconds"
-        }
-        return txtTime
-    }
 }

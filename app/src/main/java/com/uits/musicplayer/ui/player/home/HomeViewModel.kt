@@ -1,5 +1,6 @@
 package com.uits.musicplayer.ui.player.home
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.res.AssetManager
 import android.os.Build
@@ -10,6 +11,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.HomeModel
+import com.uits.musicplayer.model.MusicModel
+import com.uits.musicplayer.service.APIClient
+import com.uits.musicplayer.service.response.MusicResponse
+import com.uits.musicplayer.service.response.WeatherResponse
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -27,6 +35,50 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val _liveData: LiveData<List<HomeModel>> = _list
     private val _listLiveRL = MutableLiveData<List<HomeModel>>().apply { }
     val _listDataRL: LiveData<List<HomeModel>> = _listLiveRL
+
+    @SuppressLint("CheckResult")
+    fun featchData() {
+        val response: Observable<MusicResponse> = APIClient.APIClient.mApiService.getMusic()
+        response.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+                run {
+                    onSuccess(response)
+                }
+            }, { t ->
+                run {
+                    onFail(t)
+                }
+            })
+    }
+    private fun onSuccess(response: MusicResponse) {
+        mListDataAsset.clear()
+        var title: String
+        var img: String
+        var year: String
+        val list= mutableListOf<HomeModel>()
+        response.music.forEach {
+            title=it.album
+            img =it.image
+            year="2023"
+            mListDataAsset.add(HomeModel(img,title,year))
+        }
+        mListDataAsset.sortBy { it.nameAlbum }
+        Log.d("ppp",mListDataAsset.size.toString())
+
+        for (i in mListDataAsset.indices){
+            if (i==0||mListDataAsset[i].nameAlbum != mListDataAsset[i-1].nameAlbum)
+                list.add(mListDataAsset[i])
+            Log.e("ppp",mListDataAsset[i].nameAlbum)
+        }
+        mListDataAsset.clear()
+        mListDataAsset.addAll(list)
+        _listLiveTA.postValue(mListDataAsset)
+    }
+
+    private fun onFail(t: Throwable) {
+        print(t.message)
+    }
+
     fun fetchDataAlbum() {
         var current = ""
         current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -224,89 +276,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _listLiveTA = MutableLiveData<List<HomeModel>>().apply { }
     val _listDataTA: LiveData<List<HomeModel>> = _listLiveTA
-    fun fetchDataAlbumTA() {
-        var current = ""
-        current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var formatter = DateTimeFormatter.ofPattern("yyyy")
-            LocalDateTime.now().format(formatter)
-        } else {
-            val time = Calendar.getInstance().time
-            var formatter = SimpleDateFormat("yyyy")
-            formatter.format(time)
-        }
-        val list: MutableList<HomeModel> = mutableListOf()
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        _listLiveTA.postValue(list)
-    }
 
     fun loadTopAlbumAsset() {
         mListDataAsset.clear()

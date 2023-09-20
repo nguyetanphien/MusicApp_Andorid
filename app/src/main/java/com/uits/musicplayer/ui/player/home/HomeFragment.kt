@@ -124,7 +124,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel.fetchDataAlbum()
         homeViewModel.fetchDataAlbumRL()
-        homeViewModel.loadTopAlbumAsset()
+        homeViewModel.featchData()
     }
 
     override fun onDestroyView() {

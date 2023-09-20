@@ -111,7 +111,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtAlbumNameYearAS"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_150sdp"
             android:layout_height="wrap_content"
             android:text="Album • 2016"
             android:textColor="#8E8A8A"

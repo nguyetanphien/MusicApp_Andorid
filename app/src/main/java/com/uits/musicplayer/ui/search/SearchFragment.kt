@@ -62,9 +62,6 @@ class SearchFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         mSearchAdapterMusic =
             AdapterMusic(requireActivity(), mListData, object : OnItemClickListener {
-
-
-
                 override fun onItemClick(position: Int, id: String) {
                     TODO("Not yet implemented")
                 }
@@ -73,7 +70,8 @@ class SearchFragment : Fragment() {
                     position: Int,
                     link: String,
                     title: String,
-                    singer: String
+                    singer: String,
+                    images: String
                 ) {
                     TODO("Not yet implemented")
                 }
@@ -105,7 +103,8 @@ class SearchFragment : Fragment() {
                     position: Int,
                     link: String,
                     title: String,
-                    singer: String
+                    singer: String,
+                    images: String
                 ) {
                     TODO("Not yet implemented")
                 }

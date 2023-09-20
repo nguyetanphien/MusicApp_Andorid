@@ -20,7 +20,6 @@ class HomeAdapterTopAlbum(
     val onClick: OnItemClickListener
 ) : RecyclerView.Adapter<HomeAdapterTopAlbum.HomeTAViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeTAViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.custom_rv_album, parent, false)
@@ -39,7 +38,6 @@ class HomeAdapterTopAlbum(
                 .placeholder(R.mipmap.ic_launcher)
                 .into(holder.img)
         }
-
         holder.txtNameAlbum.text = mListTA[position].nameAlbum
         holder.txtYearAlbum.text = mListTA[position].yearAlbum
         holder.itemView.setOnClickListener(View.OnClickListener {
@@ -51,7 +49,6 @@ class HomeAdapterTopAlbum(
     }
 
     class HomeTAViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         val img: ImageView = itemView.findViewById(R.id.imgAlbum)
         val txtNameAlbum: TextView = itemView.findViewById(R.id.txtNameAlbum)
         val txtYearAlbum: TextView = itemView.findViewById(R.id.txtYearAlbum)
