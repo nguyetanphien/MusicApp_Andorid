@@ -25,7 +25,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mRecycleView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_500sdp"
         android:layout_marginTop="@dimen/_17sdp"
         android:layout_below="@+id/edtsearchsong"
         app:layout_constraintTop_toBottomOf="@+id/edtsearchsong"

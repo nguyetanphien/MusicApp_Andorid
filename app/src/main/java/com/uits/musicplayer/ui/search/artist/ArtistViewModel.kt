@@ -1,10 +1,20 @@
 package com.uits.musicplayer.ui.search.artist
 
+import android.annotation.SuppressLint
+import android.media.MediaPlayer
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.ArtistModel
+import com.uits.musicplayer.service.APIClient
+import com.uits.musicplayer.service.response.MusicResponse
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -15,200 +25,121 @@ class ArtistViewModel : ViewModel() {
 
     }
     val _liveData: LiveData<List<ArtistModel>> = _list
-    fun fetchDataAlbum() {
-        var current = ""
-        current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var formatter = DateTimeFormatter.ofPattern("yyyy")
-            LocalDateTime.now().format(formatter)
-        } else {
-            val time = Calendar.getInstance().time
-            var formatter = SimpleDateFormat("yyyy")
-            formatter.format(time)
+    private var mListApi: MutableList<ArtistModel> = mutableListOf()
+
+    private val _listLivePT = MutableLiveData<List<AlbumModel>>().apply { }
+    val _listDataPT: LiveData<List<AlbumModel>> = _listLivePT
+    private var mListApiPT: MutableList<AlbumModel> = mutableListOf()
+    @SuppressLint("CheckResult")
+    fun featchData(genre: String) {
+        val response: Observable<MusicResponse> = APIClient.APIClient.mApiService.getMusic()
+        response.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+                run {
+                    onSuccess(response,genre)
+                }
+            }, { t ->
+                run {
+                    onFail(t)
+                }
+            })
+    }
+    private fun onSuccess(response: MusicResponse, genre: String) {
+        mListApi.clear()
+        var title: String
+        var img: String
+        var year: String
+        var genre2: String
+        val list= mutableListOf<ArtistModel>()
+        response.music.forEach {
+            title=it.album
+            img =it.image
+            year="2023"
+            genre2=it.genre
+            mListApi.add(ArtistModel(img,title,year,genre2))
         }
-        val list: MutableList<ArtistModel> = mutableListOf()
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        _list.postValue(list)
+        mListApi.sortBy { it.nameAlbum }
+        Log.d("ppp",mListApi.toString())
+        for (i in mListApi.indices){
+            if(mListApi[i].time==genre)
+                    list.add(mListApi[i])
+
+        }
+        val list2= mutableListOf<ArtistModel>()
+        for(i in list.indices){
+            if(i==0||list[i].nameAlbum!=list[i-1].nameAlbum)
+                list2.add(list[i])
+        }
+
+        mListApi.clear()
+        mListApi.addAll(list2)
+        _list.postValue(mListApi)
     }
 
-    private val _listLivePT = MutableLiveData<List<ArtistModel>>().apply { }
-    val _listDataPT: LiveData<List<ArtistModel>> = _listLivePT
-    fun fetchDataAlbumPT() {
-        var current = ""
-        current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-            LocalDateTime.now().format(formatter)
-        } else {
-            val time = Calendar.getInstance().time
-            var formatter = SimpleDateFormat("dd-MM-yyyy")
-            formatter.format(time)
-        }
-        var list: MutableList<ArtistModel> = mutableListOf()
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            ArtistModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        _listLivePT.postValue(list)
+
+    @SuppressLint("CheckResult")
+    fun featchDataPT(genre: String) {
+        val response: Observable<MusicResponse> = APIClient.APIClient.mApiService.getMusic()
+        response.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+                run {
+                    onSuccess2(response, genre)
+                }
+            }, { t ->
+                run {
+                    onFail(t)
+                }
+            })
     }
+    private fun onSuccess2(response: MusicResponse, genre: String) {
+        mListApiPT.clear()
+        var title: String
+        var nameSinger: String
+        var link: String
+        var time: String
+        var images: String
+        response.music.forEach {
+            if (it.genre == genre) {
+                title = it.title
+                nameSinger = it.artist
+                link = it.source
+                time = ","
+                images = it.image
+                mListApiPT.add(AlbumModel(title, nameSinger, link, time, images))
+            }
+        }
+        _listLivePT.postValue(mListApiPT)
+    }
+
+    private fun onFail(t: Throwable) {
+        print(t.message)
+    }
+
+    private fun startTrackingTime(link: String): String {
+        var mediaPlayer = MediaPlayer()
+
+        try {
+            mediaPlayer.setDataSource(link)
+            mediaPlayer.prepare()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        //    mediaPlayer?.setOnPreparedListener {
+        // Khi đã chuẩn bị xong, bạn có thể lấy thời gian bài hát ở đây
+        val durationInMillis = mediaPlayer?.duration ?: 0
+
+        // Chuyển đổi thành phút và giây
+        val minutes = (durationInMillis / 1000) / 60
+        val seconds = (durationInMillis / 1000) % 60
+        val s = "$minutes:$seconds"
+        var m_s=""
+        m_s = s
+        //    }
+
+
+        return m_s
+
+    }
+
 
 }

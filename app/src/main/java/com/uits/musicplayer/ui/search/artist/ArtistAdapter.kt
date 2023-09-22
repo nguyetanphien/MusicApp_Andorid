@@ -42,6 +42,7 @@ class ArtistAdapter(
         holder.txtYearAlbum.text = list[position].yearAlbum
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, AlbumActivity::class.java)
+            intent.putExtra("album",list[position].nameAlbum)
             context?.startActivity(intent)
         })
     }

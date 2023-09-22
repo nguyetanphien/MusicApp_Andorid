@@ -43,7 +43,13 @@ class TracksActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
 
-            override fun onItemClick2(position: Int, link: String, title: String, singer: String) {
+            override fun onItemClick2(
+                position: Int,
+                link: String,
+                title: String,
+                singer: String,
+                images: String
+            ) {
                 TODO("Not yet implemented")
             }
 

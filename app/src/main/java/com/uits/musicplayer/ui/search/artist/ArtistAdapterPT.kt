@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
 import com.uits.musicplayer.interfaces.OnItemClickListener
+import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.ArtistModel
 import com.uits.musicplayer.ui.player.PlayerActivity
 
 class ArtistAdapterPT(
     var context: ArtistActivity,
-    var list: MutableList<ArtistModel>,
+    var list: MutableList<AlbumModel>,
     var onClick: OnItemClickListener
 ) : RecyclerView.Adapter<ArtistAdapterPT.ArtistPTViewHodel>() {
 
@@ -31,16 +32,20 @@ class ArtistAdapterPT(
 
     override fun onBindViewHolder(holder: ArtistPTViewHodel, position: Int) {
         Glide.with(context)
-            .load(list[position].image)
+            .load(list[position].images)
             .centerCrop()
             .placeholder(R.mipmap.ic_launcher)
             .into(holder.img)
-        holder.nameAlbumPT.text=list[position].nameAlbum
+        holder.nameAlbumPT.text=list[position].nameSong
         holder.time.text=list[position].time
         val p=position+1
         holder.txtstt.text=p.toString()
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent =Intent(context,PlayerActivity::class.java)
+            intent.putExtra("music", list[position].link)
+            intent.putExtra("name", list[position].nameSong)
+            intent.putExtra("singer", list[position].nameSinger)
+            intent.putExtra("image", list[position].images)
             context.startActivity(intent)
         })
     }

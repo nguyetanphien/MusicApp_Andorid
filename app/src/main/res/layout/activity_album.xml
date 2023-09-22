@@ -76,9 +76,9 @@
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/_35sdp"
                     android:layout_marginRight="@dimen/_35sdp"
-                    android:layout_centerVertical="true"
                     android:background="@color/wnull"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/play" />
@@ -135,12 +135,12 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rlAlbumAS"
+        android:id="@+id/rlAlbum1AS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:layout_alignParentBottom="true"
         android:background="@drawable/custom_backgoud_play"
+        android:visibility="invisible"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -187,15 +187,40 @@
             android:background="@color/wnull"
             android:src="@android:drawable/ic_media_ff" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/ibtnPauseSongAlbumAS"
-            android:layout_width="@dimen/_24sdp"
-            android:layout_height="@dimen/_24sdp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:layout_toLeftOf="@+id/ibtnNextSongAlbumAS"
-            android:background="@color/wnull"
-            android:src="@android:drawable/ic_media_pause" />
+            tools:ignore="NotSibling">
+
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ibtnPauseSongAlbumAS"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:background="@color/wnull"
+                android:src="@android:drawable/ic_media_pause"
+                tools:ignore="MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ibtnPlaySongAlbumAS"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:background="@color/wnull"
+                android:src="@android:drawable/ic_media_play"
+                android:visibility="invisible"
+                tools:ignore="MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ibtnBackSongAlbumAS"
@@ -203,7 +228,7 @@
             android:layout_height="@dimen/_24sdp"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/_20sdp"
-            android:layout_toLeftOf="@+id/ibtnPauseSongAlbumAS"
+            android:layout_toLeftOf="@+id/ct"
             android:background="@color/wnull"
             android:src="@android:drawable/ic_media_rew" />
 

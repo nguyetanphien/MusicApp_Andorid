@@ -26,7 +26,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class PlayerImageFragment() : Fragment() {
-    // TODO: Rename and change types of parameters
+    private var _binding: FragmentPlayerImageBinding? = null
+    private val binding get() = _binding!!
+    lateinit var root: View
 
     companion object {
         fun newInstance(image: String) = PlayerImageFragment().apply {
@@ -36,15 +38,12 @@ class PlayerImageFragment() : Fragment() {
         }
     }
 
-    private var _binding: FragmentPlayerImageBinding? = null
-    private val binding get() = _binding!!
-    lateinit var root: View
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPlayerImageBinding.inflate(inflater, container, false)
         root = binding.root
-        val imvAlbumPlayer: ImageView? = binding.imvAlbumPlayer
+        val imvAlbumPlayer: AppCompatImageView? = binding.imvAlbumPlayer
         val img = arguments?.getString("image")
         if (img != null) {
             Log.d("ppp", img)

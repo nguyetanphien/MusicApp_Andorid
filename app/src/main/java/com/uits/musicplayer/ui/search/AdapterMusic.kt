@@ -41,6 +41,8 @@ class AdapterMusic(
         holder.itemView.setOnClickListener {
             val _context=holder.img.context
             val intent = Intent(_context, ArtistActivity::class.java)
+            intent.putExtra("genre",mListData[position].title)
+            intent.putExtra("image",mListData[position].images)
             _context.startActivity(intent)
         }
     }

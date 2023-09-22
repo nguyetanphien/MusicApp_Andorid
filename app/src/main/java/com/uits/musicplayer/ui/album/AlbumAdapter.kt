@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.uits.musicplayer.R
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
+import com.uits.musicplayer.ui.player.PlayerActivity
 
 
 class AlbumAdapter(
@@ -40,9 +42,17 @@ class AlbumAdapter(
                 mutableList[position].nameSong,
                 mutableList[position].nameSinger,
                 mutableList[position].images
+
             )
+//            val intent = Intent(context, PlayerActivity::class.java)
+//            intent.putExtra("music", mutableList[position].link)
+//            intent.putExtra("name", mutableList[position].nameSong)
+//            intent.putExtra("singer", mutableList[position].nameSinger)
+//            intent.putExtra("image", mutableList[position].images)
+//            context?.startActivity(intent)
         })
     }
+
 
     class AlbumViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtPosition: TextView = itemView.findViewById(R.id.txtPositionAS)

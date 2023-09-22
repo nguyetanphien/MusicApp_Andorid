@@ -1,14 +1,22 @@
 package com.uits.musicplayer.ui.favorite
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.res.AssetManager
+import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.HomeModel
+import com.uits.musicplayer.service.APIClient
+import com.uits.musicplayer.service.response.MusicResponse
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -20,6 +28,9 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"
     }
+    private val mLiveData = MutableLiveData<List<AlbumModel>>().apply { }
+
+    val liveData: LiveData<List<AlbumModel>> = mLiveData
     val text: LiveData<String> = _text
     private val mListLiveData = MutableLiveData<List<HomeModel>>().apply { }
     val listLive: LiveData<List<HomeModel>> = mListLiveData
@@ -114,6 +125,51 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
 
     private val mListLiveDataAl = MutableLiveData<List<HomeModel>>().apply { }
     val listLiveAl: LiveData<List<HomeModel>> = mListLiveDataAl
+
+    @SuppressLint("CheckResult")
+    fun fetchDataAlbum() {
+        val response: Observable<MusicResponse> = APIClient.APIClient.mApiService.getMusic()
+        response.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+                run {
+                    onSuccess(response)
+                }
+            }, { t ->
+                run {
+                    onFail(t)
+                }
+            })
+    }
+    private fun onSuccess(response: MusicResponse) {
+        mListDataAsset.clear()
+        var title: String
+        var img: String
+        var year: String
+        val list= mutableListOf<HomeModel>()
+        response.music.forEach {
+            title=it.album
+            img =it.image
+            year="2023"
+            mListDataAsset.add(HomeModel(img,title,year))
+        }
+        mListDataAsset.sortBy { it.nameAlbum }
+        Log.d("ppp",mListDataAsset.size.toString())
+
+        for (i in mListDataAsset.indices){
+            if (i==0||mListDataAsset[i].nameAlbum != mListDataAsset[i-1].nameAlbum)
+                list.add(mListDataAsset[i])
+            Log.e("ppp",mListDataAsset[i].nameAlbum)
+        }
+        mListDataAsset.clear()
+        mListDataAsset.addAll(list)
+        mListLiveDataAl.postValue(mListDataAsset)
+    }
+
+    private fun onFail(t: Throwable) {
+        print(t.message)
+    }
+
+
     fun loadTopAlbumAsset() {
         var current = ""
         current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
