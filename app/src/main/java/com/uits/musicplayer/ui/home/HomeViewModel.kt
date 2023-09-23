@@ -9,6 +9,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.HomeModel
 import com.uits.musicplayer.model.MusicModel
@@ -63,12 +68,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             mListDataAsset.add(HomeModel(img,title,year))
         }
         mListDataAsset.sortBy { it.nameAlbum }
-        Log.d("ppp",mListDataAsset.size.toString())
+
 
         for (i in mListDataAsset.indices){
             if (i==0||mListDataAsset[i].nameAlbum != mListDataAsset[i-1].nameAlbum)
                 list.add(mListDataAsset[i])
-            Log.e("ppp",mListDataAsset[i].nameAlbum)
         }
         mListDataAsset.clear()
         mListDataAsset.addAll(list)
@@ -80,89 +84,40 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun fetchDataAlbum() {
-        var current = ""
-        current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var formatter = DateTimeFormatter.ofPattern("yyyy")
-            LocalDateTime.now().format(formatter)
-        } else {
-            val time = Calendar.getInstance().time
-            var formatter = SimpleDateFormat("yyyy")
-            formatter.format(time)
-        }
-        val list: MutableList<HomeModel> = mutableListOf()
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        _list.postValue(list)
-    }
 
+        val database = Firebase.database
+        val myRef = database.getReference("music")
+        // Read from the database
+
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var list: MutableList<HomeModel> = mutableListOf()
+                var list2: MutableList<HomeModel> = mutableListOf()
+
+
+                dataSnapshot.children.forEach {
+                    var title=it.child("album").value.toString()
+                  //  Log.d("ppp",title)
+                    var img=it.child("image").value.toString()
+                    var year="2023"
+                    list.add(HomeModel(img,title,year))
+                }
+                list.sortBy { it.nameAlbum }
+                for (i in list.indices){
+                    if (i==0||list[i].nameAlbum != list[i-1].nameAlbum)
+                        list2.add(list[i])
+                }
+                list.clear()
+                list.addAll(list2)
+                _list.postValue(list)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w("qqq", "Failed to read value.", error.toException())
+            }
+        })
+
+    }
 
     fun fetchDataAlbumRL() {
         var current = ""

@@ -50,25 +50,21 @@ class HomeFragment : Fragment() {
         mRVRecommendations()
         mRVRecentListenings()
         mRVTopAlbum()
-        initFireRealData()
+    //    initFireRealData()
         return root
     }
 
-    private fun initFireRealData (){
+    private fun initFireRealData() {
 
         val database = Firebase.database
         val myRef = database.getReference("music")
         // Read from the database
-
-     //   Log.d("ppp", myRef.child("1").child("album").values<String>().toString())
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                val value = dataSnapshot.getValue<Any>()
-                Log.d("qqq", "Value is: $value")
-
-
+                dataSnapshot.children.forEach {
+                    Log.e("qqq", it.child("album").value.toString())
+                }
+                val v = dataSnapshot.child("1").child("album").value
             }
 
             override fun onCancelled(error: DatabaseError) {

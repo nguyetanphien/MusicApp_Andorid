@@ -48,7 +48,7 @@ class PlayerActivity : AppCompatActivity() {
         val singer: String = intent.getStringExtra("singer").toString()
         liric()
         play(link, title2, singer)
-        back(title2,link , singer,image)
+        back(title2, link, singer, image)
     }
 
     private fun liric() {
@@ -67,20 +67,20 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SuspiciousIndentation")
-    private fun back(title2: String, link: String, singer: String, images:String) {
+    private fun back(title2: String, link: String, singer: String, images: String) {
         val backPlayer: AppCompatImageButton = findViewById(R.id.btnbackPlayer)
-        var play:String = if (startMusic()){
+        var play: String = if (startMusic()) {
             "ok"
         } else
             "no"
         backPlayer.setOnClickListener(View.OnClickListener {
             val intent = Intent()
-                intent.putExtra("play", play)
-                intent.putExtra("music", link)
-                intent.putExtra("name", title2)
-                intent.putExtra("singer", singer)
-                intent.putExtra("image",images)
-                setResult(RESULT_OK, intent)
+            intent.putExtra("play", play)
+            intent.putExtra("music", link)
+            intent.putExtra("name", title2)
+            intent.putExtra("singer", singer)
+            intent.putExtra("image", images)
+            setResult(RESULT_OK, intent)
             finish()
         })
     }
@@ -208,10 +208,8 @@ object MediaPlayerManager {
                 mediaPlayer.duration ?: 0 // Thời gian bài hát tính bằng mili giây
             val minutes = (durationInMillis / 1000) / 60
             val seconds = (durationInMillis / 1000) % 60
-            m_s = "$minutes:$seconds"
+            m_s = String.format("%02d:%02d", minutes, seconds)
             txtTimeMax.text = m_s// Bắt đầu phát nhạc sau khi chuẩn bị xong
-            //startTrackingTime()
-
         }
     }
 
@@ -225,7 +223,7 @@ object MediaPlayerManager {
                     mediaPlayer?.currentPosition ?: 0 // Thời gian hiện tại tính bằng mili giây
                 val minutes = (currentPosition / 1000) / 60
                 val seconds = (currentPosition / 1000) % 60
-                val m_s = "$minutes:$seconds"
+                val m_s = String.format("%02d:%02d", minutes, seconds)
                 sbPlayer?.progress = currentPosition
                 txtTimeNow.text = m_s
                 handler.postDelayed(this, 1000) // Cập nhật thời gian mỗi giây

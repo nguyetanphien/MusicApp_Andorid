@@ -44,6 +44,7 @@ class HomeAdapter(
         holder.txtYearH.text = mList[position].yearAlbum
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(context, AlbumActivity::class.java)
+            intent.putExtra("album",mList[position].nameAlbum)
             context?.startActivity(intent)
         })
     }

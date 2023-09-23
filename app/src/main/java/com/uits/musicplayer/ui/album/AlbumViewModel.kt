@@ -12,6 +12,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.uits.musicplayer.R
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.service.APIClient
@@ -70,32 +75,51 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
         mLiveData.postValue(mListDataAsset)
     }
 
-
     private fun onFail(t: Throwable) {
         print(t.message)
     }
 
-    private fun startTrackingTime(link: String): String {
-        var mediaPlayer = MediaPlayer()
+    fun loadDataFireBase(nameAlbum: String) {
+        val database = Firebase.database
+        val myRef = database.getReference("music")
+        // Read from the database
 
-        try {
-            mediaPlayer.setDataSource(link)
-            mediaPlayer.prepare()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        //    mediaPlayer?.setOnPreparedListener {
-        // Khi đã chuẩn bị xong, bạn có thể lấy thời gian bài hát ở đây
-        val durationInMillis = mediaPlayer?.duration ?: 0
 
-        // Chuyển đổi thành phút và giây
-        val minutes = (durationInMillis / 1000) / 60
-        val seconds = (durationInMillis / 1000) % 60
-        val s = "$minutes:$seconds"
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var list: MutableList<AlbumModel> = mutableListOf()
+                var title: String
+                var nameSinger: String
+                var link: String
+                var time: String
+                var images: String
+                dataSnapshot.children.forEach {
+                    if (it.child("album").value.toString() == nameAlbum||it.child("playlist").value.toString() == nameAlbum) {
+                        title = it.child("title").value.toString()
+                        nameSinger = it.child("artist").value.toString()
+                        link = it.child("source").value.toString()
+                        time = startTrackingTime(it.child("duration").value.toString())
+                        images = it.child("image").value.toString()
+                        list.add(AlbumModel(title, nameSinger, link, time, images))
+                    }
+                }
+                mLiveData.postValue(list)
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w("qqq", "Failed to read value.", error.toException())
+            }
+        })
+    }
+
+    private fun startTrackingTime(durationInMillis: String): String {
+        val duration = durationInMillis.toInt()
+        val minutes = duration / 60
+        val seconds = duration % 60
+        val s = String.format("%02d:%02d", minutes, seconds)
         m_s = s
-        //    }
-
-
         return m_s
 
     }
@@ -104,7 +128,6 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
     fun loadSounds(nameAlbum: String) {
         mListDataAsset.clear()
         val soundName: Array<String>?
-
         var edm: Array<String>? = null
         var name: String
         var singer: String

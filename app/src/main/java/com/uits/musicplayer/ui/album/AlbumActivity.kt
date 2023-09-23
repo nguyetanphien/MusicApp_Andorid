@@ -32,6 +32,7 @@ import com.uits.musicplayer.ui.player.MediaPlayerManager.startMusic
 import com.uits.musicplayer.ui.player.PlayerActivity
 
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import java.io.IOException
 
 
 class AlbumActivity : AppCompatActivity() {
@@ -49,7 +50,7 @@ class AlbumActivity : AppCompatActivity() {
         rVAlbumList()
         if (startMusic()) rlAlbumAS.visibility = View.VISIBLE
 
-        back("Awaken",  "ntp","https://storage.googleapis.com/automotive-media/album_art.jpg")
+        back("Awaken", "ntp", "https://storage.googleapis.com/automotive-media/album_art.jpg")
         playAndPause()
 
     }
@@ -77,32 +78,43 @@ class AlbumActivity : AppCompatActivity() {
                 intent.putExtra("singer", mutableList[position].nameSinger)
                 intent.putExtra("image", mutableList[position].images)
                 startActivityForResult(intent, 1)
+
             }
         })
         if (name != null) {
-            viewModel.featchData(name)
+           // viewModel.featchData(name)
+
+                viewModel.loadDataFireBase(name)
+
 
         }
         mRecyclerView.adapter = ScaleInAnimationAdapter(abbumAdapter)
+        try {
+            mRecyclerView.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        } catch (e: IOException) {
 
-        mRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        }
+
         viewModel.liveData.observe(this, Observer { data ->
             mutableList.clear()
             mutableList.addAll(data)
             abbumAdapter.notifyDataSetChanged()
+            try {
+                txtNameAlbumAS.text = mutableList[0].nameSong
+                txtNameSingerAS.text = mutableList[0].nameSinger
+                Glide.with(application).load(mutableList[0].images).centerCrop()
+                    .placeholder(R.mipmap.ic_launcher).into(imgAvataSingerAS)
+                playMusic(
+                    mutableList[0].link,
+                    mutableList[0].nameSong,
+                    mutableList[0].nameSinger,
+                    mutableList[0].images
+                )
+                txtAlbumTimeAS.text = mutableList.size.toString() + " songs"
+            } catch (e: IOException) {
 
-            txtNameAlbumAS.text = mutableList[0].nameSong
-            txtNameSingerAS.text = mutableList[0].nameSinger
-            Glide.with(application).load(mutableList[0].images).centerCrop()
-                .placeholder(R.mipmap.ic_launcher).into(imgAvataSingerAS)
-            playMusic(
-                mutableList[0].link,
-                mutableList[0].nameSong,
-                mutableList[0].nameSinger,
-                mutableList[0].images
-            )
-            txtAlbumTimeAS.text = mutableList.size.toString() + " songs"
-
+            }
 
         })
 

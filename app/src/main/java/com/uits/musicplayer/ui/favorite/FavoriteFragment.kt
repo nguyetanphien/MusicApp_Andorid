@@ -94,6 +94,7 @@ class FavoriteFragment : Fragment() {
             })
         mRecyclerViewPL.adapter = ScaleInAnimationAdapter(adrapterFavoriteAdapterPL)
         notificationsViewModel.listLive.observe(viewLifecycleOwner) {
+            mListPlayerList.clear()
             mListPlayerList.addAll(it)
             adrapterFavoriteAdapterPL.notifyDataSetChanged()
         }

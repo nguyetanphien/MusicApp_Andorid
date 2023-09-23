@@ -10,6 +10,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.HomeModel
 import com.uits.musicplayer.service.APIClient
@@ -40,87 +45,40 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
     private val _listLiveRL = MutableLiveData<List<HomeModel>>().apply { }
     val _listDataRL: LiveData<List<HomeModel>> = _listLiveRL
     fun fetchDataplayList() {
-        var current = ""
-        current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var formatter = DateTimeFormatter.ofPattern("yyyy")
-            LocalDateTime.now().format(formatter)
-        } else {
-            val time = Calendar.getInstance().time
-            var formatter = SimpleDateFormat("yyyy")
-            formatter.format(time)
-        }
-        val list: MutableList<HomeModel> = mutableListOf()
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My song",
-                current
-            )
-        )
-        mListLiveData.postValue(list)
+
+
+        val database = Firebase.database
+        val myRef = database.getReference("music")
+        // Read from the database
+
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val list: MutableList<HomeModel> = mutableListOf()
+                val list2: MutableList<HomeModel> = mutableListOf()
+                dataSnapshot.children.forEach {
+                    if(it.child("playlist").value.toString()!=""){
+                        val title=it.child("playlist").value.toString()
+                        //  Log.d("ppp",title)
+                        val img=it.child("image").value.toString()
+                        val year="2023"
+                        list.add(HomeModel(img,title,year))
+                    }
+                }
+                list.sortBy { it.nameAlbum }
+                for (i in list.indices){
+                    if(i==0||list[i].nameAlbum!=list[i-1].nameAlbum){
+                        list2.add(list[i])
+                    }
+                }
+                list.clear()
+                list.addAll(list2)
+                mListLiveData.postValue(list)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w("qqq", "Failed to read value.", error.toException())
+            }
+        })
     }
 
     private val mListLiveDataAl = MutableLiveData<List<HomeModel>>().apply { }
