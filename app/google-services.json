@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "634055402914",
+    "firebase_url": "https://musicandroid-b1e02-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "musicandroid-b1e02",
+    "storage_bucket": "musicandroid-b1e02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634055402914:android:70113d90542542bbe07efb",
+        "android_client_info": {
+          "package_name": "com.uits.musicplayer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHyt_z4xWwMGqc1Rd-0jU4q-Vzh8cCz_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

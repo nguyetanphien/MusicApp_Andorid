@@ -30,8 +30,8 @@ import com.uits.musicplayer.service.response.MusicResponse
 import com.uits.musicplayer.ui.album.AlbumActivity
 import com.uits.musicplayer.ui.favorite.Track.TracksActivity
 import com.uits.musicplayer.ui.player.MediaPlayerManager
-import com.uits.musicplayer.ui.player.home.HomeAdapter
-import com.uits.musicplayer.ui.player.home.HomeAdapterTopAlbum
+import com.uits.musicplayer.ui.home.HomeAdapter
+import com.uits.musicplayer.ui.home.HomeAdapterTopAlbum
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

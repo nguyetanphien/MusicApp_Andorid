@@ -1,6 +1,7 @@
-package com.uits.musicplayer.ui.player.home
+package com.uits.musicplayer.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.database.ktx.values
+import com.google.firebase.ktx.Firebase
 import com.uits.musicplayer.databinding.FragmentHomeBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
+import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.HomeModel
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -22,6 +34,7 @@ class HomeFragment : Fragment() {
     private val listRL: MutableList<HomeModel> = mutableListOf()
     private val listTA: MutableList<HomeModel> = mutableListOf()
     private lateinit var homeViewModel: HomeViewModel
+    private var mFirebaseDatabaseReference: DatabaseReference? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -37,7 +50,32 @@ class HomeFragment : Fragment() {
         mRVRecommendations()
         mRVRecentListenings()
         mRVTopAlbum()
+        initFireRealData()
         return root
+    }
+
+    private fun initFireRealData (){
+
+        val database = Firebase.database
+        val myRef = database.getReference("music")
+        // Read from the database
+
+     //   Log.d("ppp", myRef.child("1").child("album").values<String>().toString())
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                val value = dataSnapshot.getValue<Any>()
+                Log.d("qqq", "Value is: $value")
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w("qqq", "Failed to read value.", error.toException())
+            }
+        })
     }
 
     private fun mRVRecommendations() {

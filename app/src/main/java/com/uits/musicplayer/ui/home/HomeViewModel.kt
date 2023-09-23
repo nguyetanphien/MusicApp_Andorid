@@ -1,4 +1,4 @@
-package com.uits.musicplayer.ui.player.home
+package com.uits.musicplayer.ui.home
 
 import android.annotation.SuppressLint
 import android.app.Application
