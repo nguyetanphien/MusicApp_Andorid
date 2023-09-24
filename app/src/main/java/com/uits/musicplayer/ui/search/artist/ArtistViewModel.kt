@@ -30,13 +30,14 @@ class ArtistViewModel : ViewModel() {
     private val _listLivePT = MutableLiveData<List<AlbumModel>>().apply { }
     val _listDataPT: LiveData<List<AlbumModel>> = _listLivePT
     private var mListApiPT: MutableList<AlbumModel> = mutableListOf()
+
     @SuppressLint("CheckResult")
     fun featchData(genre: String) {
         val response: Observable<MusicResponse> = APIClient.APIClient.mApiService.getMusic()
         response.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->
                 run {
-                    onSuccess(response,genre)
+                    onSuccess(response, genre)
                 }
             }, { t ->
                 run {
@@ -44,30 +45,31 @@ class ArtistViewModel : ViewModel() {
                 }
             })
     }
+
     private fun onSuccess(response: MusicResponse, genre: String) {
         mListApi.clear()
         var title: String
         var img: String
         var year: String
         var genre2: String
-        val list= mutableListOf<ArtistModel>()
+        val list = mutableListOf<ArtistModel>()
         response.music.forEach {
-            title=it.album
-            img =it.image
-            year="2023"
-            genre2=it.genre
-            mListApi.add(ArtistModel(img,title,year,genre2))
+            title = it.album
+            img = it.image
+            year = "2023"
+            genre2 = it.genre
+            mListApi.add(ArtistModel(img, title, year, genre2))
         }
         mListApi.sortBy { it.nameAlbum }
-        Log.d("ppp",mListApi.toString())
-        for (i in mListApi.indices){
-            if(mListApi[i].time==genre)
-                    list.add(mListApi[i])
+        Log.d("ppp", mListApi.toString())
+        for (i in mListApi.indices) {
+            if (mListApi[i].time == genre)
+                list.add(mListApi[i])
 
         }
-        val list2= mutableListOf<ArtistModel>()
-        for(i in list.indices){
-            if(i==0||list[i].nameAlbum!=list[i-1].nameAlbum)
+        val list2 = mutableListOf<ArtistModel>()
+        for (i in list.indices) {
+            if (i == 0 || list[i].nameAlbum != list[i - 1].nameAlbum)
                 list2.add(list[i])
         }
 
@@ -91,6 +93,7 @@ class ArtistViewModel : ViewModel() {
                 }
             })
     }
+
     private fun onSuccess2(response: MusicResponse, genre: String) {
         mListApiPT.clear()
         var title: String
@@ -103,7 +106,7 @@ class ArtistViewModel : ViewModel() {
                 title = it.title
                 nameSinger = it.artist
                 link = it.source
-                time = ","
+                time = it.duration?.let { it1 -> startTrackingTime(it1) }.toString()
                 images = it.image
                 mListApiPT.add(AlbumModel(title, nameSinger, link, time, images))
             }
@@ -115,28 +118,12 @@ class ArtistViewModel : ViewModel() {
         print(t.message)
     }
 
-    private fun startTrackingTime(link: String): String {
-        var mediaPlayer = MediaPlayer()
-
-        try {
-            mediaPlayer.setDataSource(link)
-            mediaPlayer.prepare()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        //    mediaPlayer?.setOnPreparedListener {
-        // Khi đã chuẩn bị xong, bạn có thể lấy thời gian bài hát ở đây
-        val durationInMillis = mediaPlayer?.duration ?: 0
-
-        // Chuyển đổi thành phút và giây
-        val minutes = (durationInMillis / 1000) / 60
-        val seconds = (durationInMillis / 1000) % 60
-        val s = "$minutes:$seconds"
-        var m_s=""
+    private fun startTrackingTime(durationInMillis: Int): String {
+        val minutes = durationInMillis / 60
+        val seconds = durationInMillis % 60
+        val s = String.format("%02d:%02d", minutes, seconds)
+        var m_s = ""
         m_s = s
-        //    }
-
-
         return m_s
 
     }

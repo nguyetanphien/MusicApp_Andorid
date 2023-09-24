@@ -22,7 +22,8 @@ class ArtistAdapterPT(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistPTViewHodel {
-        val view =LayoutInflater.from(parent.context).inflate(R.layout.custom_rv_popular_tracks,parent,false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.custom_rv_popular_tracks, parent, false)
         return ArtistPTViewHodel(view)
     }
 
@@ -36,23 +37,22 @@ class ArtistAdapterPT(
             .centerCrop()
             .placeholder(R.mipmap.ic_launcher)
             .into(holder.img)
-        holder.nameAlbumPT.text=list[position].nameSong
-        holder.time.text=list[position].time
-        val p=position+1
-        holder.txtstt.text=p.toString()
+        holder.nameAlbumPT.text = list[position].nameSong
+        holder.time.text = list[position].time
+        val p = position + 1
+        holder.txtstt.text = p.toString()
         holder.itemView.setOnClickListener(View.OnClickListener {
-            val intent =Intent(context,PlayerActivity::class.java)
-            intent.putExtra("music", list[position].link)
-            intent.putExtra("name", list[position].nameSong)
-            intent.putExtra("singer", list[position].nameSinger)
-            intent.putExtra("image", list[position].images)
+            val intent = Intent(context, PlayerActivity::class.java)
+            intent.putParcelableArrayListExtra("listMusic", ArrayList(list))
+            intent.putExtra("position", position)
             context.startActivity(intent)
         })
     }
-    class ArtistPTViewHodel(itemView:View) :RecyclerView.ViewHolder(itemView) {
-        val txtstt:TextView=itemView.findViewById(R.id.txtStt)
-        var img:ImageView=itemView.findViewById(R.id.imgPopularTrack)
-        var nameAlbumPT:TextView=itemView.findViewById(R.id.txtNamePT)
-        var time:TextView=itemView.findViewById(R.id.txtTime)
+
+    class ArtistPTViewHodel(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val txtstt: TextView = itemView.findViewById(R.id.txtStt)
+        var img: ImageView = itemView.findViewById(R.id.imgPopularTrack)
+        var nameAlbumPT: TextView = itemView.findViewById(R.id.txtNamePT)
+        var time: TextView = itemView.findViewById(R.id.txtTime)
     }
 }

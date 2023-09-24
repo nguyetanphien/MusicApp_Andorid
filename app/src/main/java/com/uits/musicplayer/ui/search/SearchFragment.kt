@@ -18,6 +18,8 @@ import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.SearchModel
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 class SearchFragment : Fragment() {
@@ -46,13 +48,20 @@ class SearchFragment : Fragment() {
 //        edtSearch.doOnTextChanged { text, start, before, count ->
 //            Log.d("ppppppppppp", text.toString())
 //        }
+
+
+        rvListSearch()
+        rvRecentSearch()
         edtSearch.onFocusChangeListener = View.OnFocusChangeListener { p0, p1 ->
             rlRecentSearch.visibility = View.VISIBLE
             mRecyclerView.visibility = View.INVISIBLE
         }
-        rvListSearch()
-        rvRecentSearch()
+//                edtSearch.setOnClickListener( View.OnClickListener {
+//            rlRecentSearch.visibility = View.VISIBLE
+//            mRecyclerView.visibility = View.INVISIBLE
+//        })
         clear()
+
         return root
     }
 
@@ -109,11 +118,23 @@ class SearchFragment : Fragment() {
                     TODO("Not yet implemented")
                 }
             })
+        val id = Random.nextInt()
+        val image =
+            "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0"
+        val title = "My Song"
+        val name = "ntp"
+        var recentHistory = RecentHistory()
+        recentHistory.id = id.toString()
+        recentHistory.images = image
+        recentHistory.title = title
+        recentHistory.name = name
+        // recentHistoryViewModel.insert(recentHistory)
+
         mRecyclerView.adapter = ScaleInAnimationAdapter(adapterRecentAdapter)
         recentHistoryViewModel.getDAta().observe(viewLifecycleOwner) {
             mListDataRecent.clear()
             mListDataRecent.addAll(it)
-            mSearchAdapterMusic.notifyDataSetChanged()
+            adapterRecentAdapter.notifyDataSetChanged()
         }
     }
 

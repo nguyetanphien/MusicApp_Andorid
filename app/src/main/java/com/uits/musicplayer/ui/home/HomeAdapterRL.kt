@@ -11,13 +11,14 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
+import com.uits.musicplayer.database.entities.RecentListenings
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.HomeModel
 import com.uits.musicplayer.ui.player.PlayerActivity
 
 class HomeAdapterRL(
     val context: FragmentActivity?,
-    val mListRL: MutableList<HomeModel>,
+    val mListRL: MutableList<RecentListenings>,
     val onClick: OnItemClickListener
 ) : RecyclerView.Adapter<HomeAdapterRL.HomeRLAdapter>() {
 
@@ -34,12 +35,12 @@ class HomeAdapterRL(
     override fun onBindViewHolder(holder: HomeRLAdapter, position: Int) {
         if (context != null) {
             Glide.with(context)
-                .load(mListRL[position].image)
+                .load(mListRL[position].images)
                 .centerCrop()
                 .placeholder(R.mipmap.ic_launcher)
                 .into(holder.imgRL)
         }
-        holder.txtName.text = mListRL[position].nameAlbum
+        holder.txtName.text = mListRL[position].title
         holder.txtTime.text = mListRL[position].time
         val p=position+1
         holder.txtstt.text=p.toString()

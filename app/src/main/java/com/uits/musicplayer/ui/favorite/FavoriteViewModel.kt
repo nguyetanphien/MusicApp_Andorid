@@ -56,17 +56,17 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
                 val list: MutableList<HomeModel> = mutableListOf()
                 val list2: MutableList<HomeModel> = mutableListOf()
                 dataSnapshot.children.forEach {
-                    if(it.child("playlist").value.toString()!=""){
-                        val title=it.child("playlist").value.toString()
+                    if (it.child("playlist").value.toString() != "") {
+                        val title = it.child("playlist").value.toString()
                         //  Log.d("ppp",title)
-                        val img=it.child("image").value.toString()
-                        val year="2023"
-                        list.add(HomeModel(img,title,year))
+                        val img = it.child("image").value.toString()
+                        val year = "2023"
+                        list.add(HomeModel(img, title, year))
                     }
                 }
                 list.sortBy { it.nameAlbum }
-                for (i in list.indices){
-                    if(i==0||list[i].nameAlbum!=list[i-1].nameAlbum){
+                for (i in list.indices) {
+                    if (i == 0 || list[i].nameAlbum != list[i - 1].nameAlbum) {
                         list2.add(list[i])
                     }
                 }
@@ -74,6 +74,7 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
                 list.addAll(list2)
                 mListLiveData.postValue(list)
             }
+
             override fun onCancelled(error: DatabaseError) {
                 // Failed to read value
                 Log.w("qqq", "Failed to read value.", error.toException())
@@ -98,25 +99,27 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
                 }
             })
     }
+
     private fun onSuccess(response: MusicResponse) {
         mListDataAsset.clear()
         var title: String
         var img: String
         var year: String
-        val list= mutableListOf<HomeModel>()
+        val list = mutableListOf<HomeModel>()
         response.music.forEach {
-            title=it.album
-            img =it.image
-            year="2023"
-            mListDataAsset.add(HomeModel(img,title,year))
+            title = it.album
+            img = it.image
+            year = "2023"
+            mListDataAsset.add(HomeModel(img, title, year))
         }
         mListDataAsset.sortBy { it.nameAlbum }
-        Log.d("ppp",mListDataAsset.size.toString())
+        Log.d("ppp", mListDataAsset.size.toString())
 
-        for (i in mListDataAsset.indices){
-            if (i==0||mListDataAsset[i].nameAlbum != mListDataAsset[i-1].nameAlbum)
-                list.add(mListDataAsset[i])
-            Log.e("ppp",mListDataAsset[i].nameAlbum)
+        for (i in mListDataAsset.indices) {
+            if (i == 0 || mListDataAsset[i].nameAlbum != mListDataAsset[i - 1].nameAlbum) list.add(
+                mListDataAsset[i]
+            )
+            Log.e("ppp", mListDataAsset[i].nameAlbum)
         }
         mListDataAsset.clear()
         mListDataAsset.addAll(list)

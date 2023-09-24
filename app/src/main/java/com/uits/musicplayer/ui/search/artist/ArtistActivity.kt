@@ -27,7 +27,7 @@ class ArtistActivity : AppCompatActivity() {
     var mListDataPT: MutableList<AlbumModel> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-     //   supportActionBar?.hide()
+        //   supportActionBar?.hide()
         binding = ActivityArtistBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
@@ -45,11 +45,11 @@ class ArtistActivity : AppCompatActivity() {
         var nameSinger: TextView = findViewById(R.id.txtNameSinger)
         var txtBody: TextView = findViewById(R.id.txtBody)
 
-            Glide.with(application)
-                .load(intent.getStringExtra("image"))
-                .centerCrop()
-                .placeholder(R.mipmap.ic_launcher)
-                .into(backGroud)
+        Glide.with(application)
+            .load(intent.getStringExtra("image"))
+            .centerCrop()
+            .placeholder(R.mipmap.ic_launcher)
+            .into(backGroud)
 
         nameSinger.text = intent.getStringExtra("genre")
         txtBody.text =
@@ -59,8 +59,8 @@ class ArtistActivity : AppCompatActivity() {
 
     fun rVAlbum() {
         val mRecyclerView: RecyclerView = binding.mRecycleViewAlbum
-        val intent: Intent= intent
-        val genre=intent.getStringExtra("genre")
+        val intent: Intent = intent
+        val genre = intent.getStringExtra("genre")
         artistAdapter = ArtistAdapter(this, mListData, object : OnItemClickListener {
             override fun onItemClick(position: Int, id: String) {
                 TODO("Not yet implemented")
@@ -92,8 +92,8 @@ class ArtistActivity : AppCompatActivity() {
 
     private fun rVAlbumPT() {
         val mRecyclerViewPT = binding.mRecyclePopularTracks
-        val intent: Intent= intent
-        val genre=intent.getStringExtra("genre")
+        val intent: Intent = intent
+        val genre = intent.getStringExtra("genre")
         artistAdapterPT = ArtistAdapterPT(this, mListDataPT, object : OnItemClickListener {
             override fun onItemClick(position: Int, id: String) {
                 TODO("Not yet implemented")

@@ -2,8 +2,6 @@ package com.uits.musicplayer.ui.player
 
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.Application
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
@@ -19,14 +17,10 @@ import android.widget.ImageButton
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.fragment.app.FragmentContainerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
 import com.uits.musicplayer.R
+import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.ui.player.MediaPlayerManager.seekbar
-import com.uits.musicplayer.ui.player.MediaPlayerManager.startMusic
 import com.uits.musicplayer.ui.player.MediaPlayerManager.startTrackingTime
 import java.io.IOException
 
@@ -34,21 +28,28 @@ import java.io.IOException
 class PlayerActivity : AppCompatActivity() {
     private var soundId: Int = 0
     private var isSoundPlaying = false
-
     var image: String = ""
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         val intent: Intent = intent
-        image = intent.getStringExtra("image").toString()
+        var listMusic = intent.getParcelableArrayListExtra<AlbumModel>("listMusic")
+        var currentTrackIndex = intent.getIntExtra("position", 0)
+
+        if (!listMusic.isNullOrEmpty()) {
+            if (currentTrackIndex != null) {
+                play(listMusic, currentTrackIndex)
+            }
+        }
+
+        image = currentTrackIndex?.let { listMusic?.get(it)?.images } ?: ""
         supportFragmentManager.beginTransaction()
             .replace(R.id.fm, PlayerImageFragment.newInstance(image)).commitNow()
-        val link: String = intent.getStringExtra("music").toString()
-        val title2: String = intent.getStringExtra("name").toString()
-        val singer: String = intent.getStringExtra("singer").toString()
         liric()
-        play(link, title2, singer)
-        back(title2, link, singer, image)
+
+        listMusic?.get(currentTrackIndex)?.let { back(it.nameSong, it.link, it.nameSinger, image) }
     }
 
     private fun liric() {
@@ -69,13 +70,10 @@ class PlayerActivity : AppCompatActivity() {
     @SuppressLint("SuspiciousIndentation")
     private fun back(title2: String, link: String, singer: String, images: String) {
         val backPlayer: AppCompatImageButton = findViewById(R.id.btnbackPlayer)
-        var play: String = if (startMusic()) {
-            "ok"
-        } else
-            "no"
+
         backPlayer.setOnClickListener(View.OnClickListener {
             val intent = Intent()
-            intent.putExtra("play", play)
+            intent.putExtra("play", "ok")
             intent.putExtra("music", link)
             intent.putExtra("name", title2)
             intent.putExtra("singer", singer)
@@ -85,20 +83,34 @@ class PlayerActivity : AppCompatActivity() {
         })
     }
 
-    private fun play(link: String, title2: String, singer: String) {
+    private fun play(list: MutableList<AlbumModel>, currentTrackIndex: Int) {
         val ibtnPausePlayer: ImageButton = findViewById(R.id.ibtnPausePlayer)
         val ibtnPlayPlayer: ImageButton = findViewById(R.id.ibtnPlayPlayer)
+        val ibtnNextSongPlayer: AppCompatImageButton = findViewById(R.id.ibtnNextSongPlayer)
+        val ibtnBackSongPlayer: AppCompatImageButton = findViewById(R.id.ibtnBackSongPlayer)
+        val ibtnRepeatSongPlayer: AppCompatImageButton = findViewById(R.id.ibtnRepeatSongPlayer)
+        val ibtnShuffle: AppCompatImageButton = findViewById(R.id.ibtnShuffle)
         val txtTimeMax: AppCompatTextView = findViewById(R.id.txtTimeMax)
         val txtNameSongPlaylist: AppCompatTextView = findViewById(R.id.txtNameSongPlaylist)
         val txtNameSingerPlaylist: AppCompatTextView = findViewById(R.id.txtNameSingerPlaylist)
         val sbPlayer: SeekBar = findViewById(R.id.sbPlayer)
         val txtTimeNow: AppCompatTextView = findViewById(R.id.txtTimeNow)
 
-        txtNameSongPlaylist.text = title2
-        txtNameSingerPlaylist.text = singer
-        Log.d("ppp", link)
-        MediaPlayerManager.playMusic(link, txtTimeMax)
-        startTrackingTime(sbPlayer, txtTimeNow)
+        Log.d("ppp", currentTrackIndex.toString())
+        MediaPlayerManager.playMusic(
+            list,
+            currentTrackIndex,
+            txtTimeMax,
+            txtNameSongPlaylist,
+            txtNameSingerPlaylist,
+            ibtnBackSongPlayer,
+            ibtnNextSongPlayer,
+            ibtnRepeatSongPlayer,
+            ibtnShuffle,
+            txtTimeNow,
+            sbPlayer
+        )
+        //startTrackingTime(sbPlayer, txtTimeNow)
         seekbar(sbPlayer)
         ibtnPlayPlayer.setOnClickListener(View.OnClickListener {
             MediaPlayerManager.resumeMusic()
@@ -160,48 +172,185 @@ class PlayerActivity : AppCompatActivity() {
 
 object MediaPlayerManager {
     private var mediaPlayer = MediaPlayer()
+    private var isPlaying = false
 
-    fun playMusic(link: String, txtTimeMax: AppCompatTextView) {
-        if (mediaPlayer.isPlaying) {
-            mediaPlayer.stop()
-        }
-        mediaPlayer.reset()
-        try {
-            mediaPlayer.setDataSource(link)
+    fun playMusic(
+        musicList: MutableList<AlbumModel>,
+        currentTrackIndex: Int,
+        txtTimeMax: AppCompatTextView,
+        txtNameSongPlaylist: AppCompatTextView,
+        txtNameSingerPlaylist: AppCompatTextView,
+        ibtnBackSongPlayer: AppCompatImageButton,
+        ibtnNextSongPlayer: AppCompatImageButton,
+        ibtnRepeatSongPlayer: AppCompatImageButton,
+        ibtnShuffle: AppCompatImageButton,
+        txtTimeNow: AppCompatTextView,
+        sbPlayer: SeekBar
+    ) {
+        var next = currentTrackIndex
+        if (next < musicList.size) {
+            var currentTrack = musicList[next]
+            mediaPlayer.reset()
+            mediaPlayer.setDataSource(currentTrack.link)
             mediaPlayer.prepare()
             timeMusic(txtTimeMax)
+            txtNameSongPlaylist.text = musicList[next].nameSong
+            txtNameSingerPlaylist.text = musicList[next].nameSinger
+            startTrackingTime(sbPlayer, txtTimeNow)
             mediaPlayer.start()
-        } catch (e: IOException) {
-            e.printStackTrace()
+            Log.d("ppp", "t$next")
+
+            var check = false
+            ibtnRepeatSongPlayer.setOnClickListener(View.OnClickListener {
+                if (!check) {
+                    check = true
+                    ibtnRepeatSongPlayer.visibility = View.INVISIBLE
+                    ibtnShuffle.visibility = View.VISIBLE
+                }
+            })
+            ibtnShuffle.setOnClickListener(View.OnClickListener {
+                check = false
+                next = (0 until (musicList.size)).random()
+                ibtnRepeatSongPlayer.visibility = View.VISIBLE
+                ibtnShuffle.visibility = View.INVISIBLE
+
+            })
+
+            ibtnBackSongPlayer.setOnClickListener(View.OnClickListener {
+                next--
+
+                if (next < 0) {
+                    next = 0
+                }
+                playMusic(
+                    musicList,
+                    next,
+                    txtTimeMax,
+                    txtNameSongPlaylist,
+                    txtNameSingerPlaylist,
+                    ibtnBackSongPlayer,
+                    ibtnNextSongPlayer,
+                    ibtnRepeatSongPlayer,
+                    ibtnShuffle, txtTimeNow,
+                    sbPlayer
+                )
+            })
+            Log.d("ppp", "t$currentTrackIndex")
+            ibtnNextSongPlayer.setOnClickListener(View.OnClickListener {
+                next++
+
+                if (next > musicList.size) {
+                    next = musicList.size
+                }
+                playMusic(
+                    musicList,
+                    next,
+                    txtTimeMax,
+                    txtNameSongPlaylist,
+                    txtNameSingerPlaylist,
+                    ibtnBackSongPlayer,
+                    ibtnNextSongPlayer,
+                    ibtnRepeatSongPlayer,
+                    ibtnShuffle, txtTimeNow,
+                    sbPlayer
+                )
+            })
+            // Nghe sự kiện kết thúc bài hát
+            mediaPlayer.setOnCompletionListener {
+                if (check) {
+                    if (next >= musicList.size) {
+                        next = 0
+                        playMusic(
+                            musicList,
+                            next,
+                            txtTimeMax,
+                            txtNameSongPlaylist,
+                            txtNameSingerPlaylist,
+                            ibtnBackSongPlayer,
+                            ibtnNextSongPlayer,
+                            ibtnRepeatSongPlayer,
+                            ibtnShuffle, txtTimeNow,
+                            sbPlayer
+                        )
+                    }
+                } else {
+                    next++
+                    if (next < musicList.size) {
+
+                        playMusic(
+                            musicList,
+                            next,
+                            txtTimeMax,
+                            txtNameSongPlaylist,
+                            txtNameSingerPlaylist,
+                            ibtnBackSongPlayer,
+                            ibtnNextSongPlayer,
+                            ibtnRepeatSongPlayer,
+                            ibtnShuffle, txtTimeNow,
+                            sbPlayer
+                        )
+                    } else {
+                        if (next >= musicList.size) {
+                            next = 0
+                            playMusic(
+                                musicList,
+                                next,
+                                txtTimeMax,
+                                txtNameSongPlaylist,
+                                txtNameSingerPlaylist,
+                                ibtnBackSongPlayer,
+                                ibtnNextSongPlayer,
+                                ibtnRepeatSongPlayer,
+                                ibtnShuffle, txtTimeNow,
+                                sbPlayer
+                            )
+                        }
+                    }
+                }
+
+            }
         }
     }
 
+    @Synchronized
     fun pauseMusic() {
         mediaPlayer.pause()
+        isPlaying = false
     }
 
+    @Synchronized
     fun resumeMusic() {
         mediaPlayer.start()
+        isPlaying = false
     }
 
-    fun startMusic(): Boolean {
-        if (mediaPlayer.isPlaying) {
-            return true
+    @Synchronized
+    fun startMusic() {
+        if (mediaPlayer != null && !isPlaying) {
+            isPlaying = true
         }
-        return false
     }
 
+    @Synchronized
     fun stopMusic() {
         if (mediaPlayer.isPlaying) {
             mediaPlayer.stop()
+            isPlaying = false
         }
     }
 
+    @Synchronized
     fun releaseMediaPlayer() {
         mediaPlayer.release()
+        isPlaying = false
     }
 
-    fun timeMusic(txtTimeMax: AppCompatTextView) {
+    @Synchronized
+    fun isMusicPlaying(): Boolean {
+        return isPlaying
+    }
+
+    private fun timeMusic(txtTimeMax: AppCompatTextView) {
         var m_s = ""
         mediaPlayer.setOnPreparedListener {
             val durationInMillis =
