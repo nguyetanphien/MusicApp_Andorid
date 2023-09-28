@@ -110,7 +110,6 @@ class AlbumActivity : AppCompatActivity() {
                 )
                 txtAlbumTimeAS.text = mutableList.size.toString() + " songs"
             } catch (e: IOException) {
-
             }
         })
 

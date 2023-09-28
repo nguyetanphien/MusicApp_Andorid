@@ -37,11 +37,22 @@ class RecentAdapter(
             .centerCrop()
             .placeholder(R.mipmap.ic_launcher)
             .into(holder.imgAvataRecent)
-        holder.txtNameSongRecent.text=mList[position].title
-        holder.txtNameSingerRecent.text=mList[position].name
+        holder.txtNameSongRecent.text = mList[position].title
+        holder.txtNameSingerRecent.text = mList[position].name
         holder.ibtnDelete.setOnClickListener(View.OnClickListener {
-            id=mList[position].id
-            onItemClickListener.onItemClick(position,id)
+            id = mList[position].id
+            onItemClickListener.onItemClick(position, id)
+
+
+        })
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            onItemClickListener.onItemClick2(
+                position,
+                mList[position].link,
+                mList[position].title,
+                mList[position].name,
+                mList[position].images
+            )
         })
 
     }

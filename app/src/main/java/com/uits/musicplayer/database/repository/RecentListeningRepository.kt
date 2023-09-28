@@ -11,7 +11,7 @@ import com.uits.musicplayer.database.RecentListeningDatabase
 import com.uits.musicplayer.database.entities.RecentHistory
 import com.uits.musicplayer.database.entities.RecentListenings
 
-class RecentListeningRepository (application: Context) {
+class RecentListeningRepository (application: Application) {
     private val recentListeningsDAO: RecentListeningDAO
 
 

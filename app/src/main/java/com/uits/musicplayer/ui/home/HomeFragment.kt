@@ -127,18 +127,6 @@ class HomeFragment : Fragment() {
                 }
 
             })
-        val recentListenings=RecentListenings()
-        val id= kotlin.random.Random.nextInt()
-        val image="https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0"
-        val title="My Song"
-
-        recentListenings.id=id.toString()
-        recentListenings.images=image
-        recentListenings.time="3.20"
-        recentListenings.link="https://storage.googleapis.com/uamp/The_Kyoto_Connection_-_Wake_Up/01_-_Intro_-_The_Way_Of_Waking_Up_feat_Alan_Watts.mp3"
-        recentListenings.title=title
-
-    //    homeViewModel.insert(recentListenings)
         mRecyclerViewRL.adapter = ScaleInAnimationAdapter(apdapterHomeAdapterRL)
         homeViewModel.getDAta().observe(viewLifecycleOwner) {
             listRL.clear()
@@ -179,7 +167,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel.fetchDataAlbum()
-        homeViewModel.fetchDataAlbumRL()
+//        homeViewModel.fetchDataAlbumRL()
         homeViewModel.featchData()
     }
 

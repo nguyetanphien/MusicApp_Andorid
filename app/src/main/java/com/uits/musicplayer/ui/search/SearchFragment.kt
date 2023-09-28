@@ -1,6 +1,9 @@
 package com.uits.musicplayer.ui.search
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +20,8 @@ import com.uits.musicplayer.databinding.FragmentDashboardBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.SearchModel
+import com.uits.musicplayer.ui.player.PlayerActivity
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
-import kotlin.random.Random
-import kotlin.random.nextInt
 
 
 class SearchFragment : Fragment() {
@@ -28,12 +30,13 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var mSearchAdapterMusic: AdapterMusic
     lateinit var adapterRecentAdapter: RecentAdapter
+    lateinit var adapterSearchAdapter: SearchAdapter
     lateinit var dashboardViewModel: SearchViewModel
-    lateinit var recentHistoryViewModel: RecentHistoryViewModel
     lateinit var root: View
 
     private var mListData: MutableList<SearchModel> = mutableListOf()
     private var mListDataRecent: MutableList<RecentHistory> = mutableListOf()
+    private var mListSearch: MutableList<AlbumModel> = mutableListOf()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -45,21 +48,29 @@ class SearchFragment : Fragment() {
         val edtSearch: AppCompatEditText = binding.edtsearchsong
         val rlRecentSearch: RelativeLayout = binding.rlRecentSearch
         val mRecyclerView: RecyclerView = binding.mRecycleView
-//        edtSearch.doOnTextChanged { text, start, before, count ->
-//            Log.d("ppppppppppp", text.toString())
-//        }
-
-
-        rvListSearch()
         rvRecentSearch()
+        rvListSearch()
+
         edtSearch.onFocusChangeListener = View.OnFocusChangeListener { p0, p1 ->
             rlRecentSearch.visibility = View.VISIBLE
             mRecyclerView.visibility = View.INVISIBLE
         }
-//                edtSearch.setOnClickListener( View.OnClickListener {
-//            rlRecentSearch.visibility = View.VISIBLE
-//            mRecyclerView.visibility = View.INVISIBLE
-//        })
+
+        edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                filter(s.toString())
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filter(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+
         clear()
 
         return root
@@ -82,7 +93,7 @@ class SearchFragment : Fragment() {
                     singer: String,
                     images: String
                 ) {
-                    TODO("Not yet implemented")
+
                 }
             })
         mRecyclerView.adapter = ScaleInAnimationAdapter(mSearchAdapterMusic)
@@ -94,17 +105,14 @@ class SearchFragment : Fragment() {
     }
 
     private fun rvRecentSearch() {
-        recentHistoryViewModel = ViewModelProvider(
-            this, RecentHistoryViewModel.RecentViewModelFactory(this.requireActivity())
-        )[RecentHistoryViewModel::class.java]
-        root = binding.root
+
         val mRecyclerView: RecyclerView = binding.rvRecentSearch
         mRecyclerView.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         adapterRecentAdapter =
             RecentAdapter(requireActivity(), mListDataRecent, object : OnItemClickListener {
                 override fun onItemClick(position: Int, id: String) {
-                    recentHistoryViewModel.deleteid(id)
+                    dashboardViewModel.deleteid(id)
                     adapterRecentAdapter.notifyDataSetChanged()
                 }
 
@@ -115,33 +123,81 @@ class SearchFragment : Fragment() {
                     singer: String,
                     images: String
                 ) {
-                    TODO("Not yet implemented")
+
+                    val intent = Intent(requireContext(), PlayerActivity::class.java)
+                    val link = link
+                    val title = title
+                    val singer = singer
+                    val list = mutableListOf<AlbumModel>()
+                    list.add(AlbumModel(title, singer, link, "11", images))
+                    intent.putParcelableArrayListExtra("listMusic", ArrayList(list))
+                    startActivity(intent)
                 }
             })
-        val id = Random.nextInt()
-        val image =
-            "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0"
-        val title = "My Song"
-        val name = "ntp"
-        var recentHistory = RecentHistory()
-        recentHistory.id = id.toString()
-        recentHistory.images = image
-        recentHistory.title = title
-        recentHistory.name = name
-        // recentHistoryViewModel.insert(recentHistory)
 
         mRecyclerView.adapter = ScaleInAnimationAdapter(adapterRecentAdapter)
-        recentHistoryViewModel.getDAta().observe(viewLifecycleOwner) {
+        dashboardViewModel.getDAta().observe(viewLifecycleOwner) {
             mListDataRecent.clear()
             mListDataRecent.addAll(it)
             adapterRecentAdapter.notifyDataSetChanged()
         }
     }
 
+    private fun filter(text: String) {
+        val mRecyclerView: RecyclerView = binding.rvRecentSearch
+        val listSearch: MutableList<AlbumModel> = mutableListOf()
+        mRecyclerView.layoutManager =
+            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        adapterSearchAdapter =
+            SearchAdapter(requireActivity(), listSearch, object : OnItemClickListener {
+                override fun onItemClick(position: Int, id: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onItemClick2(
+                    position: Int,
+                    link: String,
+                    title: String,
+                    singer: String,
+                    images: String
+                ) {
+                    val recentHistory = RecentHistory()
+                    recentHistory.id = position.toString()
+                    recentHistory.link = link
+                    recentHistory.title = title
+                    recentHistory.name = singer
+                    recentHistory.images = images
+                    dashboardViewModel.insert(recentHistory)
+                    val intent = Intent(context, PlayerActivity::class.java)
+                    val list = mutableListOf<AlbumModel>()
+                    list.add(listSearch[position])
+                    intent.putParcelableArrayListExtra("listMusic", ArrayList(list))
+                    context!!.startActivity(intent)
+                }
+            })
+        mRecyclerView.adapter = ScaleInAnimationAdapter(adapterSearchAdapter)
+        dashboardViewModel._liveData.observe(viewLifecycleOwner) {
+            mListSearch.clear()
+            mListSearch.addAll(it)
+            Log.d("ppp", mListSearch.size.toString())
+            adapterSearchAdapter.notifyDataSetChanged()
+
+        }
+
+        for (item in mListSearch) {
+            if (item.nameSong.lowercase().contains(text.lowercase())) {
+                listSearch.add(item)
+                adapterSearchAdapter.notifyDataSetChanged()
+            }
+        }
+        adapterSearchAdapter.notifyDataSetChanged()
+
+    }
+
     private fun clear() {
         val ibt: AppCompatTextView = binding.txtClearRecentSearch
         ibt.setOnClickListener(View.OnClickListener {
-            recentHistoryViewModel.delete()
+            dashboardViewModel.delete()
             adapterRecentAdapter.notifyDataSetChanged()
         })
     }
@@ -149,6 +205,8 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dashboardViewModel.featchData()
+        dashboardViewModel.fetchDataSearch()
+
 
     }
 

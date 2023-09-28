@@ -10,6 +10,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.uits.musicplayer.database.entities.RecentHistory
+import com.uits.musicplayer.database.repository.RecentHistoryRepository
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.HomeModel
 import com.uits.musicplayer.model.SearchModel
@@ -18,6 +25,9 @@ import com.uits.musicplayer.service.response.MusicResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -26,12 +36,13 @@ import java.util.Calendar
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
 
-
+    private val recentHistoryRespository: RecentHistoryRepository = RecentHistoryRepository(application)
     private val _listDataAlbum = MutableLiveData<List<SearchModel>>().apply {
     }
-    private val mLiveData = MutableLiveData<List<AlbumModel>>().apply { }
+    private val _list = MutableLiveData<List<AlbumModel>>().apply {
 
-    val liveData: LiveData<List<AlbumModel>> = mLiveData
+    }
+    val _liveData: LiveData<List<AlbumModel>> = _list
     var mListDataApi: MutableList<SearchModel> = mutableListOf()
     val context = getApplication<Application>().applicationContext
     val listDataAlbum: LiveData<List<SearchModel>> = _listDataAlbum
@@ -76,32 +87,52 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         print(t.message)
     }
 
-    fun fetchDataAlbum() {
-        var name = ""
-        var listData: MutableList<SearchModel> = mutableListOf()
-        val soundName: Array<String>?
+    fun fetchDataSearch() {
 
-        try {
-            soundName = mAssets.list("album")
-            Log.i("ppp", "Found" + soundName!!.size + " sounds")
-            soundName.forEach {
-                name = it
-                listData.add(
-                    SearchModel(
-                        name,
-                        "https://s3.amazonaws.com/thumbnails.venngage.com/template/ef47dc15-b2f6-4e7b-99b3-fa02d910c7dc.png"
-                    )
-                )
+        val database = Firebase.database
+        val myRef = database.getReference("music")
+        // Read from the database
+
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var list: MutableList<AlbumModel> = mutableListOf()
+                //  var list2: MutableList<HomeModel> = mutableListOf()
+
+
+                dataSnapshot.children.forEach {
+                    var title = it.child("title").value.toString()
+                    var img = it.child("image").value.toString()
+                    var time = it.child("duration").value.toString()
+                    var name =it.child("artist").value.toString()
+                    var link =it.child("source").value.toString()
+                    list.add(AlbumModel(title,name,link,time,img))
+                }
+
+                _list.postValue(list)
             }
-            _listDataAlbum.postValue(
-                listData
-            )
 
-        } catch (ioe: IOException) {
-            Log.e("ppp", "Could not list assets", ioe)
-            return
-        }
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w("qqq", "Failed to read value.", error.toException())
+            }
+        })
 
     }
+
+
+    fun insert(recentHistory: RecentHistory) =
+        MainScope().launch(Dispatchers.IO) {
+            recentHistoryRespository.insert(recentHistory)
+        }
+    fun deleteid(id :String) =
+        MainScope().launch(Dispatchers.IO) {
+            recentHistoryRespository.deleteid(id)
+        }
+    fun delete() =
+        MainScope().launch(Dispatchers.IO) {
+            recentHistoryRespository.delete()
+        }
+    fun getDAta() :
+            LiveData<List<RecentHistory>> =recentHistoryRespository.get()
 
 }

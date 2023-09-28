@@ -18,4 +18,7 @@ class RecentHistory {
 
     @ColumnInfo(name = "Name")
     var name: String = ""
+
+    @ColumnInfo(name = "Link")
+    var link: String = ""
 }

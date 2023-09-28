@@ -2,6 +2,7 @@ package com.uits.musicplayer.ui.player
 
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
@@ -19,15 +20,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import com.uits.musicplayer.R
+import com.uits.musicplayer.database.entities.Favorite
+import com.uits.musicplayer.database.entities.RecentListenings
+import com.uits.musicplayer.database.repository.FavoriteRepository
+import com.uits.musicplayer.database.repository.RecentListeningRepository
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.ui.player.MediaPlayerManager.seekbar
-import com.uits.musicplayer.ui.player.MediaPlayerManager.startTrackingTime
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.IOException
+import kotlin.random.Random
 
 
 class PlayerActivity : AppCompatActivity() {
     private var soundId: Int = 0
     private var isSoundPlaying = false
+
+    // lateinit var application:PlayerActivity
     var image: String = ""
 
 
@@ -38,11 +48,15 @@ class PlayerActivity : AppCompatActivity() {
         var listMusic = intent.getParcelableArrayListExtra<AlbumModel>("listMusic")
         var currentTrackIndex = intent.getIntExtra("position", 0)
 
+
         if (!listMusic.isNullOrEmpty()) {
             if (currentTrackIndex != null) {
-                play(listMusic, currentTrackIndex)
+
+                    play(listMusic, currentTrackIndex)
+
             }
         }
+
 
         image = currentTrackIndex?.let { listMusic?.get(it)?.images } ?: ""
         supportFragmentManager.beginTransaction()
@@ -95,10 +109,12 @@ class PlayerActivity : AppCompatActivity() {
         val txtNameSingerPlaylist: AppCompatTextView = findViewById(R.id.txtNameSingerPlaylist)
         val sbPlayer: SeekBar = findViewById(R.id.sbPlayer)
         val txtTimeNow: AppCompatTextView = findViewById(R.id.txtTimeNow)
+        val ibtnUnFavorite: ImageButton = findViewById(R.id.ibtnUnFavorite)
+        val ibtnFavorite: ImageButton = findViewById(R.id.ibtnFavorite)
 
-        Log.d("ppp", currentTrackIndex.toString())
         MediaPlayerManager.playMusic(
             list,
+
             currentTrackIndex,
             txtTimeMax,
             txtNameSongPlaylist,
@@ -108,7 +124,7 @@ class PlayerActivity : AppCompatActivity() {
             ibtnRepeatSongPlayer,
             ibtnShuffle,
             txtTimeNow,
-            sbPlayer
+            sbPlayer, application, ibtnUnFavorite, ibtnFavorite
         )
         //startTrackingTime(sbPlayer, txtTimeNow)
         seekbar(sbPlayer)
@@ -170,12 +186,14 @@ class PlayerActivity : AppCompatActivity() {
     }
 }
 
+
 object MediaPlayerManager {
     private var mediaPlayer = MediaPlayer()
     private var isPlaying = false
 
     fun playMusic(
         musicList: MutableList<AlbumModel>,
+
         currentTrackIndex: Int,
         txtTimeMax: AppCompatTextView,
         txtNameSongPlaylist: AppCompatTextView,
@@ -185,9 +203,19 @@ object MediaPlayerManager {
         ibtnRepeatSongPlayer: AppCompatImageButton,
         ibtnShuffle: AppCompatImageButton,
         txtTimeNow: AppCompatTextView,
-        sbPlayer: SeekBar
+        sbPlayer: SeekBar,
+        application: Application,
+        ibtnUnFavorite: ImageButton,
+        ibtnFavorite: ImageButton
     ) {
         var next = currentTrackIndex
+        val recentHistoryRespository = RecentListeningRepository(application)
+
+        fun insert(recentListenings: RecentListenings) =
+            MainScope().launch(Dispatchers.IO) {
+                recentHistoryRespository.insert(recentListenings)
+            }
+        if (musicList!=null)
         if (next < musicList.size) {
             var currentTrack = musicList[next]
             mediaPlayer.reset()
@@ -198,7 +226,19 @@ object MediaPlayerManager {
             txtNameSingerPlaylist.text = musicList[next].nameSinger
             startTrackingTime(sbPlayer, txtTimeNow)
             mediaPlayer.start()
-            Log.d("ppp", "t$next")
+            var link = currentTrack.link
+            var nameSong = currentTrack.nameSong
+            var image = currentTrack.images
+            var singer = currentTrack.nameSinger
+            var time = currentTrack.time
+            val recentListenings = RecentListenings()
+            recentListenings.id = Random.nextInt().toString()
+            recentListenings.title = nameSong
+            recentListenings.title = nameSong
+            recentListenings.link = link
+            recentListenings.images = image
+            recentListenings.time = time
+            insert(recentListenings)
 
             var check = false
             ibtnRepeatSongPlayer.setOnClickListener(View.OnClickListener {
@@ -224,6 +264,7 @@ object MediaPlayerManager {
                 }
                 playMusic(
                     musicList,
+
                     next,
                     txtTimeMax,
                     txtNameSongPlaylist,
@@ -232,8 +273,35 @@ object MediaPlayerManager {
                     ibtnNextSongPlayer,
                     ibtnRepeatSongPlayer,
                     ibtnShuffle, txtTimeNow,
-                    sbPlayer
+                    sbPlayer,
+                    application,
+                    ibtnUnFavorite,
+                    ibtnFavorite
                 )
+            })
+            ibtnFavorite.setOnClickListener(View.OnClickListener {
+                val favoriteRepository = FavoriteRepository(
+                    application
+                )
+                fun insert(favorite: Favorite) =
+                    MainScope().launch(Dispatchers.IO) {
+                        favoriteRepository.insert(favorite)
+                    }
+
+                var favorite = Favorite()
+                favorite.id = Random.nextInt().toString()
+                favorite.images = image
+                favorite.time = time
+                favorite.singer = singer
+                favorite.title = nameSong
+                favorite.link = link
+                insert(favorite)
+
+                ibtnFavorite.visibility= INVISIBLE
+
+            })
+            ibtnUnFavorite.setOnClickListener(View.OnClickListener {
+
             })
             Log.d("ppp", "t$currentTrackIndex")
             ibtnNextSongPlayer.setOnClickListener(View.OnClickListener {
@@ -244,6 +312,7 @@ object MediaPlayerManager {
                 }
                 playMusic(
                     musicList,
+
                     next,
                     txtTimeMax,
                     txtNameSongPlaylist,
@@ -252,7 +321,10 @@ object MediaPlayerManager {
                     ibtnNextSongPlayer,
                     ibtnRepeatSongPlayer,
                     ibtnShuffle, txtTimeNow,
-                    sbPlayer
+                    sbPlayer,
+                    application,
+                    ibtnUnFavorite,
+                    ibtnFavorite
                 )
             })
             // Nghe sự kiện kết thúc bài hát
@@ -262,6 +334,7 @@ object MediaPlayerManager {
                         next = 0
                         playMusic(
                             musicList,
+
                             next,
                             txtTimeMax,
                             txtNameSongPlaylist,
@@ -270,7 +343,10 @@ object MediaPlayerManager {
                             ibtnNextSongPlayer,
                             ibtnRepeatSongPlayer,
                             ibtnShuffle, txtTimeNow,
-                            sbPlayer
+                            sbPlayer,
+                            application,
+                            ibtnUnFavorite,
+                            ibtnFavorite
                         )
                     }
                 } else {
@@ -279,6 +355,7 @@ object MediaPlayerManager {
 
                         playMusic(
                             musicList,
+
                             next,
                             txtTimeMax,
                             txtNameSongPlaylist,
@@ -287,13 +364,17 @@ object MediaPlayerManager {
                             ibtnNextSongPlayer,
                             ibtnRepeatSongPlayer,
                             ibtnShuffle, txtTimeNow,
-                            sbPlayer
+                            sbPlayer,
+                            application,
+                            ibtnUnFavorite,
+                            ibtnFavorite
                         )
                     } else {
                         if (next >= musicList.size) {
                             next = 0
                             playMusic(
                                 musicList,
+
                                 next,
                                 txtTimeMax,
                                 txtNameSongPlaylist,
@@ -302,7 +383,10 @@ object MediaPlayerManager {
                                 ibtnNextSongPlayer,
                                 ibtnRepeatSongPlayer,
                                 ibtnShuffle, txtTimeNow,
-                                sbPlayer
+                                sbPlayer,
+                                application,
+                                ibtnUnFavorite,
+                                ibtnFavorite
                             )
                         }
                     }

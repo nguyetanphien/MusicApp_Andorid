@@ -9,7 +9,7 @@ import com.uits.musicplayer.database.entities.RecentHistory
 
 
 
-class RecentHistoryRepository (application: FragmentActivity) {
+class RecentHistoryRepository (application: Application) {
     private val recentHistoryDAO: RecentHistoryDAO
     //    val allRecentHistory: LiveData<List<RecentHistory>> = recentHistoryDAO.getRecentHistory()
     init {

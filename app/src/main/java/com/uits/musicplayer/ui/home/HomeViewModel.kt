@@ -240,7 +240,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private val recentHistoryRespository: RecentListeningRepository = RecentListeningRepository(
-        context
+        application
     )
 
     //
@@ -275,9 +275,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
         try {
             soundName = mAssets.list("album")
-            Log.i("ppp", "Found" + soundName!!.size + " sounds")
+
             // mListDataAsset.add(soundName)
-            soundName.forEach {
+            soundName?.forEach {
                 name = it
                 img =
                     "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0"

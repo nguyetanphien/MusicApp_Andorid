@@ -12,59 +12,60 @@
         android:background="#26292D"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_hello"
-            android:backgroundTint="#373A3E"
-            android:orientation="horizontal">
+<!--        <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/custom_hello"-->
+<!--            android:backgroundTint="#373A3E"-->
+<!--        -->
+<!--            android:orientation="horizontal">-->
 
-            <RelativeLayout
-                android:id="@+id/rl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/_20sdp">
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/rl"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_marginLeft="@dimen/_20sdp">-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txthello"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hello,"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp" />
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:id="@+id/txthello"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Hello,"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="@dimen/_15sdp" />-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/txthello"
-                    android:text="David"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold" />
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:id="@+id/txtName"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_toRightOf="@+id/txthello"-->
+<!--                    android:text="David"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="@dimen/_15sdp"-->
+<!--                    android:textStyle="bold" />-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txthello"
-                    android:text="Ready to dive into the world of music?"
-                    android:textSize="@dimen/_10sdp"
-                    android:textStyle="bold"
-                    tools:ignore="NotSibling" />
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@+id/txthello"-->
+<!--                    android:text="Ready to dive into the world of music?"-->
+<!--                    android:textSize="@dimen/_10sdp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    tools:ignore="NotSibling" />-->
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imgAvata"
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:src="@mipmap/ic_launcher" />
+<!--                <androidx.appcompat.widget.AppCompatImageView-->
+<!--                    android:id="@+id/imgAvata"-->
+<!--                    android:layout_width="@dimen/_35sdp"-->
+<!--                    android:layout_height="@dimen/_35sdp"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:layout_marginRight="@dimen/_20sdp"-->
+<!--                    android:src="@mipmap/ic_launcher" />-->
 
-            </RelativeLayout>
+<!--            </RelativeLayout>-->
 
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+<!--        </androidx.appcompat.widget.LinearLayoutCompat>-->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"

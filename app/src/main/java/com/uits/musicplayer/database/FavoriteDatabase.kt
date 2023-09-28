@@ -6,21 +6,22 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.uits.musicplayer.database.Dao.FavoriteDAO
 import com.uits.musicplayer.database.Dao.RecentHistoryDAO
+import com.uits.musicplayer.database.entities.Favorite
 import com.uits.musicplayer.database.entities.RecentHistory
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = [RecentHistory::class], version = 2, exportSchema = false)
-@TypeConverters(DateTypeConverter::class)
-abstract class AppDatabase() : RoomDatabase() {
-    abstract val mRecentHistoryDao: RecentHistoryDAO
+@Database(entities = [Favorite::class], version = 1, exportSchema = false)
+abstract class FavoriteDatabase():RoomDatabase() {
+    abstract val mfavoriteDAO: FavoriteDAO
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var INSTANCE: FavoriteDatabase? = null
 
         @Synchronized
-        fun getDatabase(context: Context): AppDatabase {
+        fun getDatabase(context: Context): FavoriteDatabase {
 
             val tempInstance = INSTANCE
             if (tempInstance != null) {
@@ -29,8 +30,8 @@ abstract class AppDatabase() : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    AppDatabase::class.java,
-                    "RecentMusic"
+                    FavoriteDatabase::class.java,
+                    "Favorite"
                 )
                     .fallbackToDestructiveMigration()
                     .build()
@@ -47,5 +48,4 @@ abstract class AppDatabase() : RoomDatabase() {
             INSTANCE?.let { }
         }
     }
-
 }
