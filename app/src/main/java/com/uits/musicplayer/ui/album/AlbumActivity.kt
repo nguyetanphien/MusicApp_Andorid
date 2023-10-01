@@ -4,6 +4,7 @@ package com.uits.musicplayer.ui.album
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -13,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import android.widget.PopupMenu
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isInvisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
+import com.uits.musicplayer.database.entities.Favorite
+import com.uits.musicplayer.database.repository.FavoriteRepository
 import com.uits.musicplayer.databinding.ActivityAlbumBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
@@ -33,6 +38,9 @@ import com.uits.musicplayer.ui.player.MediaPlayerManager.startMusic
 import com.uits.musicplayer.ui.player.PlayerActivity
 
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.IOException
 
 
@@ -41,6 +49,7 @@ class AlbumActivity : AppCompatActivity() {
     private lateinit var viewModel: AlbumViewModel
     private lateinit var abbumAdapter: AlbumAdapter
     var mutableList: MutableList<AlbumModel> = mutableListOf()
+    val listF = mutableListOf<Favorite>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,11 +76,53 @@ class AlbumActivity : AppCompatActivity() {
         val txtAlbumNameYearAS: AppCompatTextView = findViewById(R.id.txtAlbumNameYearAS)
         txtAlbumNameYearAS.text = "Album • $name"
         abbumAdapter = AlbumAdapter(this, mutableList, object : OnItemClickListener {
-            override fun onItemClick(position: Int, id: String) {
+            override fun onItemClick(
+                position: Int,
+                id: String,
+                button: ImageButton,
+                link: String,
+                title: String,
+                singer: String,
+                images: String
+            ) {
+                val popupMenu = PopupMenu(applicationContext, button)
+                popupMenu.inflate(R.menu.menu)
+                for (i in listF) {
+                    if (id == i.id) {
+                        popupMenu.menu.findItem(R.id.itemUnFavorite).isVisible = true
+                        popupMenu.menu.findItem(R.id.itemFavorite).isVisible = false
+                        break
+                    }
+                }
+                popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+
+                    if (menuItem.itemId == R.id.itemFavorite) {
+
+                        val favorite = Favorite()
+                        favorite.id = id
+                        favorite.images = images
+                        favorite.time = viewModel.duration(link)
+                        favorite.singer = singer
+                        favorite.title = title
+                        favorite.link = link
+                        viewModel.insertF(favorite)
+                        true
+                    }
+                    else{
+                        viewModel.deleteIdF(id)
+                    }
+                    false
+                }
+                popupMenu.show()
             }
 
             override fun onItemClick2(
-                position: Int, link: String, name: String, singer: String, images: String
+                position: Int,
+                id: String,
+                link: String,
+                title: String,
+                singer: String,
+                images: String
             ) {
                 val intent = Intent(application, PlayerActivity::class.java)
                 intent.putParcelableArrayListExtra("listMusic", ArrayList(mutableList))
@@ -83,9 +134,7 @@ class AlbumActivity : AppCompatActivity() {
         })
         if (name != null) {
             // viewModel.featchData(name)
-
             viewModel.loadDataFireBase(name)
-
 
         }
         mRecyclerView.adapter = ScaleInAnimationAdapter(abbumAdapter)
@@ -111,6 +160,10 @@ class AlbumActivity : AppCompatActivity() {
                 txtAlbumTimeAS.text = mutableList.size.toString() + " songs"
             } catch (e: IOException) {
             }
+        })
+        viewModel.getFavorit().observe(this, Observer {
+            listF.clear()
+            listF.addAll(it)
         })
 
 

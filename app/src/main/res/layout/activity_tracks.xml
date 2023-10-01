@@ -44,7 +44,8 @@
             android:layout_toRightOf="@+id/ibtnBackFTrack"
             android:text="11 songs • 49 min. 1 sec"
             android:textColor="#A39C9C"
-            android:textSize="@dimen/_8sdp" />
+            android:textSize="@dimen/_8sdp"
+            android:visibility="invisible" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ibtnPlayFTrack"
@@ -72,8 +73,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="invisible"
-        android:background="@drawable/custom_backgoud_play">
+        android:background="@drawable/custom_backgoud_play"
+        android:visibility="invisible">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgSongTrack"

@@ -5,6 +5,7 @@ import android.os.Parcelable
 import java.lang.reflect.Parameter
 
 class AlbumModel(
+    var id:String,
    var nameSong: String,
    var  nameSinger: String,
    var  link: String,
@@ -17,10 +18,12 @@ class AlbumModel(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
     )
 
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
         parcel.writeString(nameSong)
         parcel.writeString(nameSinger)
         parcel.writeString(link)

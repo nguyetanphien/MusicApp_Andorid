@@ -3,6 +3,7 @@ package com.uits.musicplayer.ui.search.artist
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -62,12 +63,21 @@ class ArtistActivity : AppCompatActivity() {
         val intent: Intent = intent
         val genre = intent.getStringExtra("genre")
         artistAdapter = ArtistAdapter(this, mListData, object : OnItemClickListener {
-            override fun onItemClick(position: Int, id: String) {
+            override fun onItemClick(
+                position: Int,
+                id: String,
+                button: ImageButton,
+                link: String,
+                title: String,
+                singer: String,
+                images: String
+            ) {
                 TODO("Not yet implemented")
             }
 
             override fun onItemClick2(
                 position: Int,
+                id: String,
                 link: String,
                 title: String,
                 singer: String,
@@ -95,12 +105,21 @@ class ArtistActivity : AppCompatActivity() {
         val intent: Intent = intent
         val genre = intent.getStringExtra("genre")
         artistAdapterPT = ArtistAdapterPT(this, mListDataPT, object : OnItemClickListener {
-            override fun onItemClick(position: Int, id: String) {
+            override fun onItemClick(
+                position: Int,
+                id: String,
+                button: ImageButton,
+                link: String,
+                title: String,
+                singer: String,
+                images: String
+            ) {
                 TODO("Not yet implemented")
             }
 
             override fun onItemClick2(
                 position: Int,
+                id: String,
                 link: String,
                 title: String,
                 singer: String,

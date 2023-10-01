@@ -44,9 +44,13 @@ class FavoriteAdapterAL(
         holder.txtNameAlbum.text = mList[position].nameAlbum
         holder.txtYearAlbum.text = mList[position].yearAlbum
         holder.itemView.setOnClickListener(View.OnClickListener {
-            onClick.onItemClick(
+            onClick.onItemClick2(
                 position,
-                mList[position].nameAlbum
+                mList[position].nameAlbum,
+                mList[position].nameAlbum,
+                mList[position].nameAlbum,
+                mList[position].nameAlbum,
+                mList[position].nameAlbum,
             )
         })
     }

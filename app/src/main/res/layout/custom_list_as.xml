@@ -52,10 +52,11 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/ibtnChosseAS"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_6sdp"
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_14sdp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:background="@color/wnull"
         android:layout_marginLeft="@dimen/_10sdp"
         android:src="@mipmap/options" />
 

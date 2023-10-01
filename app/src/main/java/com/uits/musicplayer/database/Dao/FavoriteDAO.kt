@@ -20,9 +20,10 @@ interface FavoriteDAO {
     @Query("DELETE FROM Favorite")
     fun delete()
 
-//    @Query("DELETE FROM Favorite WHERE ID=:idS ")
-//    fun deleteId( idS:String)
+    @Query("DELETE FROM Favorite WHERE ID=:id")
+    fun deleteId(id:String)
 
     @Query("SELECT * FROM Favorite")
     fun getFavorite(): LiveData<List<Favorite>>
+
 }

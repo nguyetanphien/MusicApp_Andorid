@@ -78,12 +78,21 @@ class FavoriteFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         adrapterFavoriteAdapterPL =
             FavoriteAdapterPL(requireActivity(), mListPlayerList, object : OnItemClickListener {
-                override fun onItemClick(position: Int, id: String) {
+                override fun onItemClick(
+                    position: Int,
+                    id: String,
+                    button: ImageButton,
+                    link: String,
+                    title: String,
+                    singer: String,
+                    images: String
+                ) {
                     TODO("Not yet implemented")
                 }
 
                 override fun onItemClick2(
                     position: Int,
+                    id: String,
                     link: String,
                     title: String,
                     singer: String,
@@ -109,21 +118,30 @@ class FavoriteFragment : Fragment() {
 
         adrapterFavoriteFragment =
             FavoriteAdapterAL(requireActivity(), mListPlayerListAL, object : OnItemClickListener {
-                override fun onItemClick(position: Int, id: String) {
-                    val intent = Intent(context, AlbumActivity::class.java)
-                    var nameAlbum = mListPlayerListAL[position].nameAlbum
-                    intent.putExtra("album", nameAlbum)
-                    startActivityForResult(intent, 1)
-                }
-
-                override fun onItemClick2(
+                override fun onItemClick(
                     position: Int,
+                    id: String,
+                    button: ImageButton,
                     link: String,
                     title: String,
                     singer: String,
                     images: String
                 ) {
-                    TODO("Not yet implemented")
+
+                }
+
+                override fun onItemClick2(
+                    position: Int,
+                    id: String,
+                    link: String,
+                    title: String,
+                    singer: String,
+                    images: String
+                ) {
+                    val intent = Intent(context, AlbumActivity::class.java)
+                    var nameAlbum = mListPlayerListAL[position].nameAlbum
+                    intent.putExtra("album", nameAlbum)
+                    startActivityForResult(intent, 1)
                 }
 
             })

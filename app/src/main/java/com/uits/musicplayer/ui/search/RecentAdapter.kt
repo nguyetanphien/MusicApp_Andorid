@@ -41,13 +41,20 @@ class RecentAdapter(
         holder.txtNameSingerRecent.text = mList[position].name
         holder.ibtnDelete.setOnClickListener(View.OnClickListener {
             id = mList[position].id
-            onItemClickListener.onItemClick(position, id)
+            onItemClickListener.onItemClick(
+                position, id, holder.ibtnDelete,
+                mList[position].link,
+                mList[position].title,
+                mList[position].name,
+                mList[position].images
+            )
 
 
         })
         holder.itemView.setOnClickListener(View.OnClickListener {
             onItemClickListener.onItemClick2(
                 position,
+                mList[position].id,
                 mList[position].link,
                 mList[position].title,
                 mList[position].name,

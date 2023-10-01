@@ -21,6 +21,9 @@
     <string name="Recent_History">Recent History</string>
     <string name="CLEAR">CLEAR</string>
     <string name="playingnow">PLAYING NOW</string>
+    <string name="Favorite">Favorite</string>
+    <string name="UnFavorite">UnFavorite</string>
+    <string name="DelteteRL" >Delete </string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

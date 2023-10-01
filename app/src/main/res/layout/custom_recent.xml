@@ -21,7 +21,7 @@
     </androidx.cardview.widget.CardView>
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtNameSongRecent"
-        android:layout_width="@dimen/_116sdp"
+        android:layout_width="@dimen/_190sdp"
         android:layout_height="wrap_content"
         android:text="Redbone"
         android:textColor="@color/white"

@@ -11,7 +11,7 @@ import com.uits.musicplayer.database.Dao.RecentListeningDAO
 import com.uits.musicplayer.database.entities.RecentHistory
 import com.uits.musicplayer.database.entities.RecentListenings
 import kotlinx.coroutines.CoroutineScope
-@Database(entities = [RecentListenings::class], version = 1, exportSchema = false)
+@Database(entities = [RecentListenings::class], version = 2, exportSchema = false)
 @TypeConverters(DateTypeConverter::class)
 abstract class RecentListeningDatabase:RoomDatabase() {
     abstract val mRecentListeningDAO: RecentListeningDAO

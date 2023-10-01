@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
@@ -48,6 +49,16 @@ class TrackAdapter(
         holder.itemView.setOnClickListener(View.OnClickListener {
             onItemClickListener.onItemClick2(
                 position,
+                mList[position].id,
+                mList[position].link,
+                mList[position].title,
+                mList[position].singer,
+                mList[position].images
+            )
+        })
+        holder.ibtnChosseFTrack.setOnClickListener(View.OnClickListener {
+            onItemClickListener.onItemClick(
+                position, mList[position].id, holder.ibtnChosseFTrack,
                 mList[position].link,
                 mList[position].title,
                 mList[position].singer,
@@ -59,6 +70,7 @@ class TrackAdapter(
 
     class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val img: ImageView = itemView.findViewById(R.id.imgFavoriteTrack)
+        val ibtnChosseFTrack: ImageButton = itemView.findViewById(R.id.ibtnChosseFTrack)
         val nameSong: TextView = itemView.findViewById(R.id.txtNameFTrack)
         val nameSinger: TextView = itemView.findViewById(R.id.txtNameSingerFTrack)
         val time: TextView = itemView.findViewById(R.id.txtTimeFTrack)

@@ -3,22 +3,30 @@ package com.uits.musicplayer.ui.home
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.res.AssetManager
+import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.uits.musicplayer.database.entities.Favorite
 import com.uits.musicplayer.database.entities.RecentHistory
 import com.uits.musicplayer.database.entities.RecentListenings
+import com.uits.musicplayer.database.repository.FavoriteRepository
 import com.uits.musicplayer.database.repository.RecentHistoryRepository
 import com.uits.musicplayer.database.repository.RecentListeningRepository
+import com.uits.musicplayer.databinding.FragmentHomeBinding
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.HomeModel
 import com.uits.musicplayer.model.MusicModel
@@ -36,6 +44,8 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Locale
+import kotlin.math.log
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -48,6 +58,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val _liveData: LiveData<List<HomeModel>> = _list
     private val _listLiveRL = MutableLiveData<List<HomeModel>>().apply { }
     val _listDataRL: LiveData<List<HomeModel>> = _listLiveRL
+    private val _listLiveTA = MutableLiveData<List<HomeModel>>().apply { }
+    val _listDataTA: LiveData<List<HomeModel>> = _listLiveTA
+
 
     @SuppressLint("CheckResult")
     fun featchData() {
@@ -92,25 +105,27 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         print(t.message)
     }
 
-    fun fetchDataAlbum() {
-
+    fun fetchDataAlbum(listId:MutableList<String>) {
         val database = Firebase.database
         val myRef = database.getReference("music")
-        // Read from the database
-
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var list: MutableList<HomeModel> = mutableListOf()
-                var list2: MutableList<HomeModel> = mutableListOf()
-
+                val list: MutableList<HomeModel> = mutableListOf()
+                val list2: MutableList<HomeModel> = mutableListOf()
 
                 dataSnapshot.children.forEach {
-                    var title = it.child("album").value.toString()
-                    //  Log.d("ppp",title)
-                    var img = it.child("image").value.toString()
-                    var year = "2023"
-                    list.add(HomeModel(img, title, year))
+                    val id=it.child("id").value.toString()
+                  //  val liveData=getAlbumR(id)
+                    for (i in listId){
+                        if (i==id){
+                            val title = it.child("album").value.toString()
+                            val img = it.child("image").value.toString()
+                            val year = "2023"
+                            list.add(HomeModel(img, title, year))
+                        }
+                    }
                 }
+                Log.d("ppp",list.size.toString())
                 list.sortBy { it.nameAlbum }
                 for (i in list.indices) {
                     if (i == 0 || list[i].nameAlbum != list[i - 1].nameAlbum)
@@ -122,122 +137,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                Log.w("qqq", "Failed to read value.", error.toException())
+                TODO("Not yet implemented")
             }
         })
 
     }
 
-    fun fetchDataAlbumRL() {
-        var current = ""
-        current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-            LocalDateTime.now().format(formatter)
-        } else {
-            val time = Calendar.getInstance().time
-            var formatter = SimpleDateFormat("dd-MM-yyyy")
-            formatter.format(time)
-        }
-        var list: MutableList<HomeModel> = mutableListOf()
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/R.6890c58344eb146bc1ec0d40b27e356f?rik=wQULtPjtBD6PiA&pid=ImgRaw&r=0",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        list.add(
-            HomeModel(
-                "https://th.bing.com/th/id/OIP.I0RDoInlmsTclEdtmFAaigHaHa?pid=ImgDet&rs=1",
-                "My love",
-                current,
-                "6:30"
-            )
-        )
-        _listLiveRL.postValue(list)
-    }
 
     private val recentHistoryRespository: RecentListeningRepository = RecentListeningRepository(
         application
@@ -261,10 +166,46 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getDAta():
             LiveData<List<RecentListenings>> = recentHistoryRespository.get()
-    //
 
-    private val _listLiveTA = MutableLiveData<List<HomeModel>>().apply { }
-    val _listDataTA: LiveData<List<HomeModel>> = _listLiveTA
+
+    val listId= mutableListOf<String>()
+    fun getAlbumR(id:String): LiveData<String> {
+        val resultLiveData = MutableLiveData<String>()
+        val list= mutableListOf<RecentListenings>()
+        recentHistoryRespository.get().observeForever {
+            list.addAll(it)
+            for (i in list){
+                listId.add(i.id)
+            }
+            val result=checkId(id)
+            resultLiveData.postValue(result)
+
+        }
+        return resultLiveData
+    }
+    fun checkId(id:String): String {
+        for (i in listId){
+            if (i==id)
+                return i
+        }
+        return ""
+    }
+    fun duration(link:String): String {
+        val mediaPlayer=MediaPlayer()
+        try {
+            mediaPlayer.setDataSource(link)
+            mediaPlayer.prepare()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        val durationInMillis = mediaPlayer.duration ?: 0
+        val minutes = (durationInMillis / 1000) / 60
+        val seconds = (durationInMillis / 1000) % 60
+        val m_s =  String.format("%02d:%02d", minutes, seconds)
+        return m_s
+    }
+
+
 
     fun loadTopAlbumAsset() {
         mListDataAsset.clear()
@@ -291,4 +232,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
     }
+    val favoriteRepository = FavoriteRepository(
+        context
+    )
+    fun insertF(favorite: Favorite) =
+        MainScope().launch(Dispatchers.IO) {
+            favoriteRepository.insert(favorite)
+        }
+    fun deleteIdF(id:String){
+        MainScope().launch(Dispatchers.IO){
+            favoriteRepository.deleteId(id)
+        }
+    }
+    fun getFavorit():
+        LiveData<List<Favorite>> =favoriteRepository.get()
+
 }
+
+

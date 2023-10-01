@@ -44,6 +44,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
     val _liveData: LiveData<List<AlbumModel>> = _list
     var mListDataApi: MutableList<SearchModel> = mutableListOf()
+    @SuppressLint("StaticFieldLeak")
     val context = getApplication<Application>().applicationContext
     val listDataAlbum: LiveData<List<SearchModel>> = _listDataAlbum
     var mAssets: AssetManager = context.assets
@@ -100,12 +101,13 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
 
                 dataSnapshot.children.forEach {
+                    val id =it.child("id").value.toString()
                     var title = it.child("title").value.toString()
                     var img = it.child("image").value.toString()
                     var time = it.child("duration").value.toString()
                     var name =it.child("artist").value.toString()
                     var link =it.child("source").value.toString()
-                    list.add(AlbumModel(title,name,link,time,img))
+                    list.add(AlbumModel(id,title,name,link,time,img))
                 }
 
                 _list.postValue(list)

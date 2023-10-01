@@ -30,16 +30,10 @@ import java.util.Calendar
 
 class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
-    }
-    private val mLiveData = MutableLiveData<List<AlbumModel>>().apply { }
-
-    val liveData: LiveData<List<AlbumModel>> = mLiveData
-    val text: LiveData<String> = _text
     private val mListLiveData = MutableLiveData<List<HomeModel>>().apply { }
     val listLive: LiveData<List<HomeModel>> = mListLiveData
     var mListDataAsset: MutableList<HomeModel> = mutableListOf()
+    @SuppressLint("StaticFieldLeak")
     val context = getApplication<Application>().applicationContext
     var mAssets: AssetManager = context.assets
     private val _listLiveRL = MutableLiveData<List<HomeModel>>().apply { }
@@ -113,13 +107,13 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
             mListDataAsset.add(HomeModel(img, title, year))
         }
         mListDataAsset.sortBy { it.nameAlbum }
-        Log.d("ppp", mListDataAsset.size.toString())
+
 
         for (i in mListDataAsset.indices) {
             if (i == 0 || mListDataAsset[i].nameAlbum != mListDataAsset[i - 1].nameAlbum) list.add(
                 mListDataAsset[i]
             )
-            Log.e("ppp", mListDataAsset[i].nameAlbum)
+
         }
         mListDataAsset.clear()
         mListDataAsset.addAll(list)

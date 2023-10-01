@@ -97,18 +97,20 @@ class ArtistViewModel : ViewModel() {
     private fun onSuccess2(response: MusicResponse, genre: String) {
         mListApiPT.clear()
         var title: String
+        var id: String
         var nameSinger: String
         var link: String
         var time: String
         var images: String
         response.music.forEach {
             if (it.genre == genre) {
+                id=it.id
                 title = it.title
                 nameSinger = it.artist
                 link = it.source
                 time = it.duration?.let { it1 -> startTrackingTime(it1) }.toString()
                 images = it.image
-                mListApiPT.add(AlbumModel(title, nameSinger, link, time, images))
+                mListApiPT.add(AlbumModel(id,title, nameSinger, link, time, images))
             }
         }
         _listLivePT.postValue(mListApiPT)

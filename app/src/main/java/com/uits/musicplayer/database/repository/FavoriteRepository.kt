@@ -23,9 +23,10 @@ class FavoriteRepository(application: Context) {
         favoriteDao.insert(favorite)
     }
 
-    //    suspend fun deleteid(id : String) {
-//        favoriteDao.deleteId(id)
-    // }
+     fun deleteId(id: String) {
+        favoriteDao.deleteId(id)
+    }
+
     suspend fun delete() {
         favoriteDao.delete()
     }

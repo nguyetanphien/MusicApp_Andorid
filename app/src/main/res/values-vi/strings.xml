@@ -10,6 +10,7 @@
     <string name="next">Tiếp tục</string>
     <string name="previous">Trở lại</string>
     <string name="playingnow">ĐANG CHẠY NHẠC</string>
+    <string name="DelteteRL">Xóa</string>
     <string name="lorem_ipsum">[...]</string>
     <string name="hello_blank_fragment">alo</string>
     <string name="title_activity_album">Album</string>
@@ -25,4 +26,6 @@
     <string name="Popular_Tracks">Danh sách phổ biến</string>
     <string name="Recent_History">Lịch sử tìm kiếm</string>
     <string name="CLEAR">Xóa tất cả</string>
+    <string name="Favorite">Yêu thích</string>
+    <string name="UnFavorite">Bỏ Yêu thích</string>
 </resources>

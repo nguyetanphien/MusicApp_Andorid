@@ -15,6 +15,8 @@ class RecentListenings {
 
     @ColumnInfo(name = "Title")
     var title: String = ""
+    @ColumnInfo(name = "Name")
+    var name: String = ""
 
     @ColumnInfo(name = "Time")
     var time: String = ""

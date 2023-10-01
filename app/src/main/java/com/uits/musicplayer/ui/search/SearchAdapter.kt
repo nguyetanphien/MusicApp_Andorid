@@ -45,15 +45,13 @@ class SearchAdapter(
         holder.itemView.setOnClickListener(View.OnClickListener {
             onItemClickListener.onItemClick2(
                 position,
+                mList[position].id,
                 mList[position].link,
                 mList[position].nameSong,
                 mList[position].nameSinger,
                 mList[position].images
             )
         })
-
-
-
     }
 
     class SearchAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

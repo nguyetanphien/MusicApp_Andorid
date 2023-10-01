@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
@@ -38,18 +39,22 @@ class AlbumAdapter(
         holder.itemView.setOnClickListener(View.OnClickListener {
             onItemClickListener.onItemClick2(
                 position,
+                mutableList[position].id,
                 mutableList[position].link,
                 mutableList[position].nameSong,
                 mutableList[position].nameSinger,
                 mutableList[position].images
 
             )
-//            val intent = Intent(context, PlayerActivity::class.java)
-//            intent.putExtra("music", mutableList[position].link)
-//            intent.putExtra("name", mutableList[position].nameSong)
-//            intent.putExtra("singer", mutableList[position].nameSinger)
-//            intent.putExtra("image", mutableList[position].images)
-//            context?.startActivity(intent)
+        })
+        holder.ibtnChosseAS.setOnClickListener(View.OnClickListener {
+            onItemClickListener.onItemClick( position,
+                mutableList[position].id,
+                holder.ibtnChosseAS,
+                mutableList[position].link,
+                mutableList[position].nameSong,
+                mutableList[position].nameSinger,
+                mutableList[position].images)
         })
     }
 
@@ -59,6 +64,7 @@ class AlbumAdapter(
         val nameSong: TextView = itemView.findViewById(R.id.txtNameSongAS)
         val txtNameSinger: TextView = itemView.findViewById(R.id.txtNameSingerAS)
         val txtTimeAS: TextView = itemView.findViewById(R.id.txtTimeAS)
+        val ibtnChosseAS: ImageButton = itemView.findViewById(R.id.ibtnChosseAS)
 
     }
 }

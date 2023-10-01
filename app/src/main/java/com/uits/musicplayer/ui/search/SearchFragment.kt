@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
@@ -27,37 +28,40 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
-    private val binding get() = _binding!!
+
     lateinit var mSearchAdapterMusic: AdapterMusic
     lateinit var adapterRecentAdapter: RecentAdapter
     lateinit var adapterSearchAdapter: SearchAdapter
     lateinit var dashboardViewModel: SearchViewModel
-    lateinit var root: View
-
     private var mListData: MutableList<SearchModel> = mutableListOf()
     private var mListDataRecent: MutableList<RecentHistory> = mutableListOf()
     private var mListSearch: MutableList<AlbumModel> = mutableListOf()
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         // Tạo ViewModel và kết nối với Fragment
-
-        dashboardViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
+        dashboardViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        root = binding.root
         val edtSearch: AppCompatEditText = binding.edtsearchsong
         val rlRecentSearch: RelativeLayout = binding.rlRecentSearch
         val mRecyclerView: RecyclerView = binding.mRecycleView
+        val rvSearch: RecyclerView = binding.rvSearch
+        val root: View = binding.root
+
         rvRecentSearch()
         rvListSearch()
-
+        rvSearch.visibility = View.INVISIBLE
         edtSearch.onFocusChangeListener = View.OnFocusChangeListener { p0, p1 ->
             rlRecentSearch.visibility = View.VISIBLE
             mRecyclerView.visibility = View.INVISIBLE
+
         }
 
         edtSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                rvSearch.visibility = View.VISIBLE
+                rlRecentSearch.visibility = View.INVISIBLE
                 filter(s.toString())
             }
 
@@ -82,12 +86,21 @@ class SearchFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         mSearchAdapterMusic =
             AdapterMusic(requireActivity(), mListData, object : OnItemClickListener {
-                override fun onItemClick(position: Int, id: String) {
+                override fun onItemClick(
+                    position: Int,
+                    id: String,
+                    button: ImageButton,
+                    link: String,
+                    title: String,
+                    singer: String,
+                    images: String
+                ) {
                     TODO("Not yet implemented")
                 }
 
                 override fun onItemClick2(
                     position: Int,
+                    id: String,
                     link: String,
                     title: String,
                     singer: String,
@@ -111,13 +124,22 @@ class SearchFragment : Fragment() {
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         adapterRecentAdapter =
             RecentAdapter(requireActivity(), mListDataRecent, object : OnItemClickListener {
-                override fun onItemClick(position: Int, id: String) {
+                override fun onItemClick(
+                    position: Int,
+                    id: String,
+                    button: ImageButton,
+                    link: String,
+                    title: String,
+                    singer: String,
+                    images: String
+                ) {
                     dashboardViewModel.deleteid(id)
                     adapterRecentAdapter.notifyDataSetChanged()
                 }
 
                 override fun onItemClick2(
                     position: Int,
+                    id: String,
                     link: String,
                     title: String,
                     singer: String,
@@ -125,11 +147,8 @@ class SearchFragment : Fragment() {
                 ) {
 
                     val intent = Intent(requireContext(), PlayerActivity::class.java)
-                    val link = link
-                    val title = title
-                    val singer = singer
                     val list = mutableListOf<AlbumModel>()
-                    list.add(AlbumModel(title, singer, link, "11", images))
+                    list.add(AlbumModel(id, title, singer, link, "11", images))
                     intent.putParcelableArrayListExtra("listMusic", ArrayList(list))
                     startActivity(intent)
                 }
@@ -144,25 +163,34 @@ class SearchFragment : Fragment() {
     }
 
     private fun filter(text: String) {
-        val mRecyclerView: RecyclerView = binding.rvRecentSearch
+        val mRecyclerView: RecyclerView = binding.rvSearch
         val listSearch: MutableList<AlbumModel> = mutableListOf()
         mRecyclerView.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         adapterSearchAdapter =
             SearchAdapter(requireActivity(), listSearch, object : OnItemClickListener {
-                override fun onItemClick(position: Int, id: String) {
+                override fun onItemClick(
+                    position: Int,
+                    id: String,
+                    button: ImageButton,
+                    link: String,
+                    title: String,
+                    singer: String,
+                    images: String
+                ) {
                     TODO("Not yet implemented")
                 }
 
                 override fun onItemClick2(
                     position: Int,
+                    id: String,
                     link: String,
                     title: String,
                     singer: String,
                     images: String
                 ) {
                     val recentHistory = RecentHistory()
-                    recentHistory.id = position.toString()
+                    recentHistory.id = id
                     recentHistory.link = link
                     recentHistory.title = title
                     recentHistory.name = singer

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
@@ -45,14 +46,32 @@ class HomeAdapterRL(
         val p=position+1
         holder.txtstt.text=p.toString()
         holder.itemView.setOnClickListener(View.OnClickListener {
-            val intent = Intent(context, PlayerActivity::class.java)
-            context?.startActivity(intent)
+            onClick.onItemClick2(
+                position,
+                mListRL[position].id,
+                mListRL[position].link,
+                mListRL[position].title,
+                mListRL[position].name,
+                mListRL[position].images
+            )
+        })
+        holder.imgbtnChosse.setOnClickListener(View.OnClickListener {
+            onClick.onItemClick(
+                position,
+                mListRL[position].id,
+                holder.imgbtnChosse,
+                mListRL[position].link,
+                mListRL[position].title,
+                mListRL[position].name,
+                mListRL[position].images
+            )
         })
     }
 
     class HomeRLAdapter(itemview: View) : RecyclerView.ViewHolder(itemview) {
         val txtstt: TextView= itemView.findViewById(R.id.txtStt)
         val imgRL: ImageView = itemview.findViewById(R.id.imgPopularTrack)
+        val imgbtnChosse: ImageButton = itemview.findViewById(R.id.imgbtnChosse)
         val txtName: TextView = itemview.findViewById(R.id.txtNamePT)
         val txtTime: TextView = itemview.findViewById(R.id.txtTime)
     }
