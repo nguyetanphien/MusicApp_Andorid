@@ -34,7 +34,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtNamePT"
-        android:layout_width="@dimen/_190sdp"
+        android:layout_width="@dimen/_150sdp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"

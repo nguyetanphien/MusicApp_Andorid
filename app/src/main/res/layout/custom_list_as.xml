@@ -23,7 +23,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtNameSongAS"
-            android:layout_width="@dimen/_175sdp"
+            android:layout_width="@dimen/_150sdp"
             android:layout_height="wrap_content"
             android:text="Redbone"
             android:textColor="@color/white"
