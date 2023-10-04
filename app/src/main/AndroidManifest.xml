@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicPlayer_Android"
         tools:targetApi="31">
-        <!--        android.intent.action.start-->
+        <!-- android.intent.action.start -->
         <activity
             android:name=".ui.album.AlbumActivity"
             android:exported="false"
@@ -42,15 +42,21 @@
             android:name=".MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|adjustPan" />
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".broadcast_receiver.MyReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.AIRPLANE_MODE"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

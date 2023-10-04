@@ -61,13 +61,9 @@ class FavoriteFragment : Fragment() {
 
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val rlMusic: RelativeLayout = binding.rlMusic
-        Log.d("ppp",MediaPlayerManager.isMusicPlaying().toString())
-        if (MediaPlayerManager.isMusicPlaying())
-            rlMusic.visibility = View.VISIBLE
         mRvPlaylits()
         mRVAlbumsL()
-        playAndPause()
+
         nextFavoriteTrack()
         return root
     }
@@ -167,66 +163,12 @@ class FavoriteFragment : Fragment() {
         })
     }
 
-    private fun playAndPause() {
-        val ibtnPauseSongAlbumAS: ImageButton = binding.ibtnPauseSong
-        val ibtnPlaySongAlbumAS: ImageButton = binding.ibtnPlaySong
-        if (MediaPlayerManager.isMusicPlaying()) {
-            ibtnPauseSongAlbumAS.visibility = View.VISIBLE
-            ibtnPlaySongAlbumAS.visibility = View.INVISIBLE
-        } else {
-            ibtnPauseSongAlbumAS.visibility = View.INVISIBLE
-            ibtnPlaySongAlbumAS.visibility = View.VISIBLE
-        }
-        ibtnPauseSongAlbumAS.setOnClickListener(
-            View.OnClickListener {
-                MediaPlayerManager.pauseMusic()
-                ibtnPauseSongAlbumAS.visibility = View.INVISIBLE
-                ibtnPlaySongAlbumAS.visibility = View.VISIBLE
-            }
-        )
-        ibtnPlaySongAlbumAS.setOnClickListener(
-            View.OnClickListener {
-                MediaPlayerManager.resumeMusic()
-                ibtnPauseSongAlbumAS.visibility = View.VISIBLE
-                ibtnPlaySongAlbumAS.visibility = View.INVISIBLE
-            }
-        )
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        var play: String
-        val imgSongAlbumAS: AppCompatImageView = binding.imgAlumL
-        val txtNameSongAlbumAS: AppCompatTextView = binding.txtNameSongL
-        val txtNameSingerAlbumAS: AppCompatTextView = binding.txtNameSingerL
-        val rlAlbumAS: RelativeLayout = binding.rlMusic
-
-
-        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == 1) {
-            play = data?.getStringExtra("play").toString()
-            val nameSong = data?.getStringExtra("name")
-            val nameSinger = data?.getStringExtra("singer")
-            val image = data?.getStringExtra("image")
-            if (play == "ok") {
-                rlAlbumAS.visibility = View.VISIBLE
-                Glide.with(requireContext()).load(image).centerCrop()
-                    .placeholder(R.mipmap.ic_launcher)
-                    .into(imgSongAlbumAS)
-                txtNameSongAlbumAS.text = nameSong
-                txtNameSingerAlbumAS.text = nameSinger
-
-
-            } else {
-                rlAlbumAS.visibility = View.INVISIBLE
-
-            }
-        }
-    }
 
 
 }

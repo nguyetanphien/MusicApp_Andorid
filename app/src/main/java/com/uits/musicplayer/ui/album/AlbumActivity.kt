@@ -1,7 +1,10 @@
 package com.uits.musicplayer.ui.album
 
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -19,9 +22,11 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isInvisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.uits.musicplayer.MainActivity
 import com.uits.musicplayer.R
 import com.uits.musicplayer.database.entities.Favorite
 import com.uits.musicplayer.database.repository.FavoriteRepository
@@ -29,7 +34,6 @@ import com.uits.musicplayer.databinding.ActivityAlbumBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.ui.player.MediaPlayerManager
-import com.uits.musicplayer.ui.player.MediaPlayerManager.isMusicPlaying
 
 import com.uits.musicplayer.ui.player.MediaPlayerManager.pauseMusic
 import com.uits.musicplayer.ui.player.MediaPlayerManager.resumeMusic
@@ -50,6 +54,17 @@ class AlbumActivity : AppCompatActivity() {
     private lateinit var abbumAdapter: AlbumAdapter
     var mutableList: MutableList<AlbumModel> = mutableListOf()
     val listF = mutableListOf<Favorite>()
+    val list2 = mutableListOf<AlbumModel>()
+    var p = 0
+    private val broadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+            if (intent != null) {
+                val rlAlbumAS: RelativeLayout = binding.rlAlbum1AS
+                rlAlbumAS.visibility = View.VISIBLE
+                playAndPause(intent)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +73,8 @@ class AlbumActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[AlbumViewModel::class.java]
         val rlAlbumAS: RelativeLayout = binding.rlAlbum1AS
         rVAlbumList()
-        if (isMusicPlaying()) rlAlbumAS.visibility = View.VISIBLE
-
-        back("Awaken", "ntp", "https://storage.googleapis.com/automotive-media/album_art.jpg")
-        playAndPause()
-
+        rlAlbumAS.setOnClickListener(View.OnClickListener { })
+        back()
     }
 
     private fun rVAlbumList() {
@@ -107,8 +119,7 @@ class AlbumActivity : AppCompatActivity() {
                         favorite.link = link
                         viewModel.insertF(favorite)
                         true
-                    }
-                    else{
+                    } else {
                         viewModel.deleteIdF(id)
                     }
                     false
@@ -170,82 +181,93 @@ class AlbumActivity : AppCompatActivity() {
     }
 
 
-    private fun playAndPause() {
+    fun playAndPause(intent: Intent) {
+        val intent1 = Intent(MainActivity.BROADCAST_DEFAULT_ALBUM_CHANGED)
+        val list = intent.getParcelableArrayListExtra<AlbumModel>("playing_music1")
+        val position = intent.getIntExtra("position", 0)
+        val isPlay = intent.getBooleanExtra("isPlay", false)
         val ibtnPauseSongAlbumAS: ImageButton = findViewById(R.id.ibtnPauseSongAlbumAS)
         val ibtnPlaySongAlbumAS: ImageButton = findViewById(R.id.ibtnPlaySongAlbumAS)
-        Log.d("ppp", isMusicPlaying().toString())
-//        if (isMusicPlaying()) {
-//         //   ibtnPauseSongAlbumAS.visibility = View.VISIBLE
-//            ibtnPlaySongAlbumAS.visibility = View.INVISIBLE
-//        } else {
-//            ibtnPauseSongAlbumAS.visibility = View.INVISIBLE
-//            ibtnPlaySongAlbumAS.visibility = View.VISIBLE
-//        }
+        val imgSongAlbumAS: ImageView = findViewById(R.id.imgSongAlbumAS)
+        val txtNameSongAlbumAS: TextView = findViewById(R.id.txtNameSongAlbumAS)
+        val txtNameSingerAlbumAS: TextView = findViewById(R.id.txtNameSingerAlbumAS)
+        val ibtnNextSongAlbumAS: ImageButton = findViewById(R.id.ibtnNextSongAlbumAS)
+        val ibtnBackSongAlbumAS: ImageButton = findViewById(R.id.ibtnBackSongAlbumAS)
+
+        if (list != null) {
+            list2.clear()
+            list2.addAll(list)
+        }
+        p = position
+        if (list != null && position < list.size) {
+            val currentSong = list[position]
+            val nameSong = currentSong.nameSong
+            val image = currentSong.images
+            val singer = currentSong.nameSinger
+            Log.d("ppp", nameSong)
+            Glide.with(application).load(image).centerCrop()
+                .placeholder(R.mipmap.ic_launcher).into(imgSongAlbumAS)
+            txtNameSongAlbumAS.text = nameSong
+            txtNameSingerAlbumAS.text = singer
+        }
+
+        if (isPlay) {
+            ibtnPauseSongAlbumAS.visibility = View.VISIBLE
+            ibtnPlaySongAlbumAS.visibility = View.INVISIBLE
+        } else {
+            ibtnPauseSongAlbumAS.visibility = View.INVISIBLE
+            ibtnPlaySongAlbumAS.visibility = View.VISIBLE
+        }
 
         ibtnPauseSongAlbumAS.setOnClickListener(View.OnClickListener {
             pauseMusic()
             ibtnPauseSongAlbumAS.visibility = View.INVISIBLE
             ibtnPlaySongAlbumAS.visibility = View.VISIBLE
+            intent1.putExtra("isPlay", false)
+            LocalBroadcastManager.getInstance(application).sendBroadcast(intent1)
         })
         ibtnPlaySongAlbumAS.setOnClickListener(View.OnClickListener {
             resumeMusic()
             ibtnPauseSongAlbumAS.visibility = View.VISIBLE
             ibtnPlaySongAlbumAS.visibility = View.INVISIBLE
+            intent1.putExtra("isPlay", true)
+            LocalBroadcastManager.getInstance(application).sendBroadcast(intent1)
+        })
+
+        ibtnNextSongAlbumAS.setOnClickListener(View.OnClickListener {
+            p = position + 1
+            if (p < (list2.size )) {
+                MediaPlayerManager.playMusic1(list2, p)
+                intent1.putParcelableArrayListExtra("playing_music1",
+                    ArrayList(list2)
+                )
+                intent1.putExtra("position", p)
+                intent1.putExtra("isPlay", true)
+                LocalBroadcastManager.getInstance(application).sendBroadcast(intent1)
+            }
+
+        })
+        ibtnBackSongAlbumAS.setOnClickListener(View.OnClickListener {
+
+            p = position - 1
+            if (p >= 0) {
+                MediaPlayerManager.playMusic1(list2, p)
+                intent1.putParcelableArrayListExtra("playing_music1", ArrayList(list2))
+                intent1.putExtra("position", p)
+                intent1.putExtra("isPlay", true)
+                LocalBroadcastManager.getInstance(application).sendBroadcast(intent1)
+            }
+
+
         })
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        var play: String
-        val imgSongAlbumAS: AppCompatImageView = binding.imgSongAlbumAS
-        val txtNameSongAlbumAS: AppCompatTextView = binding.txtNameSongAlbumAS
-        val txtNameSingerAlbumAS: AppCompatTextView = binding.txtNameSingerAlbumAS
-        val rlAlbumAS: RelativeLayout = binding.rlAlbum1AS
 
-
-        if (resultCode == RESULT_OK && requestCode == 1) {
-            play = data?.getStringExtra("play").toString()
-            val nameSong = data?.getStringExtra("name")
-            val nameSinger = data?.getStringExtra("singer")
-            val image = data?.getStringExtra("image")
-            if (image != null) {
-                if (nameSinger != null) {
-                    if (nameSong != null) {
-                        back(nameSong, nameSinger, image)
-                    }
-                }
-            }
-            Log.d("ppp", play)
-            if (play == "ok") {
-                rlAlbumAS.visibility = View.VISIBLE
-                Glide.with(application).load(image).centerCrop().placeholder(R.mipmap.ic_launcher)
-                    .into(imgSongAlbumAS)
-                txtNameSongAlbumAS.text = nameSong
-                txtNameSingerAlbumAS.text = nameSinger
-
-
-            } else {
-                rlAlbumAS.visibility = View.INVISIBLE
-
-            }
-
-            Log.d("ppp", play)
-        }
-    }
-
-    private fun back(title2: String, singer: String, images: String) {
+    private fun back() {
         val back: ImageButton = findViewById(R.id.ibtnBackAlbumAS)
-//        var play: String = if (startMusic()) {
-//            "ok"
-//        } else "no"
+
         back.setOnClickListener(View.OnClickListener {
-            val intent = Intent()
-            intent.putExtra("play", "ok")
-            intent.putExtra("name", title2)
-            intent.putExtra("singer", singer)
-            intent.putExtra("image", images)
-            setResult(RESULT_OK, intent)
+
             finish()
         })
     }
@@ -260,6 +282,21 @@ class AlbumActivity : AppCompatActivity() {
             intent.putParcelableArrayListExtra("listMusic", list)
             startActivityForResult(intent, 1)
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(
+                broadCastReceiver,
+                IntentFilter(MainActivity.BROADCAST_DEFAULT_ALBUM_CHANGED)
+            )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this)
+            .unregisterReceiver(broadCastReceiver)
     }
 }
 

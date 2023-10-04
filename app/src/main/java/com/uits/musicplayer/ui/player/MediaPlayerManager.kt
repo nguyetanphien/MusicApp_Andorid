@@ -1,6 +1,7 @@
 package com.uits.musicplayer.ui.player
 
 import android.app.Application
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
@@ -11,12 +12,13 @@ import android.widget.ImageButton
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.uits.musicplayer.MainActivity
 import com.uits.musicplayer.database.entities.Favorite
 import com.uits.musicplayer.database.entities.RecentListenings
 import com.uits.musicplayer.database.repository.FavoriteRepository
 import com.uits.musicplayer.database.repository.RecentListeningRepository
 import com.uits.musicplayer.model.AlbumModel
-import io.reactivex.Observer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -27,7 +29,6 @@ object MediaPlayerManager {
 
     fun playMusic(
         musicList: MutableList<AlbumModel>,
-
         currentTrackIndex: Int,
         txtTimeMax: AppCompatTextView,
         txtNameSongPlaylist: AppCompatTextView,
@@ -44,149 +45,187 @@ object MediaPlayerManager {
     ) {
         var next = currentTrackIndex
         val recentHistoryRespository = RecentListeningRepository(application)
-
         fun insert(recentListenings: RecentListenings) =
             MainScope().launch(Dispatchers.IO) {
                 recentHistoryRespository.insert(recentListenings)
             }
-        if (musicList != null)
-            if (next < musicList.size) {
-                var currentTrack = musicList[next]
-                mediaPlayer.reset()
-                mediaPlayer.setDataSource(currentTrack.link)
-                mediaPlayer.prepare()
-                timeMusic(txtTimeMax)
-                txtNameSongPlaylist.text = musicList[next].nameSong
-                txtNameSingerPlaylist.text = musicList[next].nameSinger
-                startTrackingTime(sbPlayer, txtTimeNow)
-                mediaPlayer.start()
-                val id = currentTrack.id
-                val link = currentTrack.link
-                val nameSong = currentTrack.nameSong
-                val image = currentTrack.images
-                val singer = currentTrack.nameSinger
-                val time = currentTrack.time
-                val recentListenings = RecentListenings()
-                recentListenings.id = id
-                recentListenings.title = nameSong
-                recentListenings.name = singer
-                recentListenings.link = link
-                recentListenings.images = image
-                recentListenings.time = time
-                insert(recentListenings)
+        if (next < musicList.size) {
+            var currentTrack = musicList[next]
+            mediaPlayer.reset()
+            mediaPlayer.setDataSource(currentTrack.link)
+            mediaPlayer.prepare()
+            timeMusic(txtTimeMax)
+            txtNameSongPlaylist.text = musicList[next].nameSong
+            txtNameSingerPlaylist.text = musicList[next].nameSinger
+            startTrackingTime(sbPlayer, txtTimeNow)
+            mediaPlayer.start()
+            val id = currentTrack.id
+            val link = currentTrack.link
+            val nameSong = currentTrack.nameSong
+            val image = currentTrack.images
+            val singer = currentTrack.nameSinger
+            val time = currentTrack.time
+            val recentListenings = RecentListenings()
+            recentListenings.id = id
+            recentListenings.title = nameSong
+            recentListenings.name = singer
+            recentListenings.link = link
+            recentListenings.images = image
+            recentListenings.time = time
+            insert(recentListenings)
 
-                var check = false
-                ibtnRepeatSongPlayer.setOnClickListener(View.OnClickListener {
-                    if (!check) {
-                        check = true
-                        ibtnRepeatSongPlayer.visibility = View.INVISIBLE
-                        ibtnShuffle.visibility = View.VISIBLE
-                    }
-                })
-                ibtnShuffle.setOnClickListener(View.OnClickListener {
-                    check = false
-                    next = (0 until (musicList.size)).random()
-                    ibtnRepeatSongPlayer.visibility = View.VISIBLE
-                    ibtnShuffle.visibility = View.INVISIBLE
+            var check = false
+            ibtnRepeatSongPlayer.setOnClickListener(View.OnClickListener {
+                if (!check) {
+                    check = true
+                    ibtnRepeatSongPlayer.visibility = View.INVISIBLE
+                    ibtnShuffle.visibility = View.VISIBLE
+                }
+            })
+            ibtnShuffle.setOnClickListener(View.OnClickListener {
+                check = false
+                next = (0 until (musicList.size)).random()
+                ibtnRepeatSongPlayer.visibility = View.VISIBLE
+                ibtnShuffle.visibility = View.INVISIBLE
 
-                })
+            })
 
-                ibtnBackSongPlayer.setOnClickListener(View.OnClickListener {
-                    next--
+            ibtnBackSongPlayer.setOnClickListener(View.OnClickListener {
+                next--
 
-                    if (next < 0) {
-                        next = 0
-                    }
-                    playMusic(
-                        musicList,
+                if (next < 0) {
+                    next = 0
+                }
+                playMusic(
+                    musicList,
 
-                        next,
-                        txtTimeMax,
-                        txtNameSongPlaylist,
-                        txtNameSingerPlaylist,
-                        ibtnBackSongPlayer,
-                        ibtnNextSongPlayer,
-                        ibtnRepeatSongPlayer,
-                        ibtnShuffle, txtTimeNow,
-                        sbPlayer,
-                        application,
-                        ibtnUnFavorite,
-                        ibtnFavorite
-                    )
-                })
-                var list = mutableListOf<Favorite>()
-                val favoriteRepository: FavoriteRepository = FavoriteRepository(
-                    application
+                    next,
+                    txtTimeMax,
+                    txtNameSongPlaylist,
+                    txtNameSingerPlaylist,
+                    ibtnBackSongPlayer,
+                    ibtnNextSongPlayer,
+                    ibtnRepeatSongPlayer,
+                    ibtnShuffle, txtTimeNow,
+                    sbPlayer,
+                    application,
+                    ibtnUnFavorite,
+                    ibtnFavorite
                 )
-                val favorite = Favorite()
-                favoriteRepository.get().observeForever {
-                    list.clear()
-                    list.addAll(it)
-                    for (i in list) {
-                        if (i.id == id) {
-                            ibtnFavorite.visibility = INVISIBLE
-                            ibtnUnFavorite.visibility = VISIBLE
-                        } else {
-                            ibtnFavorite.visibility = VISIBLE
-                            ibtnUnFavorite.visibility = INVISIBLE
-                        }
+            })
+            val list = mutableListOf<Favorite>()
+            val favoriteRepository: FavoriteRepository = FavoriteRepository(
+                application
+            )
+            val favorite = Favorite()
+            favoriteRepository.get().observeForever {
+                list.clear()
+                list.addAll(it)
+                for (i in list) {
+                    if (i.id == id) {
+                        ibtnFavorite.visibility = INVISIBLE
+                        ibtnUnFavorite.visibility = VISIBLE
+                    } else {
+                        ibtnFavorite.visibility = VISIBLE
+                        ibtnUnFavorite.visibility = INVISIBLE
                     }
                 }
-                ibtnFavorite.setOnClickListener(View.OnClickListener {
-                    fun insert(favorite: Favorite) =
-                        MainScope().launch(Dispatchers.IO) {
-                            favoriteRepository.insert(favorite)
-                        }
-
-
-                    favorite.id = id
-                    favorite.images = image
-                    favorite.time = time
-                    favorite.singer = singer
-                    favorite.title = nameSong
-                    favorite.link = link
-                    insert(favorite)
-
-                    ibtnFavorite.visibility = INVISIBLE
-                    ibtnUnFavorite.visibility = VISIBLE
-
-                })
-                ibtnUnFavorite.setOnClickListener(View.OnClickListener {
-                    fun deleteId(id: String) =
-                        MainScope().launch(Dispatchers.IO) {
-                            favoriteRepository.deleteId(id)
-                        }
-                    deleteId(id)
-                    ibtnUnFavorite.visibility = INVISIBLE
-                    ibtnFavorite.visibility = VISIBLE
-
-                })
-                ibtnNextSongPlayer.setOnClickListener(View.OnClickListener {
-                    next++
-
-                    if (next > musicList.size) {
-                        next = musicList.size
+            }
+            ibtnFavorite.setOnClickListener(View.OnClickListener {
+                fun insert(favorite: Favorite) =
+                    MainScope().launch(Dispatchers.IO) {
+                        favoriteRepository.insert(favorite)
                     }
-                    playMusic(
-                        musicList,
 
-                        next,
-                        txtTimeMax,
-                        txtNameSongPlaylist,
-                        txtNameSingerPlaylist,
-                        ibtnBackSongPlayer,
-                        ibtnNextSongPlayer,
-                        ibtnRepeatSongPlayer,
-                        ibtnShuffle, txtTimeNow,
-                        sbPlayer,
-                        application,
-                        ibtnUnFavorite,
-                        ibtnFavorite
-                    )
-                })
-                // Nghe sự kiện kết thúc bài hát
-                mediaPlayer.setOnCompletionListener {
-                    if (check) {
+
+                favorite.id = id
+                favorite.images = image
+                favorite.time = time
+                favorite.singer = singer
+                favorite.title = nameSong
+                favorite.link = link
+                insert(favorite)
+
+                ibtnFavorite.visibility = INVISIBLE
+                ibtnUnFavorite.visibility = VISIBLE
+
+            })
+            ibtnUnFavorite.setOnClickListener(View.OnClickListener {
+                fun deleteId(id: String) =
+                    MainScope().launch(Dispatchers.IO) {
+                        favoriteRepository.deleteId(id)
+                    }
+                deleteId(id)
+                ibtnUnFavorite.visibility = INVISIBLE
+                ibtnFavorite.visibility = VISIBLE
+
+            })
+            ibtnNextSongPlayer.setOnClickListener(View.OnClickListener {
+                next++
+
+                if (next > musicList.size) {
+                    next = musicList.size
+                }
+                playMusic(
+                    musicList,
+
+                    next,
+                    txtTimeMax,
+                    txtNameSongPlaylist,
+                    txtNameSingerPlaylist,
+                    ibtnBackSongPlayer,
+                    ibtnNextSongPlayer,
+                    ibtnRepeatSongPlayer,
+                    ibtnShuffle, txtTimeNow,
+                    sbPlayer,
+                    application,
+                    ibtnUnFavorite,
+                    ibtnFavorite
+                )
+            })
+            // Nghe sự kiện kết thúc bài hát
+            mediaPlayer.setOnCompletionListener {
+                if (check) {
+                    if (next >= musicList.size) {
+                        next = 0
+                        playMusic(
+                            musicList,
+
+                            next,
+                            txtTimeMax,
+                            txtNameSongPlaylist,
+                            txtNameSingerPlaylist,
+                            ibtnBackSongPlayer,
+                            ibtnNextSongPlayer,
+                            ibtnRepeatSongPlayer,
+                            ibtnShuffle, txtTimeNow,
+                            sbPlayer,
+                            application,
+                            ibtnUnFavorite,
+                            ibtnFavorite
+                        )
+                    }
+                } else {
+                    next++
+                    if (next < musicList.size) {
+
+                        playMusic(
+                            musicList,
+
+                            next,
+                            txtTimeMax,
+                            txtNameSongPlaylist,
+                            txtNameSingerPlaylist,
+                            ibtnBackSongPlayer,
+                            ibtnNextSongPlayer,
+                            ibtnRepeatSongPlayer,
+                            ibtnShuffle, txtTimeNow,
+                            sbPlayer,
+                            application,
+                            ibtnUnFavorite,
+                            ibtnFavorite
+                        )
+                    } else {
                         if (next >= musicList.size) {
                             next = 0
                             playMusic(
@@ -206,52 +245,44 @@ object MediaPlayerManager {
                                 ibtnFavorite
                             )
                         }
-                    } else {
-                        next++
-                        if (next < musicList.size) {
-
-                            playMusic(
-                                musicList,
-
-                                next,
-                                txtTimeMax,
-                                txtNameSongPlaylist,
-                                txtNameSingerPlaylist,
-                                ibtnBackSongPlayer,
-                                ibtnNextSongPlayer,
-                                ibtnRepeatSongPlayer,
-                                ibtnShuffle, txtTimeNow,
-                                sbPlayer,
-                                application,
-                                ibtnUnFavorite,
-                                ibtnFavorite
-                            )
-                        } else {
-                            if (next >= musicList.size) {
-                                next = 0
-                                playMusic(
-                                    musicList,
-
-                                    next,
-                                    txtTimeMax,
-                                    txtNameSongPlaylist,
-                                    txtNameSingerPlaylist,
-                                    ibtnBackSongPlayer,
-                                    ibtnNextSongPlayer,
-                                    ibtnRepeatSongPlayer,
-                                    ibtnShuffle, txtTimeNow,
-                                    sbPlayer,
-                                    application,
-                                    ibtnUnFavorite,
-                                    ibtnFavorite
-                                )
-                            }
-                        }
                     }
+                }
+            }
+        }
+        val intent1 = Intent(MainActivity.BROADCAST_DEFAULT_ALBUM_CHANGED)
+        intent1.putExtra("playing_music1", musicList?.let { ArrayList(it) })
+        intent1.putExtra("position",next)
+        intent1.putExtra("isPlay",true)
+        LocalBroadcastManager.getInstance(application).sendBroadcast(intent1)
+
+    }
+    fun playMusic1(
+        musicList: MutableList<AlbumModel>,
+        currentTrackIndex: Int,
+
+    ) {
+        var next = currentTrackIndex
+
+        if (next < musicList.size) {
+            var currentTrack = musicList[next]
+            mediaPlayer.reset()
+            mediaPlayer.setDataSource(currentTrack.link)
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+            // Nghe sự kiện kết thúc bài hát
+            mediaPlayer.setOnCompletionListener {
+                if (next >= musicList.size) {
+                    next = 0
+                    playMusic1(
+                        musicList,
+                        next
+                    )
 
                 }
             }
+        }
     }
+
 
     @Synchronized
     fun pauseMusic() {
@@ -266,10 +297,11 @@ object MediaPlayerManager {
     }
 
     @Synchronized
-    fun startMusic() {
-        if (mediaPlayer != null && !isPlaying) {
-            isPlaying = true
+    fun startMusic(): Boolean {
+        if (mediaPlayer.isPlaying) {
+            return true
         }
+        return false
     }
 
     @Synchronized

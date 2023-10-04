@@ -17,6 +17,8 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.uits.musicplayer.MainActivity
 
 import com.uits.musicplayer.R
 
@@ -37,25 +39,20 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
-        val intent: Intent = intent
-        var listMusic = intent.getParcelableArrayListExtra<AlbumModel>("listMusic")
-        var currentTrackIndex = intent.getIntExtra("position", 0)
+
+        val listMusic = intent.getParcelableArrayListExtra<AlbumModel>("listMusic")
+        val currentTrackIndex = intent.getIntExtra("position", 0)
 
 
         if (!listMusic.isNullOrEmpty()) {
-            if (currentTrackIndex != null) {
-
-                play(listMusic, currentTrackIndex)
-
-            }
+            play(listMusic, currentTrackIndex)
         }
 
         image = currentTrackIndex?.let { listMusic?.get(it)?.images } ?: ""
         supportFragmentManager.beginTransaction()
             .replace(R.id.fm, PlayerImageFragment.newInstance(image)).commitNow()
         liric()
-
-        listMusic?.get(currentTrackIndex)?.let { back(it.nameSong, it.link, it.nameSinger, image) }
+        back()
     }
 
     private fun liric() {
@@ -74,17 +71,10 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SuspiciousIndentation")
-    private fun back(title2: String, link: String, singer: String, images: String) {
+    private fun back() {
         val backPlayer: AppCompatImageButton = findViewById(R.id.btnbackPlayer)
 
         backPlayer.setOnClickListener(View.OnClickListener {
-            val intent = Intent()
-            intent.putExtra("play", "ok")
-            intent.putExtra("music", link)
-            intent.putExtra("name", title2)
-            intent.putExtra("singer", singer)
-            intent.putExtra("image", images)
-            setResult(RESULT_OK, intent)
             finish()
         })
     }
@@ -103,6 +93,7 @@ class PlayerActivity : AppCompatActivity() {
         val txtTimeNow: AppCompatTextView = findViewById(R.id.txtTimeNow)
         val ibtnUnFavorite: ImageButton = findViewById(R.id.ibtnUnFavorite)
         val ibtnFavorite: ImageButton = findViewById(R.id.ibtnFavorite)
+        val intent1 = Intent(MainActivity.BROADCAST_DEFAULT_ALBUM_CHANGED)
 
         MediaPlayerManager.playMusic(
             list,
@@ -118,23 +109,26 @@ class PlayerActivity : AppCompatActivity() {
             sbPlayer, application, ibtnUnFavorite, ibtnFavorite
         )
         //startTrackingTime(sbPlayer, txtTimeNow)
+        intent1.putExtra("isPlay",true)
+        LocalBroadcastManager.getInstance(application).sendBroadcast(intent1)
         seekbar(sbPlayer)
         ibtnPlayPlayer.setOnClickListener(View.OnClickListener {
             MediaPlayerManager.resumeMusic()
             ibtnPlayPlayer.visibility = INVISIBLE
             ibtnPausePlayer.visibility = VISIBLE
+            intent1.putExtra("isPlay",true)
+            LocalBroadcastManager.getInstance(application).sendBroadcast(intent1)
         })
         ibtnPausePlayer.setOnClickListener(View.OnClickListener {
             MediaPlayerManager.pauseMusic()
             ibtnPlayPlayer.visibility = VISIBLE
             ibtnPausePlayer.visibility = INVISIBLE
+            intent1.putExtra("isPlay",false)
+            LocalBroadcastManager.getInstance(application).sendBroadcast(intent1)
         })
 
     }
 
-    fun checkFavorite() {
-
-    }
 
     fun playMusicAsset(link: String) {
         val ibtnPausePlayer: ImageButton = findViewById(R.id.ibtnPausePlayer)
