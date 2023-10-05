@@ -24,6 +24,8 @@
     <string name="Favorite">Favorite</string>
     <string name="UnFavorite">UnFavorite</string>
     <string name="DelteteRL" >Delete </string>
+    <string name="No_songs" >No songs </string>
+    <string name="song" >song </string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

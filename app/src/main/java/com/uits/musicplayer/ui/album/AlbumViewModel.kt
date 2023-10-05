@@ -147,7 +147,7 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
         val durationInMillis = mediaPlayer.duration ?: 0
         val minutes = (durationInMillis / 1000) / 60
         val seconds = (durationInMillis / 1000) % 60
-        var m_s = "$minutes:$seconds"
+        var m_s = String.format("%02d:%02d", minutes, seconds)
         return m_s
     }
 

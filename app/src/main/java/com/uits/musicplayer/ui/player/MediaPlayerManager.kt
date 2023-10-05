@@ -163,8 +163,8 @@ object MediaPlayerManager {
             ibtnNextSongPlayer.setOnClickListener(View.OnClickListener {
                 next++
 
-                if (next > musicList.size) {
-                    next = musicList.size
+                if (next > musicList.size-1) {
+                    next = musicList.size -1
                 }
                 playMusic(
                     musicList,

@@ -106,8 +106,19 @@ class MainActivity : AppCompatActivity() {
 
                 Glide.with(application).load(image).centerCrop()
                     .placeholder(R.mipmap.ic_launcher).into(imgSongAlbum)
-                txtNameSingerAlbum.text = singer
-                txtNameSongAlbum.text = nameSong
+                val userSong: String = if (nameSong.length >= 5) {
+                    nameSong.substring(0, 5) + "..."
+                } else {
+                    nameSong
+                }
+
+                txtNameSongAlbum.text = userSong
+                val userName: String = if (singer.length >= 5) {
+                    singer.substring(0, 5) + "..."
+                } else {
+                    singer
+                }
+                txtNameSingerAlbum.text = userName
             }
         }
         ibtnPauseSongAlbum.setOnClickListener(View.OnClickListener {

@@ -1,6 +1,8 @@
 package com.uits.musicplayer.ui.album
 
 
+import android.R.attr.data
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -11,15 +13,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import android.widget.PopupMenu
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.isInvisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -29,22 +27,14 @@ import com.bumptech.glide.Glide
 import com.uits.musicplayer.MainActivity
 import com.uits.musicplayer.R
 import com.uits.musicplayer.database.entities.Favorite
-import com.uits.musicplayer.database.repository.FavoriteRepository
 import com.uits.musicplayer.databinding.ActivityAlbumBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.ui.player.MediaPlayerManager
-
 import com.uits.musicplayer.ui.player.MediaPlayerManager.pauseMusic
 import com.uits.musicplayer.ui.player.MediaPlayerManager.resumeMusic
-import com.uits.musicplayer.ui.player.MediaPlayerManager.startMusic
-
 import com.uits.musicplayer.ui.player.PlayerActivity
-
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import java.io.IOException
 
 
@@ -77,6 +67,7 @@ class AlbumActivity : AppCompatActivity() {
         back()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun rVAlbumList() {
         val intent: Intent = intent
         val name = intent.getStringExtra("album")
@@ -168,7 +159,7 @@ class AlbumActivity : AppCompatActivity() {
                 playMusic(
                     ArrayList(mutableList)
                 )
-                txtAlbumTimeAS.text = mutableList.size.toString() + " songs"
+                txtAlbumTimeAS.text = mutableList.size.toString() + " "+getString(R.string.song)
             } catch (e: IOException) {
             }
         })
@@ -204,11 +195,21 @@ class AlbumActivity : AppCompatActivity() {
             val nameSong = currentSong.nameSong
             val image = currentSong.images
             val singer = currentSong.nameSinger
-            Log.d("ppp", nameSong)
             Glide.with(application).load(image).centerCrop()
                 .placeholder(R.mipmap.ic_launcher).into(imgSongAlbumAS)
-            txtNameSongAlbumAS.text = nameSong
-            txtNameSingerAlbumAS.text = singer
+            val userSong: String = if (nameSong.length >= 5) {
+                nameSong.substring(0, 5) + "..."
+            } else {
+                nameSong
+            }
+
+            txtNameSongAlbumAS.text = userSong
+            val userName: String = if (singer.length >= 5) {
+                singer.substring(0, 5) + "..."
+            } else {
+                singer
+            }
+            txtNameSingerAlbumAS.text = userName
         }
 
         if (isPlay) {

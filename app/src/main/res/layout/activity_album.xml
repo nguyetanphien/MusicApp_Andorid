@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_375sdp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/rv"
+                android:src="@mipmap/song_album"
                 app:layout_collapseMode="parallax" />
 
             <RelativeLayout
@@ -161,7 +161,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtNameSongAlbumAS"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Baby boy"
                 android:textColor="@color/white"
@@ -173,6 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chilibi nnnnn"
+                android:maxLines="1"
                 android:textColor="#8C8C8C"
                 android:textSize="@dimen/_9sdp" />
         </androidx.appcompat.widget.LinearLayoutCompat>

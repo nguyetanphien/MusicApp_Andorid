@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,11 +83,14 @@ class TracksActivity : AppCompatActivity() {
                 singer: String,
                 images: String
             ) {
+                    val intent = Intent(applicationContext, PlayerActivity::class.java)
+                    intent.putParcelableArrayListExtra("listMusic", ArrayList(listAlbum))
+                    intent.putExtra("position", position)
+                    startActivity(intent)
 
-                val intent = Intent(applicationContext, PlayerActivity::class.java)
-                intent.putParcelableArrayListExtra("listMusic", ArrayList(listAlbum))
-                intent.putExtra("position", position)
-                startActivity(intent)
+
+
+
             }
 
         })
@@ -125,9 +129,15 @@ class TracksActivity : AppCompatActivity() {
     fun playFTrack() {
         val ibtnPlayFTrack: ImageButton = findViewById(R.id.ibtnPlayFTrack)
         ibtnPlayFTrack.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, PlayerActivity::class.java)
-            intent.putParcelableArrayListExtra("listMusic", ArrayList(listAlbum))
-            startActivity(intent)
+            if (listAlbum.isNotEmpty()){
+                val intent = Intent(this, PlayerActivity::class.java)
+                intent.putParcelableArrayListExtra("listMusic", ArrayList(listAlbum))
+                startActivity(intent)
+            }
+            else{
+                Toast.makeText(applicationContext,R.string.No_songs, Toast.LENGTH_SHORT).show()
+            }
+
         })
 
     }

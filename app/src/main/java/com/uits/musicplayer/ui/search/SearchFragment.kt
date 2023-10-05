@@ -145,10 +145,10 @@ class SearchFragment : Fragment() {
                     singer: String,
                     images: String
                 ) {
-
                     val intent = Intent(requireContext(), PlayerActivity::class.java)
                     val list = mutableListOf<AlbumModel>()
-                    list.add(AlbumModel(id, title, singer, link, "11", images))
+                    val time = dashboardViewModel.duration(link)
+                    list.add(AlbumModel(id, title, singer, link, time, images))
                     intent.putParcelableArrayListExtra("listMusic", ArrayList(list))
                     startActivity(intent)
                 }

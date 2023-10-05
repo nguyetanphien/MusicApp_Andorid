@@ -4,6 +4,7 @@ package com.uits.musicplayer.ui.search
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.res.AssetManager
+import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -36,7 +37,8 @@ import java.util.Calendar
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val recentHistoryRespository: RecentHistoryRepository = RecentHistoryRepository(application)
+    private val recentHistoryRespository: RecentHistoryRepository =
+        RecentHistoryRepository(application)
     private val _listDataAlbum = MutableLiveData<List<SearchModel>>().apply {
     }
     private val _list = MutableLiveData<List<AlbumModel>>().apply {
@@ -44,10 +46,12 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
     val _liveData: LiveData<List<AlbumModel>> = _list
     var mListDataApi: MutableList<SearchModel> = mutableListOf()
+
     @SuppressLint("StaticFieldLeak")
     val context = getApplication<Application>().applicationContext
     val listDataAlbum: LiveData<List<SearchModel>> = _listDataAlbum
     var mAssets: AssetManager = context.assets
+
     @SuppressLint("CheckResult")
     fun featchData() {
         val response: Observable<MusicResponse> = APIClient.APIClient.mApiService.getMusic()
@@ -62,21 +66,22 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
                 }
             })
     }
+
     private fun onSuccess(response: MusicResponse) {
         mListDataApi.clear()
         var title: String
         var img: String
-        val list= mutableListOf<SearchModel>()
+        val list = mutableListOf<SearchModel>()
         response.music.forEach {
-            title=it.genre
-            img =it.image
+            title = it.genre
+            img = it.image
 
-            mListDataApi.add(SearchModel(title,img))
+            mListDataApi.add(SearchModel(title, img))
         }
         mListDataApi.sortBy { it.title }
 
-        for (i in mListDataApi.indices){
-            if (i==0||mListDataApi[i].title != mListDataApi[i-1].title)
+        for (i in mListDataApi.indices) {
+            if (i == 0 || mListDataApi[i].title != mListDataApi[i - 1].title)
                 list.add(mListDataApi[i])
         }
         mListDataApi.clear()
@@ -101,13 +106,13 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
 
                 dataSnapshot.children.forEach {
-                    val id =it.child("id").value.toString()
+                    val id = it.child("id").value.toString()
                     var title = it.child("title").value.toString()
                     var img = it.child("image").value.toString()
                     var time = it.child("duration").value.toString()
-                    var name =it.child("artist").value.toString()
-                    var link =it.child("source").value.toString()
-                    list.add(AlbumModel(id,title,name,link,time,img))
+                    var name = it.child("artist").value.toString()
+                    var link = it.child("source").value.toString()
+                    list.add(AlbumModel(id, title, name, link, time, img))
                 }
 
                 _list.postValue(list)
@@ -121,20 +126,36 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     }
 
-
+    fun duration(link: String): String {
+        val mediaPlayer = MediaPlayer()
+        try {
+            mediaPlayer.setDataSource(link)
+            mediaPlayer.prepare()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        val durationInMillis = mediaPlayer.duration ?: 0
+        val minutes = (durationInMillis / 1000) / 60
+        val seconds = (durationInMillis / 1000) % 60
+        var m_s = String.format("%02d:%02d", minutes, seconds)
+        return m_s
+    }
     fun insert(recentHistory: RecentHistory) =
         MainScope().launch(Dispatchers.IO) {
             recentHistoryRespository.insert(recentHistory)
         }
-    fun deleteid(id :String) =
+
+    fun deleteid(id: String) =
         MainScope().launch(Dispatchers.IO) {
             recentHistoryRespository.deleteid(id)
         }
+
     fun delete() =
         MainScope().launch(Dispatchers.IO) {
             recentHistoryRespository.delete()
         }
-    fun getDAta() :
-            LiveData<List<RecentHistory>> =recentHistoryRespository.get()
+
+    fun getDAta():
+            LiveData<List<RecentHistory>> = recentHistoryRespository.get()
 
 }

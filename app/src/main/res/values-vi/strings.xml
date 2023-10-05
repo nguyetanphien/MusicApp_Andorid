@@ -28,4 +28,6 @@
     <string name="CLEAR">Xóa tất cả</string>
     <string name="Favorite">Yêu thích</string>
     <string name="UnFavorite">Bỏ Yêu thích</string>
+    <string name="No_songs">Không có bài hát nào</string>
+    <string name="song">bài hát</string>
 </resources>
