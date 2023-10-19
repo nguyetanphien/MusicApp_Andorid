@@ -40,12 +40,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Locale
-import kotlin.math.log
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -125,7 +119,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                         }
                     }
                 }
-                Log.d("ppp",list.size.toString())
                 list.sortBy { it.nameAlbum }
                 for (i in list.indices) {
                     if (i == 0 || list[i].nameAlbum != list[i - 1].nameAlbum)

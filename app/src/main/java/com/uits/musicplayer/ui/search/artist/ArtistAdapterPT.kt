@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -42,10 +43,24 @@ class ArtistAdapterPT(
         val p = position + 1
         holder.txtstt.text = p.toString()
         holder.itemView.setOnClickListener(View.OnClickListener {
-            val intent = Intent(context, PlayerActivity::class.java)
-            intent.putParcelableArrayListExtra("listMusic", ArrayList(list))
-            intent.putExtra("position", position)
-            context.startActivity(intent)
+            onClick.onItemClick2(
+                position,
+                list[position].id,
+                list[position].link,
+                list[position].nameSong,
+                list[position].nameSinger,
+                list[position].images
+
+            )
+        })
+        holder.imgbtnChosse.setOnClickListener(View.OnClickListener {
+            onClick.onItemClick( position,
+                list[position].id,
+                holder.imgbtnChosse,
+                list[position].link,
+                list[position].nameSong,
+                list[position].nameSinger,
+                list[position].images)
         })
     }
 
@@ -53,6 +68,8 @@ class ArtistAdapterPT(
         val txtstt: TextView = itemView.findViewById(R.id.txtStt)
         var img: ImageView = itemView.findViewById(R.id.imgPopularTrack)
         var nameAlbumPT: TextView = itemView.findViewById(R.id.txtNamePT)
+        var imgbtnChosse: ImageButton = itemView.findViewById(R.id.imgbtnChosse)
+
         var time: TextView = itemView.findViewById(R.id.txtTime)
     }
 }

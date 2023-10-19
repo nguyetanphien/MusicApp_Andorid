@@ -5,12 +5,10 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.res.AssetManager
 import android.media.MediaPlayer
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -19,7 +17,6 @@ import com.google.firebase.ktx.Firebase
 import com.uits.musicplayer.database.entities.RecentHistory
 import com.uits.musicplayer.database.repository.RecentHistoryRepository
 import com.uits.musicplayer.model.AlbumModel
-import com.uits.musicplayer.model.HomeModel
 import com.uits.musicplayer.model.SearchModel
 import com.uits.musicplayer.service.APIClient
 import com.uits.musicplayer.service.response.MusicResponse
@@ -30,10 +27,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -137,6 +130,13 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         val durationInMillis = mediaPlayer.duration ?: 0
         val minutes = (durationInMillis / 1000) / 60
         val seconds = (durationInMillis / 1000) % 60
+        var m_s = String.format("%02d:%02d", minutes, seconds)
+        return m_s
+    }
+    fun durationTime(duration: String):String{
+        val durationInMillis=duration.toInt()
+        val minutes = durationInMillis / 60
+        val seconds = durationInMillis % 60
         var m_s = String.format("%02d:%02d", minutes, seconds)
         return m_s
     }

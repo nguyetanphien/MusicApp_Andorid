@@ -34,7 +34,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtNamePT"
-        android:layout_width="@dimen/_150sdp"
+        android:layout_width="@dimen/_130sdp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
@@ -59,8 +59,8 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/imgbtnChosse"
-        android:layout_width="@dimen/_14sdp"
-        android:layout_height="@dimen/_12sdp"
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_14sdp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"

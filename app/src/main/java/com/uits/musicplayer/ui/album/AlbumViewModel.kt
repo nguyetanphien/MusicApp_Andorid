@@ -4,11 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.res.AssetManager
 import android.media.MediaPlayer
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import android.widget.SeekBar
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,7 +13,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.uits.musicplayer.R
 import com.uits.musicplayer.database.entities.Favorite
 import com.uits.musicplayer.database.repository.FavoriteRepository
 import com.uits.musicplayer.model.AlbumModel
@@ -30,7 +25,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.util.concurrent.CountDownLatch
 
 
 @SuppressLint("StaticFieldLeak")

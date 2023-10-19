@@ -5,9 +5,11 @@ import android.annotation.SuppressLint
 
 import android.content.Intent
 import android.media.AudioAttributes
+import android.media.MediaPlayer
 
 import android.media.SoundPool
 import android.os.Bundle
+import android.util.Log
 
 import android.view.View
 import android.view.View.INVISIBLE
@@ -43,10 +45,10 @@ class PlayerActivity : AppCompatActivity() {
         val listMusic = intent.getParcelableArrayListExtra<AlbumModel>("listMusic")
         val currentTrackIndex = intent.getIntExtra("position", 0)
 
-
         if (!listMusic.isNullOrEmpty()) {
             play(listMusic, currentTrackIndex)
         }
+
 
         image = currentTrackIndex?.let { listMusic?.get(it)?.images } ?: ""
         supportFragmentManager.beginTransaction()
@@ -128,7 +130,20 @@ class PlayerActivity : AppCompatActivity() {
         })
 
     }
-
+    fun duration(link:String): String {
+        val mediaPlayer= MediaPlayer()
+        try {
+            mediaPlayer.setDataSource(link)
+            mediaPlayer.prepare()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        val durationInMillis = mediaPlayer.duration ?: 0
+        val minutes = (durationInMillis / 1000) / 60
+        val seconds = (durationInMillis / 1000) % 60
+        val m_s =  String.format("%02d:%02d", minutes, seconds)
+        return m_s
+    }
 
     fun playMusicAsset(link: String) {
         val ibtnPausePlayer: ImageButton = findViewById(R.id.ibtnPausePlayer)

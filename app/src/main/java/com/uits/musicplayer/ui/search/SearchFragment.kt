@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -198,7 +197,13 @@ class SearchFragment : Fragment() {
                     dashboardViewModel.insert(recentHistory)
                     val intent = Intent(context, PlayerActivity::class.java)
                     val list = mutableListOf<AlbumModel>()
-                    list.add(listSearch[position])
+                    val id1=listSearch[position].id
+                    val nameSong=listSearch[position].nameSong
+                    val nameSinger=listSearch[position].nameSinger
+                    val link= listSearch[position].link
+                    val time=dashboardViewModel.durationTime(listSearch[position].time)
+                    val image=listSearch[position].images
+                    list.add(AlbumModel(id1, nameSong, nameSinger, link, time, image))
                     intent.putParcelableArrayListExtra("listMusic", ArrayList(list))
                     context!!.startActivity(intent)
                 }
@@ -207,7 +212,6 @@ class SearchFragment : Fragment() {
         dashboardViewModel._liveData.observe(viewLifecycleOwner) {
             mListSearch.clear()
             mListSearch.addAll(it)
-            Log.d("ppp", mListSearch.size.toString())
             adapterSearchAdapter.notifyDataSetChanged()
 
         }

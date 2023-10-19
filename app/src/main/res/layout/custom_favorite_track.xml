@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_33sdp"
+    android:layout_height="@dimen/_36sdp"
     android:layout_marginBottom="@dimen/_17sdp"
     android:background="#26292D"
     android:orientation="horizontal">
@@ -12,7 +12,7 @@
         android:id="@+id/cv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/_10sdp"
         app:cardCornerRadius="@dimen/_7sdp">
 
@@ -63,8 +63,8 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/ibtnChosseFTrack"
-        android:layout_width="@dimen/_18sdp"
-        android:layout_height="@dimen/_14sdp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_16sdp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@color/wnull"

@@ -130,7 +130,7 @@ class AlbumActivity : AppCompatActivity() {
                 intent.putParcelableArrayListExtra("listMusic", ArrayList(mutableList))
                 Log.d("ppp", position.toString())
                 intent.putExtra("position", position)
-                startActivityForResult(intent, 1)
+                startActivity(intent)
 
             }
         })
@@ -159,7 +159,7 @@ class AlbumActivity : AppCompatActivity() {
                 playMusic(
                     ArrayList(mutableList)
                 )
-                txtAlbumTimeAS.text = mutableList.size.toString() + " "+getString(R.string.song)
+                txtAlbumTimeAS.text = mutableList.size.toString() + " " + getString(R.string.song)
             } catch (e: IOException) {
             }
         })
@@ -237,9 +237,10 @@ class AlbumActivity : AppCompatActivity() {
 
         ibtnNextSongAlbumAS.setOnClickListener(View.OnClickListener {
             p = position + 1
-            if (p < (list2.size )) {
+            if (p < (list2.size)) {
                 MediaPlayerManager.playMusic1(list2, p)
-                intent1.putParcelableArrayListExtra("playing_music1",
+                intent1.putParcelableArrayListExtra(
+                    "playing_music1",
                     ArrayList(list2)
                 )
                 intent1.putExtra("position", p)

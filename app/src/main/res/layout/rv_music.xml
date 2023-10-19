@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BLues"
-            android:textColor="@color/purple_700"
+            android:textColor="#F4511E"
             android:textSize="@dimen/_17sdp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

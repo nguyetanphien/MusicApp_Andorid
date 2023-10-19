@@ -1,9 +1,6 @@
 package com.uits.musicplayer.ui.favorite.Track
 
-import android.content.ClipData
 import android.content.Intent
-import android.media.RouteListingPreference.Item
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -18,15 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.uits.musicplayer.R
 import com.uits.musicplayer.database.entities.Favorite
-import com.uits.musicplayer.database.repository.FavoriteRepository
 import com.uits.musicplayer.databinding.ActivityTracksBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
-import com.uits.musicplayer.model.ArtistModel
 import com.uits.musicplayer.ui.player.PlayerActivity
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 class TracksActivity : AppCompatActivity() {

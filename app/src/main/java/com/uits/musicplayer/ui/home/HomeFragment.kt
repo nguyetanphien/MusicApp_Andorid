@@ -159,10 +159,9 @@ class HomeFragment : Fragment() {
                             favorite.link = link
                             homeViewModel.insertF(favorite)
                             true
-                        }else if(menuItem.itemId==R.id.itemDeleteRL){
+                        } else if (menuItem.itemId == R.id.itemDeleteRL) {
                             homeViewModel.deleteid(id)
-                        }
-                        else {
+                        } else {
                             homeViewModel.deleteIdF(id)
                         }
                         false

@@ -1,12 +1,14 @@
 package com.uits.musicplayer.ui.search.artist
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.media.MediaPlayer
-import android.os.Build
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.uits.musicplayer.database.entities.Favorite
+import com.uits.musicplayer.database.repository.FavoriteRepository
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.ArtistModel
 import com.uits.musicplayer.service.APIClient
@@ -14,13 +16,12 @@ import com.uits.musicplayer.service.response.MusicResponse
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
 
-class ArtistViewModel : ViewModel() {
+class ArtistViewModel(application: Application) : AndroidViewModel(application) {
     private val _list = MutableLiveData<List<ArtistModel>>().apply {
 
     }
@@ -28,8 +29,12 @@ class ArtistViewModel : ViewModel() {
     private var mListApi: MutableList<ArtistModel> = mutableListOf()
 
     private val _listLivePT = MutableLiveData<List<AlbumModel>>().apply { }
+    val context = getApplication<Application>().applicationContext
     val _listDataPT: LiveData<List<AlbumModel>> = _listLivePT
     private var mListApiPT: MutableList<AlbumModel> = mutableListOf()
+    val favoriteRepository = FavoriteRepository(
+        context
+    )
 
     @SuppressLint("CheckResult")
     fun featchData(genre: String) {
@@ -129,6 +134,33 @@ class ArtistViewModel : ViewModel() {
         return m_s
 
     }
+    fun duration(link: String): String {
+        val mediaPlayer = MediaPlayer()
+        try {
+            mediaPlayer.setDataSource(link)
+            mediaPlayer.prepare()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        val durationInMillis = mediaPlayer.duration ?: 0
+        val minutes = (durationInMillis / 1000) / 60
+        val seconds = (durationInMillis / 1000) % 60
+        var m_s = String.format("%02d:%02d", minutes, seconds)
+        return m_s
+    }
+    fun insertF(favorite: Favorite) =
+        MainScope().launch(Dispatchers.IO) {
+            favoriteRepository.insert(favorite)
+        }
+
+    fun deleteIdF(id: String) {
+        MainScope().launch(Dispatchers.IO) {
+            favoriteRepository.deleteId(id)
+        }
+    }
+
+    fun getFavorit():
+            LiveData<List<Favorite>> = favoriteRepository.get()
 
 
 }

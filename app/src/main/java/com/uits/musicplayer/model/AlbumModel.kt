@@ -5,12 +5,12 @@ import android.os.Parcelable
 import java.lang.reflect.Parameter
 
 class AlbumModel(
-    var id:String,
-   var nameSong: String,
-   var  nameSinger: String,
-   var  link: String,
-   var time: String,
-   var images: String
+    var id: String,
+    var nameSong: String,
+    var nameSinger: String,
+    var link: String,
+    var time: String,
+    var images: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",

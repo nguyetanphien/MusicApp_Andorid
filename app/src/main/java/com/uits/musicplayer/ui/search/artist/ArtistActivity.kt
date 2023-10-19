@@ -3,8 +3,11 @@ package com.uits.musicplayer.ui.search.artist
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -13,10 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uits.musicplayer.R
+import com.uits.musicplayer.database.entities.Favorite
 import com.uits.musicplayer.databinding.ActivityArtistBinding
 import com.uits.musicplayer.interfaces.OnItemClickListener
 import com.uits.musicplayer.model.AlbumModel
 import com.uits.musicplayer.model.ArtistModel
+import com.uits.musicplayer.ui.player.PlayerActivity
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 
 class ArtistActivity : AppCompatActivity() {
@@ -25,6 +30,7 @@ class ArtistActivity : AppCompatActivity() {
     lateinit var artistAdapter: ArtistAdapter
     lateinit var artistAdapterPT: ArtistAdapterPT
     var mListData: MutableList<ArtistModel> = mutableListOf()
+    val listF = mutableListOf<Favorite>()
     var mListDataPT: MutableList<AlbumModel> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +78,7 @@ class ArtistActivity : AppCompatActivity() {
                 singer: String,
                 images: String
             ) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onItemClick2(
@@ -98,6 +104,10 @@ class ArtistActivity : AppCompatActivity() {
             mListData.addAll(data)
             artistAdapter.notifyDataSetChanged()
         })
+        viewModel.getFavorit().observe(this, Observer {
+            listF.clear()
+            listF.addAll(it)
+        })
     }
 
     private fun rVAlbumPT() {
@@ -114,7 +124,34 @@ class ArtistActivity : AppCompatActivity() {
                 singer: String,
                 images: String
             ) {
-                TODO("Not yet implemented")
+                val popupMenu = PopupMenu(applicationContext, button)
+                popupMenu.inflate(R.menu.menu)
+                for (i in listF) {
+                    if (id == i.id) {
+                        popupMenu.menu.findItem(R.id.itemUnFavorite).isVisible = true
+                        popupMenu.menu.findItem(R.id.itemFavorite).isVisible = false
+                        break
+                    }
+                }
+                popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+
+                    if (menuItem.itemId == R.id.itemFavorite) {
+
+                        val favorite = Favorite()
+                        favorite.id = id
+                        favorite.images = images
+                        favorite.time = viewModel.duration(link)
+                        favorite.singer = singer
+                        favorite.title = title
+                        favorite.link = link
+                        viewModel.insertF(favorite)
+                        true
+                    } else {
+                        viewModel.deleteIdF(id)
+                    }
+                    false
+                }
+                popupMenu.show()
             }
 
             override fun onItemClick2(
@@ -125,7 +162,11 @@ class ArtistActivity : AppCompatActivity() {
                 singer: String,
                 images: String
             ) {
-                TODO("Not yet implemented")
+                val intent = Intent(application, PlayerActivity::class.java)
+                intent.putParcelableArrayListExtra("listMusic", ArrayList(mListDataPT))
+                Log.d("ppp", position.toString())
+                intent.putExtra("position", position)
+                startActivity(intent)
             }
 
         })

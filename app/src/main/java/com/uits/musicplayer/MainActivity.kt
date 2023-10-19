@@ -138,8 +138,9 @@ class MainActivity : AppCompatActivity() {
         })
         ibtnNextSongAlbum.setOnClickListener(View.OnClickListener {
 
-            p=position+1
+
             if(p<list2.size){
+                p=position+1
                 playMusic1(list2,p)
                 intent1.putParcelableArrayListExtra("playing_music1",ArrayList(list2))
                 intent1.putExtra("position",p)
@@ -150,8 +151,9 @@ class MainActivity : AppCompatActivity() {
         })
         ibtnBackSongAlbum.setOnClickListener(View.OnClickListener {
 
-            p=position-1
+
             if(p>=0){
+                p=position-1
                 playMusic1(list2,p)
                 intent1.putParcelableArrayListExtra("playing_music1",ArrayList(list2))
                 intent1.putExtra("position",p)
